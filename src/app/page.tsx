@@ -27,7 +27,7 @@ export default function HomePage() {
   const international = post.articles.filter((a) => a.category === "international");
 
   return (
-    <div className="container-content">
+    <div className="container-wide">
       <WeeklyHeader
         weekDate={post.weekDate}
         title={post.title}
@@ -35,8 +35,9 @@ export default function HomePage() {
         articleCount={post.articleCount}
       />
 
-      {/* Domestic Section */}
-      {domestic.length > 0 && (
+      {/* 2-column layout: Domestic | International */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-0">
+        {/* Domestic Column */}
         <section>
           <SectionDivider title="국내 Domestic" count={domestic.length} />
           <div>
@@ -45,10 +46,8 @@ export default function HomePage() {
             ))}
           </div>
         </section>
-      )}
 
-      {/* International Section */}
-      {international.length > 0 && (
+        {/* International Column */}
         <section>
           <SectionDivider title="해외 International" count={international.length} />
           <div>
@@ -57,7 +56,7 @@ export default function HomePage() {
             ))}
           </div>
         </section>
-      )}
+      </div>
 
       {/* Archive Link */}
       <div className="text-center py-16">

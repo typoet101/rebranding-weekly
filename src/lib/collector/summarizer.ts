@@ -138,11 +138,11 @@ export async function generateWeeklyTitle(
 
 Given these article titles from this week's rebranding news, generate:
 1. A catchy, concise weekly headline (max 60 characters). Can mix Korean and English naturally.
-2. A one-sentence description of the week's highlights (max 120 characters, in Korean).
+2. A 3-sentence description summarizing the week's key rebranding highlights in Korean. Cover the most notable brand changes, trends, and their significance. (max 300 characters total)
 
 Format:
 TITLE: (headline)
-DESC: (description)
+DESC: (3-sentence description)
 
 Article titles:
 ${articleTitles.map((t, i) => `${i + 1}. ${t}`).join("\n")}`,

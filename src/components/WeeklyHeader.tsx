@@ -22,7 +22,7 @@ export default function WeeklyHeader({
       <h1 className="text-display font-serif font-bold mb-4 px-4">
         {title}
       </h1>
-      <p className="text-body text-secondary max-w-lg mx-auto mb-4">
+      <p className="text-body text-secondary max-w-2xl mx-auto mb-4 leading-relaxed">
         {description}
       </p>
       <p className="text-caption text-muted">

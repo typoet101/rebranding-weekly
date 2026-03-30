@@ -1,37 +1,91 @@
 import type { RawArticle } from "../types";
 
 /**
- * Deduplicate articles using URL normalization and title similarity.
+ * Tier-1 major media outlets (higher priority).
+ * Articles from these sources are preferred when deduplicating.
+ */
+const TIER1_SOURCES_KO = new Set([
+  "연합뉴스", "중앙일보", "조선일보", "동아일보", "한국경제", "매일경제",
+  "서울경제", "파이낸셜뉴스", "서울신문", "뉴스1", "뉴시스", "한겨레",
+  "경향신문", "조선비즈", "머니투데이", "이데일리", "아시아경제",
+  "디자인프레스", "디자인 나침반", "브랜드브리프", "패션비즈",
+]);
+
+const TIER1_SOURCES_EN = new Set([
+  "Brand New", "It's Nice That", "Design Week", "Creative Bloq",
+  "Reuters", "AP News", "Bloomberg", "The New York Times", "BBC",
+  "CNN", "The Guardian", "Forbes", "Business Insider", "TechCrunch",
+  "The Verge", "Wired", "Fast Company", "AdAge", "Campaign",
+]);
+
+function getSourceTier(source: string): number {
+  if (TIER1_SOURCES_KO.has(source) || TIER1_SOURCES_EN.has(source)) return 1;
+  return 2;
+}
+
+/**
+ * Deduplicate articles and pick top 3 per topic from major media.
+ * Groups similar articles together, then selects the best sources.
  */
 export function deduplicate(articles: RawArticle[]): RawArticle[] {
-  const seen = new Map<string, RawArticle>();
-  const titleEntries: { tokens: Set<string>; article: RawArticle }[] = [];
+  if (!articles.length) return [];
 
-  for (const article of articles) {
-    // Skip articles with empty URLs
-    if (!article.url) continue;
+  // Skip articles with empty URLs
+  const valid = articles.filter((a) => a.url);
 
-    // 1. URL dedup
+  // 1. URL dedup first
+  const urlSeen = new Map<string, RawArticle>();
+  for (const article of valid) {
     const normUrl = normalizeUrl(article.url);
-    if (seen.has(normUrl)) continue;
+    if (!urlSeen.has(normUrl)) {
+      urlSeen.set(normUrl, article);
+    }
+  }
+  const urlDeduped = Array.from(urlSeen.values());
 
-    // 2. Title similarity dedup (within same category only)
+  // 2. Group by topic (title similarity)
+  const groups: RawArticle[][] = [];
+
+  for (const article of urlDeduped) {
     const tokens = tokenize(article.title);
     if (tokens.size === 0) continue;
 
-    const isDuplicate = titleEntries.some(
-      (entry) =>
-        entry.article.category === article.category &&
-        jaccardSimilarity(entry.tokens, tokens) > 0.7
-    );
+    let placed = false;
+    for (const group of groups) {
+      const groupTokens = tokenize(group[0].title);
+      if (
+        group[0].category === article.category &&
+        jaccardSimilarity(groupTokens, tokens) > 0.5
+      ) {
+        group.push(article);
+        placed = true;
+        break;
+      }
+    }
 
-    if (isDuplicate) continue;
-
-    seen.set(normUrl, article);
-    titleEntries.push({ tokens, article });
+    if (!placed) {
+      groups.push([article]);
+    }
   }
 
-  return Array.from(seen.values());
+  // 3. From each topic group, pick up to 3 articles prioritizing major media
+  const result: RawArticle[] = [];
+  const MAX_PER_TOPIC = 3;
+
+  for (const group of groups) {
+    // Sort by source tier (tier 1 first), then by date (newest first)
+    group.sort((a, b) => {
+      const tierDiff = getSourceTier(a.source) - getSourceTier(b.source);
+      if (tierDiff !== 0) return tierDiff;
+      return (b.publishedAt || "").localeCompare(a.publishedAt || "");
+    });
+
+    // Take top N
+    const selected = group.slice(0, MAX_PER_TOPIC);
+    result.push(...selected);
+  }
+
+  return result;
 }
 
 /**
