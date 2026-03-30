@@ -4,8 +4,8 @@ import SourceBadge from "./SourceBadge";
 export default function ArticleCard({ article }: { article: Article }) {
   return (
     <article className="group py-5 border-b border-border last:border-b-0">
-      {/* Thumbnail — full width on top */}
-      {article.imageUrl && (
+      {/* Thumbnail — full width on top (hide if no valid image) */}
+      {article.imageUrl && !article.imageUrl.includes("googleusercontent.com") && (
         <a
           href={article.url}
           target="_blank"
