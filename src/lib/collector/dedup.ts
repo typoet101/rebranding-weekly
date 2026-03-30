@@ -55,7 +55,7 @@ export function deduplicate(articles: RawArticle[]): RawArticle[] {
       const groupTokens = tokenize(group[0].title);
       if (
         group[0].category === article.category &&
-        jaccardSimilarity(groupTokens, tokens) > 0.5
+        jaccardSimilarity(groupTokens, tokens) > 0.7
       ) {
         group.push(article);
         placed = true;

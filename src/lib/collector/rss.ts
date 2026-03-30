@@ -75,19 +75,97 @@ async function fetchGoogleNews(
     const url = googleNewsRssUrl(keyword, lang);
     const feed = await parser.parseURL(url);
 
-    return (feed.items || []).map((item) => ({
-      title: cleanText(item.title || ""),
-      source: item.creator || extractSourceFromTitle(item.title || ""),
-      url: item.link || "",
-      category,
-      keyword,
-      publishedAt: item.pubDate
-        ? new Date(item.pubDate).toISOString().split("T")[0]
-        : "",
-    }));
+    const articles: RawArticle[] = [];
+
+    for (const item of feed.items || []) {
+      // Google News RSS item.link is a redirect URL
+      // Try to resolve to actual article URL
+      const googleUrl = item.link || "";
+      const resolvedUrl = await resolveGoogleRedirect(googleUrl);
+
+      articles.push({
+        title: cleanText(item.title || ""),
+        source: item.creator || extractSourceFromTitle(item.title || ""),
+        url: resolvedUrl,
+        category,
+        keyword,
+        publishedAt: item.pubDate
+          ? new Date(item.pubDate).toISOString().split("T")[0]
+          : "",
+      });
+    }
+
+    return articles;
   } catch (err) {
     console.warn(`[Google News] Failed for "${keyword}" (${lang}):`, (err as Error).message);
     return [];
+  }
+}
+
+/**
+ * Resolve Google News redirect URL to the actual article URL.
+ * Google News uses consent/redirect pages, so we follow HTTP redirects
+ * and also parse HTML for the actual link.
+ */
+async function resolveGoogleRedirect(url: string): Promise<string> {
+  if (!url.includes("news.google.com")) return url;
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+
+    // Use "manual" redirect to capture the Location header
+    const res = await fetch(url, {
+      headers: {
+        "User-Agent": USER_AGENT,
+        Accept: "text/html",
+      },
+      redirect: "manual",
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeout);
+
+    // Check for redirect Location header
+    const location = res.headers.get("location");
+    if (location && !location.includes("google.com")) {
+      return location;
+    }
+
+    // If no redirect, try following it
+    if (res.status >= 300 && res.status < 400 && location) {
+      return resolveGoogleRedirect(location);
+    }
+
+    // Try to parse HTML for the actual URL
+    const html = await res.text();
+
+    // Look for various redirect patterns in Google News HTML
+    const patterns = [
+      /data-n-au="([^"]+)"/,
+      /href="(https?:\/\/(?!news\.google|accounts\.google|consent\.google)[^"]+)"[^>]*data-n/,
+      /window\.location\s*=\s*['"]([^'"]+)['"]/,
+      /http-equiv="refresh"[^>]*content="[^"]*url=([^"]+)"/i,
+      /rel="canonical"\s+href="([^"]+)"/,
+      /property="og:url"\s+content="([^"]+)"/,
+    ];
+
+    for (const pattern of patterns) {
+      const match = html.match(pattern);
+      if (match?.[1] && !match[1].includes("google.com")) {
+        return match[1];
+      }
+    }
+
+    // Fallback: look for any external link in an anchor tag
+    const linkMatch = html.match(/<a[^>]+href="(https?:\/\/(?!google\.com|news\.google|accounts\.google|consent\.google)[^"]{20,})"[^>]*>/);
+    if (linkMatch?.[1]) {
+      return linkMatch[1];
+    }
+
+    return url;
+  } catch {
+    return url;
   }
 }
 

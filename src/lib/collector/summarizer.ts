@@ -30,7 +30,7 @@ export async function summarizeArticles(
     const articlesText = batch
       .map(
         (a, idx) =>
-          `[Article ${idx + 1}]\nTitle: ${a.title}\nSource: ${a.source}\nText: ${a.text || "(text unavailable)"}`
+          `[Article ${idx + 1}]\nTitle: ${a.title}\nSource: ${a.source}\nText: ${a.text && a.text.length > 50 ? a.text : "(text unavailable — use title only)"}`
       )
       .join("\n\n---\n\n");
 
@@ -50,7 +50,7 @@ Focus on:
 
 Write the summary in the SAME LANGUAGE as the article (Korean articles → Korean summary, English articles → English summary).
 
-If an article is NOT actually about rebranding or brand identity changes, respond with "NOT_RELEVANT" for that article.
+IMPORTANT: If the article text is unavailable, write a brief summary based on the title alone. Only respond with "NOT_RELEVANT" if the title clearly has nothing to do with rebranding, brand identity changes, logo redesign, or corporate name changes.
 
 Format your response as:
 [Article 1]

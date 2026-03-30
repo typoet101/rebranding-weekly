@@ -52,9 +52,15 @@ export async function collect(): Promise<{
 
   // 3. Deduplicate
   console.log("[2/6] Deduplicating...");
+  const domRaw = rawArticles.filter((a) => a.category === "domestic").length;
+  const intlRaw = rawArticles.filter((a) => a.category === "international").length;
+  console.log(`  → Raw: domestic ${domRaw}, international ${intlRaw}`);
+
   const uniqueArticles = deduplicate(rawArticles);
+  const domDedup = uniqueArticles.filter((a) => a.category === "domestic").length;
+  const intlDedup = uniqueArticles.filter((a) => a.category === "international").length;
   console.log(
-    `  → ${uniqueArticles.length} unique articles (removed ${rawArticles.length - uniqueArticles.length} duplicates)`
+    `  → ${uniqueArticles.length} unique (domestic ${domDedup}, international ${intlDedup}) — removed ${rawArticles.length - uniqueArticles.length} duplicates`
   );
 
   // 4. Scrape content

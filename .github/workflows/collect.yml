@@ -2,6 +2,7 @@ name: Weekly News Collection
 
 on:
   schedule:
+    # Every Monday at 00:00 UTC (09:00 KST)
     - cron: "0 0 * * 1"
   workflow_dispatch: {}
 
@@ -27,6 +28,8 @@ jobs:
         run: npx tsx scripts/collect-manual.ts
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
 
       - name: Commit new post
         uses: stefanzweifel/git-auto-commit-action@v5
