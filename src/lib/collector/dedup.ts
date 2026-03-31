@@ -70,7 +70,7 @@ export function deduplicate(articles: RawArticle[]): RawArticle[] {
 
   // 3. From each topic group, pick up to 3 articles prioritizing major media
   const result: RawArticle[] = [];
-  const MAX_PER_TOPIC = 3;
+  const MAX_PER_TOPIC = 5;
 
   for (const group of groups) {
     // Sort by source tier (tier 1 first), then by date (newest first)

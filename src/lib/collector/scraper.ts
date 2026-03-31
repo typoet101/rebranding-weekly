@@ -4,6 +4,7 @@ import { USER_AGENT, MAX_ARTICLE_TEXT, SCRAPE_TIMEOUT_MS } from "./sources";
 interface ScrapeResult {
   text: string;
   imageUrl?: string;
+  resolvedUrl?: string;
 }
 
 /**
@@ -32,77 +33,127 @@ const IMAGE_BLOCKLIST = [
 function isValidImageUrl(url?: string): boolean {
   if (!url) return false;
   const lower = url.toLowerCase();
-  // Block known generic images
   if (IMAGE_BLOCKLIST.some((b) => lower.includes(b))) return false;
-  // Must be a real image URL
   if (!lower.startsWith("http")) return false;
-  // Minimum length (reject tiny placeholder URLs)
   if (url.length < 20) return false;
   return true;
 }
 
 /**
- * Resolve Google News redirect URL to the actual article URL.
- * Google News uses JS-based redirects, so we parse the HTML to find the real URL.
+ * For Google News URLs, use Naver Search API to find the real article URL.
+ * Falls back to direct site search if Naver API is not configured.
  */
-async function resolveGoogleNewsUrl(url: string): Promise<string> {
-  if (!url.includes("news.google.com") && !url.includes("google.com/rss")) {
-    return url;
+async function searchRealArticleUrl(
+  title: string,
+  source: string
+): Promise<string | null> {
+  const clientId = process.env.NAVER_CLIENT_ID;
+  const clientSecret = process.env.NAVER_CLIENT_SECRET;
+
+  // Clean the title: remove source suffix ("Title - Source")
+  const cleanTitle = title.replace(/\s*-\s*[^-]+$/, "").trim();
+  if (!cleanTitle) return null;
+
+  // Strategy 1: Naver Search API (reliable, no bot blocking)
+  if (clientId && clientSecret) {
+    try {
+      const query = encodeURIComponent(cleanTitle);
+      const apiUrl = `https://openapi.naver.com/v1/search/news.json?query=${query}&display=3&sort=sim`;
+
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+
+      const res = await fetch(apiUrl, {
+        headers: {
+          "X-Naver-Client-Id": clientId,
+          "X-Naver-Client-Secret": clientSecret,
+        },
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeout);
+
+      if (res.ok) {
+        const data = await res.json();
+        const items = data.items || [];
+        // Find the best match — prefer originallink
+        for (const item of items) {
+          const link = item.originallink || item.link;
+          if (link && !link.includes("news.naver.com")) {
+            return link;
+          }
+        }
+        // Fallback to naver link
+        if (items[0]?.link) return items[0].link;
+      }
+    } catch {
+      // Fall through to strategy 2
+    }
   }
 
+  // Strategy 2: Direct site scrape attempt using source domain guess
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
+    // Common Korean news site domains
+    const domainMap: Record<string, string> = {
+      "연합뉴스": "yna.co.kr", "중앙일보": "joongang.co.kr", "조선일보": "chosun.com",
+      "동아일보": "donga.com", "한국경제": "hankyung.com", "매일경제": "mk.co.kr",
+      "서울경제": "sedaily.com", "서울신문": "seoul.co.kr", "뉴스1": "news1.kr",
+      "뉴시스": "newsis.com", "파이낸셜뉴스": "fnnews.com", "머니투데이": "mt.co.kr",
+    };
 
-    const res = await fetch(url, {
-      headers: {
-        "User-Agent": USER_AGENT,
-        Accept: "text/html",
-      },
-      redirect: "follow",
-      signal: controller.signal,
-    });
+    const domain = domainMap[source];
+    if (domain) {
+      const searchQuery = encodeURIComponent(cleanTitle);
+      const siteSearchUrl = `https://search.naver.com/search.naver?query=${searchQuery}+site:${domain}`;
 
-    clearTimeout(timeout);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
 
-    // If redirected away from Google, we have the real URL
-    if (res.url && !res.url.includes("google.com")) {
-      return res.url;
-    }
+      const res = await fetch(siteSearchUrl, {
+        headers: { "User-Agent": USER_AGENT, Accept: "text/html" },
+        signal: controller.signal,
+        redirect: "follow",
+      });
 
-    // Otherwise parse HTML for the redirect target
-    const html = await res.text();
+      clearTimeout(timeout);
 
-    // Method 1: Look for data-redirect attribute or JS redirect
-    const patterns = [
-      /data-redirect="([^"]+)"/,
-      /window\.location\.replace\("([^"]+)"\)/,
-      /window\.location\s*=\s*"([^"]+)"/,
-      /href="(https?:\/\/(?!news\.google)[^"]+)"/,
-      /<a[^>]+href="(https?:\/\/(?!news\.google|accounts\.google)[^"]+)"[^>]*>/,
-    ];
-
-    for (const pattern of patterns) {
-      const match = html.match(pattern);
-      if (match?.[1] && !match[1].includes("google.com")) {
-        return match[1];
+      if (res.ok) {
+        const html = await res.text();
+        const $ = cheerio.load(html);
+        // Naver search results have links in <a class="link_tit">
+        const link = $("a.link_tit, a.news_tit").first().attr("href");
+        if (link && !link.includes("naver.com")) return link;
       }
     }
-
-    return res.url || url;
   } catch {
-    return url;
+    // Give up
   }
+
+  return null;
 }
 
 /**
  * Scrape an article page to extract body text and OG image.
- * Resolves Google News redirects to get actual article content.
+ * For Google News URLs, first searches for the real article URL.
  */
-export async function scrapeArticle(url: string): Promise<ScrapeResult> {
+export async function scrapeArticle(
+  url: string,
+  title?: string,
+  source?: string
+): Promise<ScrapeResult> {
   try {
-    // 1. Resolve Google News redirect if needed
-    const actualUrl = await resolveGoogleNewsUrl(url);
+    let actualUrl = url;
+
+    // If it's a Google News URL, search for the real article
+    if (url.includes("news.google.com") && title && source) {
+      const realUrl = await searchRealArticleUrl(title, source);
+      if (realUrl) {
+        actualUrl = realUrl;
+      } else {
+        // Can't resolve — return empty result (article will use title-only summary)
+        return { text: "", resolvedUrl: url };
+      }
+    }
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), SCRAPE_TIMEOUT_MS);
@@ -130,7 +181,6 @@ export async function scrapeArticle(url: string): Promise<ScrapeResult> {
       $('meta[property="og:image"]').attr("content"),
       $('meta[name="twitter:image"]').attr("content"),
       $('meta[name="twitter:image:src"]').attr("content"),
-      // Fallback: first large image in article
       $("article img[src]").first().attr("src"),
       $('[role="main"] img[src]').first().attr("src"),
     ];
@@ -138,7 +188,6 @@ export async function scrapeArticle(url: string): Promise<ScrapeResult> {
     let imageUrl: string | undefined;
     for (const candidate of candidates) {
       if (isValidImageUrl(candidate)) {
-        // Make absolute URL if relative
         imageUrl = candidate!.startsWith("http")
           ? candidate!
           : new URL(candidate!, actualUrl).href;
@@ -181,10 +230,10 @@ export async function scrapeArticle(url: string): Promise<ScrapeResult> {
     // Clean: collapse whitespace, limit length
     text = text.replace(/\s+/g, " ").slice(0, MAX_ARTICLE_TEXT);
 
-    return { text, imageUrl };
+    return { text, imageUrl, resolvedUrl: actualUrl };
   } catch (err) {
     console.warn(`[Scraper] Failed for ${url}:`, (err as Error).message);
-    return { text: "" };
+    return { text: "", resolvedUrl: url };
   }
 }
 

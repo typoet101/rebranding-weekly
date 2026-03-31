@@ -71,8 +71,15 @@ export async function collect(): Promise<{
       `  [${i + 1}/${uniqueArticles.length}] ${article.title.slice(0, 60)}...`
     );
 
-    const { text, imageUrl } = await scrapeArticle(article.url);
+    const { text, imageUrl, resolvedUrl } = await scrapeArticle(
+      article.url,
+      article.title,
+      article.source
+    );
     article.text = text;
+    if (resolvedUrl && resolvedUrl !== article.url) {
+      article.url = resolvedUrl; // Use the real article URL
+    }
     if (imageUrl && !article.imageUrl) {
       article.imageUrl = imageUrl;
     }
