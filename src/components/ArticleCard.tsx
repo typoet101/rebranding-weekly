@@ -1,11 +1,30 @@
 import type { Article } from "@/lib/types";
 
-export default function ArticleCard({ article }: { article: Article }) {
+export default function ArticleCard({
+  article,
+  isAdmin,
+  onDelete,
+}: {
+  article: Article;
+  isAdmin?: boolean;
+  onDelete?: (id: string) => void;
+}) {
   const hasImage =
     article.imageUrl && !article.imageUrl.includes("googleusercontent.com");
 
   return (
-    <article className="group border border-border rounded-sm overflow-hidden bg-white hover:shadow-md transition-shadow duration-300">
+    <article className="group relative border border-border rounded-sm overflow-hidden bg-white hover:shadow-md transition-shadow duration-300">
+      {/* Admin: Delete button */}
+      {isAdmin && onDelete && (
+        <button
+          onClick={() => onDelete(article.id)}
+          className="absolute top-2 right-2 z-10 bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold shadow-md hover:bg-red-700 transition-colors no-underline hover:no-underline"
+          title="삭제"
+        >
+          ✕
+        </button>
+      )}
+
       {/* Thumbnail 4:3 */}
       <a
         href={article.url}

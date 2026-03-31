@@ -1,7 +1,6 @@
 import { getLatestPost } from "@/lib/content";
 import WeeklyHeader from "@/components/WeeklyHeader";
-import SectionDivider from "@/components/SectionDivider";
-import ArticleCard from "@/components/ArticleCard";
+import PostView from "@/components/PostView";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -23,9 +22,6 @@ export default function HomePage() {
     );
   }
 
-  const domestic = post.articles.filter((a) => a.category === "domestic");
-  const international = post.articles.filter((a) => a.category === "international");
-
   return (
     <div className="max-w-[1400px] mx-auto px-4">
       <WeeklyHeader
@@ -35,29 +31,7 @@ export default function HomePage() {
         articleCount={post.articleCount}
       />
 
-      {/* Domestic Section */}
-      {domestic.length > 0 && (
-        <section>
-          <SectionDivider title="국내 Domestic" count={domestic.length} />
-          <div className="grid grid-cols-4 gap-3 mb-12">
-            {domestic.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* International Section */}
-      {international.length > 0 && (
-        <section>
-          <SectionDivider title="해외 International" count={international.length} />
-          <div className="grid grid-cols-4 gap-3 mb-12">
-            {international.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
-        </section>
-      )}
+      <PostView weekDate={post.weekDate} initialArticles={post.articles} />
 
       {/* Archive Link */}
       <div className="text-center py-16 border-t border-border">
