@@ -4,25 +4,53 @@ export default function ArticleCard({
   article,
   isAdmin,
   onDelete,
+  onToggleStar,
 }: {
   article: Article;
   isAdmin?: boolean;
   onDelete?: (id: string) => void;
+  onToggleStar?: (id: string, starred: boolean) => void;
 }) {
   const hasImage =
     article.imageUrl && !article.imageUrl.includes("googleusercontent.com");
 
   return (
-    <article className="group relative border border-border rounded-sm overflow-hidden bg-white hover:shadow-md transition-shadow duration-300">
-      {/* Admin: Delete button */}
-      {isAdmin && onDelete && (
-        <button
-          onClick={() => onDelete(article.id)}
-          className="absolute top-2 right-2 z-10 bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold shadow-md hover:bg-red-700 transition-colors no-underline hover:no-underline"
-          title="삭제"
-        >
-          ✕
-        </button>
+    <article className={`group relative border rounded-sm overflow-hidden bg-white hover:shadow-md transition-shadow duration-300 ${article.starred ? "border-yellow-400 ring-2 ring-yellow-200" : "border-border"}`}>
+      {/* Admin buttons */}
+      {isAdmin && (
+        <div className="absolute top-2 right-2 z-10 flex items-center gap-1">
+          {/* Star button */}
+          {onToggleStar && (
+            <button
+              onClick={() => onToggleStar(article.id, !article.starred)}
+              className={`rounded-full w-7 h-7 flex items-center justify-center text-sm shadow-md transition-colors no-underline hover:no-underline ${
+                article.starred
+                  ? "bg-yellow-400 text-white"
+                  : "bg-white text-gray-400 hover:text-yellow-400"
+              }`}
+              title={article.starred ? "별표 해제" : "별표"}
+            >
+              ★
+            </button>
+          )}
+          {/* Delete button */}
+          {onDelete && (
+            <button
+              onClick={() => onDelete(article.id)}
+              className="bg-red-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold shadow-md hover:bg-red-700 transition-colors no-underline hover:no-underline"
+              title="삭제"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Starred badge (always visible) */}
+      {article.starred && !isAdmin && (
+        <div className="absolute top-2 left-2 z-10 bg-yellow-400 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-sm">
+          ★
+        </div>
       )}
 
       {/* Thumbnail 4:3 */}
@@ -50,7 +78,6 @@ export default function ArticleCard({
 
       {/* Content — compact */}
       <div className="p-4">
-        {/* Meta */}
         <div className="flex items-center justify-between mb-2">
           <span className="text-[11px] text-muted font-mono">{article.publishedAt}</span>
           <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-primary border border-primary rounded-full px-2 py-px no-underline">
@@ -58,7 +85,6 @@ export default function ArticleCard({
           </span>
         </div>
 
-        {/* Title */}
         <h3 className="text-[0.95rem] font-serif font-bold leading-snug line-clamp-2 mb-1.5">
           <a
             href={article.url}
@@ -70,12 +96,10 @@ export default function ArticleCard({
           </a>
         </h3>
 
-        {/* Summary */}
         <p className="text-[0.8rem] text-secondary leading-relaxed line-clamp-2 mb-2">
           {article.summary}
         </p>
 
-        {/* Source + Read more */}
         <div className="flex items-center justify-between text-[11px]">
           <span className="text-muted">{article.source}</span>
           <a
