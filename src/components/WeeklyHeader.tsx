@@ -13,7 +13,7 @@ export default function WeeklyHeader({
 }) {
   return (
     <div className="text-center pt-10 pb-8 mb-4">
-      <h1 className="text-[2.5rem] sm:text-[3.5rem] font-serif font-black leading-[0.95] mb-4 px-4 uppercase">
+      <h1 className="text-[1.5rem] sm:text-[1.75rem] font-serif font-black leading-[1.1] mb-4 px-4 uppercase">
         {title}
       </h1>
       <p className="text-small text-secondary max-w-2xl mx-auto mb-4 leading-relaxed">
