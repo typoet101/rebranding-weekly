@@ -7,8 +7,8 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
-      <div className="container-wide flex items-center justify-between h-16">
+    <header className="sticky top-0 z-50 bg-white border-b border-border">
+      <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-14">
         {/* Logo */}
         <Link href="/" className="no-underline hover:no-underline">
           <h1 className="text-xl font-serif font-bold tracking-tight text-primary">

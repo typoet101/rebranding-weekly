@@ -10,7 +10,7 @@ export default function HomePage() {
   if (!post) {
     return (
       <div className="container-content py-32 text-center">
-        <h1 className="text-display font-serif font-bold mb-4">
+        <h1 className="text-[5rem] font-serif font-black uppercase mb-4">
           Rebranding Weekly
         </h1>
         <p className="text-body text-secondary mb-8">
@@ -27,7 +27,7 @@ export default function HomePage() {
   const international = post.articles.filter((a) => a.category === "international");
 
   return (
-    <div className="container-wide">
+    <div className="max-w-[1200px] mx-auto px-5">
       <WeeklyHeader
         weekDate={post.weekDate}
         title={post.title}
@@ -35,31 +35,32 @@ export default function HomePage() {
         articleCount={post.articleCount}
       />
 
-      {/* 2-column layout: Domestic | International */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-0">
-        {/* Domestic Column */}
+      {/* Domestic Section */}
+      {domestic.length > 0 && (
         <section>
           <SectionDivider title="국내 Domestic" count={domestic.length} />
-          <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             {domestic.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}
           </div>
         </section>
+      )}
 
-        {/* International Column */}
+      {/* International Section */}
+      {international.length > 0 && (
         <section>
           <SectionDivider title="해외 International" count={international.length} />
-          <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             {international.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}
           </div>
         </section>
-      </div>
+      )}
 
       {/* Archive Link */}
-      <div className="text-center py-16">
+      <div className="text-center py-16 border-t border-border">
         <Link
           href="/archive"
           className="text-small text-muted hover:text-primary uppercase tracking-widest no-underline hover:no-underline transition-colors"

@@ -48,7 +48,7 @@ export default async function PostPage({ params }: Props) {
   const olderDate = currentIndex < allDates.length - 1 ? allDates[currentIndex + 1] : null;
 
   return (
-    <div className="container-wide">
+    <div className="max-w-[1200px] mx-auto px-5">
       <WeeklyHeader
         weekDate={post.weekDate}
         title={post.title}
@@ -56,30 +56,27 @@ export default async function PostPage({ params }: Props) {
         articleCount={post.articleCount}
       />
 
-      {/* 2-column layout: Domestic | International */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-0">
-        {domestic.length > 0 && (
-          <section>
-            <SectionDivider title="국내 Domestic" count={domestic.length} />
-            <div>
-              {domestic.map((article) => (
-                <ArticleCard key={article.id} article={article} />
-              ))}
-            </div>
-          </section>
-        )}
+      {domestic.length > 0 && (
+        <section>
+          <SectionDivider title="국내 Domestic" count={domestic.length} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {domestic.map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+        </section>
+      )}
 
-        {international.length > 0 && (
-          <section>
-            <SectionDivider title="해외 International" count={international.length} />
-            <div>
-              {international.map((article) => (
-                <ArticleCard key={article.id} article={article} />
-              ))}
-            </div>
-          </section>
-        )}
-      </div>
+      {international.length > 0 && (
+        <section>
+          <SectionDivider title="해외 International" count={international.length} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {international.map((article) => (
+              <ArticleCard key={article.id} article={article} />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Navigation */}
       <nav className="flex justify-between items-center py-16 border-t border-border mt-10">
