@@ -24,8 +24,8 @@ function getSourceTier(source: string): number {
 }
 
 /**
- * Deduplicate articles and pick top 3 per topic from major media.
- * Groups similar articles together, then selects the best sources.
+ * Deduplicate articles: 1 article per topic, from the best source.
+ * Uses multi-pass matching: exact brand names → keyword overlap → Jaccard similarity.
  */
 export function deduplicate(articles: RawArticle[]): RawArticle[] {
   if (!articles.length) return [];
@@ -43,49 +43,110 @@ export function deduplicate(articles: RawArticle[]): RawArticle[] {
   }
   const urlDeduped = Array.from(urlSeen.values());
 
-  // 2. Group by topic (title similarity)
-  const groups: RawArticle[][] = [];
+  // 2. Group by topic — check against ALL articles in group, not just first
+  const groups: { articles: RawArticle[]; allTokens: Set<string>; brands: Set<string> }[] = [];
 
   for (const article of urlDeduped) {
     const tokens = tokenize(article.title);
     if (tokens.size === 0) continue;
+    const brands = extractBrands(article.title);
 
     let placed = false;
     for (const group of groups) {
-      const groupTokens = tokenize(group[0].title);
-      if (
-        group[0].category === article.category &&
-        jaccardSimilarity(groupTokens, tokens) > 0.7
-      ) {
-        group.push(article);
+      // Must be same category
+      if (group.articles[0].category !== article.category) continue;
+
+      // Match 1: shared brand name (strongest signal)
+      if (brands.size > 0 && group.brands.size > 0) {
+        const sharedBrands = [...brands].filter((b) => group.brands.has(b));
+        if (sharedBrands.length > 0) {
+          group.articles.push(article);
+          for (const t of tokens) group.allTokens.add(t);
+          for (const b of brands) group.brands.add(b);
+          placed = true;
+          break;
+        }
+      }
+
+      // Match 2: Jaccard against ALL tokens in the group (not just first article)
+      if (jaccardSimilarity(group.allTokens, tokens) > 0.25) {
+        group.articles.push(article);
+        for (const t of tokens) group.allTokens.add(t);
+        for (const b of brands) group.brands.add(b);
         placed = true;
         break;
       }
     }
 
     if (!placed) {
-      groups.push([article]);
+      groups.push({
+        articles: [article],
+        allTokens: new Set(tokens),
+        brands: new Set(brands),
+      });
     }
   }
 
-  // 3. From each topic group, pick up to 3 articles prioritizing major media
+  // 3. From each topic group, pick only the BEST 1 article
   const result: RawArticle[] = [];
-  const MAX_PER_TOPIC = 5;
 
   for (const group of groups) {
     // Sort by source tier (tier 1 first), then by date (newest first)
-    group.sort((a, b) => {
+    group.articles.sort((a, b) => {
       const tierDiff = getSourceTier(a.source) - getSourceTier(b.source);
       if (tierDiff !== 0) return tierDiff;
       return (b.publishedAt || "").localeCompare(a.publishedAt || "");
     });
 
-    // Take top N
-    const selected = group.slice(0, MAX_PER_TOPIC);
-    result.push(...selected);
+    // Take only the best 1
+    result.push(group.articles[0]);
   }
 
   return result;
+}
+
+/**
+ * Extract likely brand/company names from a title.
+ * Looks for: English proper nouns, Korean company names, quoted terms.
+ */
+function extractBrands(title: string): Set<string> {
+  const brands = new Set<string>();
+
+  // Quoted terms: '카카오', "Starbucks"
+  const quoted = title.match(/[''"]([\w\uAC00-\uD7AF]+)[''""]/g);
+  if (quoted) {
+    for (const q of quoted) {
+      const clean = q.replace(/[''"]/g, "").trim().toLowerCase();
+      if (clean.length >= 2) brands.add(clean);
+    }
+  }
+
+  // English proper nouns (capitalized, 2+ chars): KGC, Starbucks, NC, Meta
+  const english = title.match(/\b[A-Z][A-Za-z0-9]{1,20}\b/g);
+  if (english) {
+    // Filter out common non-brand words
+    const ignore = new Set(["The", "This", "That", "With", "From", "After", "Before", "New", "All", "Its", "Has", "For"]);
+    for (const word of english) {
+      if (!ignore.has(word)) brands.add(word.toLowerCase());
+    }
+  }
+
+  // Korean company/brand patterns: ~공사, ~카드, ~소프트, ~그룹 etc.
+  const koreanBrand = title.match(/[\uAC00-\uD7AF]{2,}(?:공사|카드|소프트|그룹|전자|생명|화학|제약|식품|은행|증권|보험|건설|통신|항공|호텔|백화점|마트)/g);
+  if (koreanBrand) {
+    for (const kb of koreanBrand) brands.add(kb.toLowerCase());
+  }
+
+  // All-caps acronyms: KGC, HDC, BYC, CI, BI, NC
+  const acronyms = title.match(/\b[A-Z]{2,10}\b/g);
+  if (acronyms) {
+    const ignoreAcronyms = new Set(["CI", "BI", "AI", "IT", "CEO", "IPO", "ESG", "PR", "IR", "TV", "UN", "EU"]);
+    for (const acr of acronyms) {
+      if (!ignoreAcronyms.has(acr)) brands.add(acr.toLowerCase());
+    }
+  }
+
+  return brands;
 }
 
 /**
