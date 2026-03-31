@@ -39,7 +39,7 @@ export default function HomePage() {
       {domestic.length > 0 && (
         <section>
           <SectionDivider title="국내 Domestic" count={domestic.length} />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
             {domestic.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}
@@ -51,7 +51,7 @@ export default function HomePage() {
       {international.length > 0 && (
         <section>
           <SectionDivider title="해외 International" count={international.length} />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
             {international.map((article) => (
               <ArticleCard key={article.id} article={article} />
             ))}

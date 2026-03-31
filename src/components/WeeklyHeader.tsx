@@ -12,11 +12,11 @@ export default function WeeklyHeader({
   articleCount: number;
 }) {
   return (
-    <div className="text-center pt-16 pb-12 mb-8">
-      <h1 className="text-[3.5rem] sm:text-[5rem] font-serif font-black leading-[0.95] mb-6 px-4 uppercase">
+    <div className="text-center pt-10 pb-8 mb-4">
+      <h1 className="text-[2.5rem] sm:text-[3.5rem] font-serif font-black leading-[0.95] mb-4 px-4 uppercase">
         {title}
       </h1>
-      <p className="text-body text-secondary max-w-2xl mx-auto mb-6 leading-relaxed">
+      <p className="text-small text-secondary max-w-2xl mx-auto mb-4 leading-relaxed">
         {description}
       </p>
       <div className="flex items-center justify-center gap-4 text-caption text-muted uppercase tracking-[0.15em]">

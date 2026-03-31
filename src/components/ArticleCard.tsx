@@ -5,8 +5,8 @@ export default function ArticleCard({ article }: { article: Article }) {
     article.imageUrl && !article.imageUrl.includes("googleusercontent.com");
 
   return (
-    <article className="group border border-border rounded-sm overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300">
-      {/* Thumbnail */}
+    <article className="group border border-border rounded-sm overflow-hidden bg-white hover:shadow-md transition-shadow duration-300">
+      {/* Thumbnail 4:3 */}
       <a
         href={article.url}
         target="_blank"
@@ -21,28 +21,26 @@ export default function ArticleCard({ article }: { article: Article }) {
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-            <span className="text-3xl font-serif font-bold text-gray-300 px-4 text-center leading-tight">
-              {article.title.slice(0, 30)}
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200">
+            <span className="text-xl font-serif font-bold text-gray-300 px-4 text-center leading-tight">
+              {article.title.slice(0, 24)}
             </span>
           </div>
         )}
       </a>
 
-      {/* Content */}
-      <div className="p-5">
-        {/* Meta row */}
-        <div className="flex items-center justify-between mb-3">
-          <time className="text-caption text-muted font-mono">
-            {article.publishedAt}
-          </time>
-          <span className="text-caption font-sans font-medium uppercase tracking-wider text-primary border border-primary rounded-full px-2.5 py-0.5 no-underline">
-            {article.category === "domestic" ? "KR" : "Global"}
+      {/* Content — compact */}
+      <div className="p-4">
+        {/* Meta */}
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-[11px] text-muted font-mono">{article.publishedAt}</span>
+          <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-primary border border-primary rounded-full px-2 py-px no-underline">
+            {article.category === "domestic" ? "KR" : "EN"}
           </span>
         </div>
 
         {/* Title */}
-        <h3 className="text-[1.05rem] font-serif font-bold mb-2 leading-snug line-clamp-2">
+        <h3 className="text-[0.95rem] font-serif font-bold leading-snug line-clamp-2 mb-1.5">
           <a
             href={article.url}
             target="_blank"
@@ -54,20 +52,18 @@ export default function ArticleCard({ article }: { article: Article }) {
         </h3>
 
         {/* Summary */}
-        <p className="text-small text-secondary leading-relaxed line-clamp-3 mb-3">
+        <p className="text-[0.8rem] text-secondary leading-relaxed line-clamp-2 mb-2">
           {article.summary}
         </p>
 
         {/* Source + Read more */}
-        <div className="flex items-center justify-between pt-3 border-t border-border">
-          <span className="text-caption text-muted font-sans">
-            {article.source}
-          </span>
+        <div className="flex items-center justify-between text-[11px]">
+          <span className="text-muted">{article.source}</span>
           <a
             href={article.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-caption font-semibold text-primary no-underline hover:no-underline uppercase tracking-wider"
+            className="font-semibold text-primary no-underline hover:no-underline uppercase tracking-wider"
           >
             Read more
           </a>
