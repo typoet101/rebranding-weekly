@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Article } from "@/lib/types";
 import ArticleCard from "./ArticleCard";
 import SectionDivider from "./SectionDivider";
@@ -15,6 +15,10 @@ function sortArticles(articles: Article[]): Article[] {
   });
 }
 
+function lsKey(type: "deleted" | "starred", weekDate: string) {
+  return `rw_${type}_${weekDate}`;
+}
+
 export default function PostView({
   weekDate,
   initialArticles,
@@ -25,62 +29,72 @@ export default function PostView({
   const [articles, setArticles] = useState(initialArticles);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const domestic = sortArticles(articles.filter((a) => a.category === "domestic"));
-  const international = sortArticles(articles.filter((a) => a.category === "international"));
+  // Apply persisted localStorage state on client mount
+  useEffect(() => {
+    try {
+      const deletedRaw = localStorage.getItem(lsKey("deleted", weekDate));
+      const starredRaw = localStorage.getItem(lsKey("starred", weekDate));
 
-  function getPw() {
-    return sessionStorage.getItem("admin_pw") || "";
-  }
+      const deletedIds: string[] = deletedRaw ? JSON.parse(deletedRaw) : [];
+      const starredMap: Record<string, boolean> = starredRaw
+        ? JSON.parse(starredRaw)
+        : {};
 
-  async function handleDelete(articleId: string) {
+      setArticles(
+        initialArticles
+          .filter((a) => !deletedIds.includes(a.id))
+          .map((a) => ({
+            ...a,
+            starred:
+              starredMap[a.id] !== undefined ? starredMap[a.id] : !!a.starred,
+          }))
+      );
+    } catch {
+      // localStorage unavailable — no-op
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function handleDelete(articleId: string) {
     if (!confirm("이 기사를 삭제하시겠습니까?")) return;
 
     try {
-      const res = await fetch("/api/articles", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date: weekDate, articleId, password: getPw() }),
-      });
-
-      if (res.ok) {
-        setArticles((prev) => prev.filter((a) => a.id !== articleId));
-      } else {
-        const data = await res.json();
-        alert(data.error || "삭제 실패");
-        if (res.status === 401) {
-          setIsAdmin(false);
-          sessionStorage.removeItem("admin_pw");
-        }
-      }
-    } catch {
-      alert("네트워크 오류");
-    }
-  }
-
-  async function handleToggleStar(articleId: string, starred: boolean) {
-    try {
-      const res = await fetch("/api/articles", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date: weekDate, articleId, password: getPw(), starred }),
-      });
-
-      if (res.ok) {
-        setArticles((prev) =>
-          prev.map((a) => (a.id === articleId ? { ...a, starred } : a))
+      const key = lsKey("deleted", weekDate);
+      const existing: string[] = JSON.parse(
+        localStorage.getItem(key) || "[]"
+      );
+      if (!existing.includes(articleId)) {
+        localStorage.setItem(
+          key,
+          JSON.stringify([...existing, articleId])
         );
-      } else {
-        const data = await res.json();
-        alert(data.error || "별표 실패");
-        if (res.status === 401) {
-          setIsAdmin(false);
-          sessionStorage.removeItem("admin_pw");
-        }
       }
-    } catch {
-      alert("네트워크 오류");
-    }
+    } catch {}
+
+    setArticles((prev) => prev.filter((a) => a.id !== articleId));
   }
+
+  function handleToggleStar(articleId: string, starred: boolean) {
+    try {
+      const key = lsKey("starred", weekDate);
+      const existing: Record<string, boolean> = JSON.parse(
+        localStorage.getItem(key) || "{}"
+      );
+      existing[articleId] = starred;
+      localStorage.setItem(key, JSON.stringify(existing));
+    } catch {}
+
+    setArticles((prev) =>
+      prev.map((a) => (a.id === articleId ? { ...a, starred } : a))
+    );
+  }
+
+  const domestic = sortArticles(
+    articles.filter((a) => a.category === "domestic")
+  );
+  const international = sortArticles(
+    articles.filter((a) => a.category === "international")
+  );
 
   return (
     <>

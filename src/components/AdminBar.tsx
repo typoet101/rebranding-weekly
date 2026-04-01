@@ -11,6 +11,32 @@ export default function AdminBar({
 }) {
   const [showInput, setShowInput] = useState(false);
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit() {
+    if (!password) return;
+    setLoading(true);
+    setError("");
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
+      });
+      if (res.ok) {
+        onToggle(true);
+        setShowInput(false);
+        setPassword("");
+      } else {
+        setError("비밀번호가 틀렸습니다");
+      }
+    } catch {
+      setError("오류가 발생했습니다");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   if (isAdmin) {
     return (
@@ -28,41 +54,50 @@ export default function AdminBar({
 
   if (showInput) {
     return (
-      <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-white border border-border px-4 py-2 rounded-full shadow-lg">
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              onToggle(true);
-              // Store password for API calls
-              sessionStorage.setItem("admin_pw", password);
-            }
-            if (e.key === "Escape") {
+      <div className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-1">
+        <div className="flex items-center gap-2 bg-white border border-border px-4 py-2 rounded-full shadow-lg">
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              setError("");
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleSubmit();
+              if (e.key === "Escape") {
+                setShowInput(false);
+                setPassword("");
+                setError("");
+              }
+            }}
+            placeholder="비밀번호"
+            className="text-sm border border-border rounded px-2 py-1 w-32 outline-none"
+            autoFocus
+          />
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="text-xs font-bold bg-primary text-white rounded px-3 py-1 no-underline hover:no-underline disabled:opacity-50"
+          >
+            {loading ? "..." : "확인"}
+          </button>
+          <button
+            onClick={() => {
               setShowInput(false);
               setPassword("");
-            }
-          }}
-          placeholder="비밀번호"
-          className="text-sm border border-border rounded px-2 py-1 w-32 outline-none"
-          autoFocus
-        />
-        <button
-          onClick={() => {
-            onToggle(true);
-            sessionStorage.setItem("admin_pw", password);
-          }}
-          className="text-xs font-bold bg-primary text-white rounded px-3 py-1 no-underline hover:no-underline"
-        >
-          확인
-        </button>
-        <button
-          onClick={() => { setShowInput(false); setPassword(""); }}
-          className="text-xs text-muted no-underline hover:no-underline"
-        >
-          취소
-        </button>
+              setError("");
+            }}
+            className="text-xs text-muted no-underline hover:no-underline"
+          >
+            취소
+          </button>
+        </div>
+        {error && (
+          <span className="text-xs text-red-500 bg-white px-3 py-1 rounded-full shadow-md">
+            {error}
+          </span>
+        )}
       </div>
     );
   }
