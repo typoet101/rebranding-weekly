@@ -13,6 +13,8 @@ export default function ArticleCard({
 }) {
   const hasImage =
     article.imageUrl && !article.imageUrl.includes("googleusercontent.com");
+  const isIntl = article.category === "international";
+  const showThumb = hasImage && !isIntl;
 
   return (
     <article className={`group relative border rounded-sm overflow-hidden bg-white hover:shadow-md transition-shadow duration-300 ${article.starred ? "border-yellow-400 ring-2 ring-yellow-200" : "border-border"}`}>
@@ -44,72 +46,38 @@ export default function ArticleCard({
         </div>
       )}
 
-      {/* Starred badge (always visible) */}
+      {/* Starred badge */}
       {article.starred && !isAdmin && (
         <div className="absolute top-2 left-2 z-10 bg-yellow-400 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-sm">
           ★
         </div>
       )}
 
-      {/* Mobile: vertical card (small thumb + title below) */}
+      {/* === Mobile === */}
       <div className="sm:hidden">
-        <a
-          href={article.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full aspect-[4/3] overflow-hidden bg-surface no-underline"
-        >
-          {hasImage ? (
-            <img
-              src={article.imageUrl}
-              alt=""
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-          ) : (
-            <div className="w-full h-full bg-gradient-to-br from-gray-50 to-gray-200" />
-          )}
-        </a>
+        {showThumb && (
+          <a href={article.url} target="_blank" rel="noopener noreferrer" className="block w-full aspect-[4/3] overflow-hidden bg-surface no-underline">
+            <img src={article.imageUrl} alt="" className="w-full h-full object-cover" loading="lazy" />
+          </a>
+        )}
         <div className="p-2">
           <h3 className="text-[0.7rem] font-serif font-bold leading-snug line-clamp-3">
-            <a
-              href={article.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="no-underline hover:no-underline text-primary"
-            >
+            <a href={article.url} target="_blank" rel="noopener noreferrer" className="no-underline hover:no-underline text-primary">
               {article.title}
             </a>
           </h3>
         </div>
       </div>
 
-      {/* Desktop: vertical card (full layout) */}
+      {/* === Desktop === */}
       <div className="hidden sm:block">
-        {/* Thumbnail 4:3 */}
-        <a
-          href={article.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full aspect-[4/3] overflow-hidden bg-surface no-underline"
-        >
-          {hasImage ? (
-            <img
-              src={article.imageUrl}
-              alt=""
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              loading="lazy"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200">
-              <span className="text-xl font-serif font-bold text-gray-300 px-4 text-center leading-tight">
-                {article.title.slice(0, 24)}
-              </span>
-            </div>
-          )}
-        </a>
+        {/* Thumbnail — only for domestic with image */}
+        {showThumb && (
+          <a href={article.url} target="_blank" rel="noopener noreferrer" className="block w-full aspect-[4/3] overflow-hidden bg-surface no-underline">
+            <img src={article.imageUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+          </a>
+        )}
 
-        {/* Content */}
         <div className="p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] text-muted font-mono">{article.publishedAt}</span>
@@ -119,12 +87,7 @@ export default function ArticleCard({
           </div>
 
           <h3 className="text-[0.95rem] font-serif font-bold leading-snug line-clamp-2 mb-1.5">
-            <a
-              href={article.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="no-underline hover:no-underline text-primary"
-            >
+            <a href={article.url} target="_blank" rel="noopener noreferrer" className="no-underline hover:no-underline text-primary">
               {article.title}
             </a>
           </h3>
@@ -135,12 +98,7 @@ export default function ArticleCard({
 
           <div className="flex items-center justify-between text-[11px]">
             <span className="text-muted">{article.source}</span>
-            <a
-              href={article.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-semibold text-primary no-underline hover:no-underline uppercase tracking-wider"
-            >
+            <a href={article.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary no-underline hover:no-underline uppercase tracking-wider">
               원문 보기
             </a>
           </div>
