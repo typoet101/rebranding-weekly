@@ -48,7 +48,7 @@ Focus on:
 - What changed (logo, visual identity, name, packaging, etc.)
 - Why they rebranded (if mentioned)
 
-Write the summary in the SAME LANGUAGE as the article (Korean articles → Korean summary, English articles → English summary).
+IMPORTANT: Write ALL summaries in Korean (한국어), regardless of the article's original language. English articles must also be summarized in Korean.
 
 IMPORTANT: If the article text is unavailable, write a brief summary based on the title alone. Only respond with "NOT_RELEVANT" if the title clearly has nothing to do with rebranding, brand identity changes, logo redesign, or corporate name changes.
 
