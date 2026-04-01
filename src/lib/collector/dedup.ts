@@ -150,10 +150,25 @@ function extractBrands(title: string): Set<string> {
 }
 
 /**
+ * Dedup articles by their final (resolved) URL after scraping.
+ * Prevents same-ID collisions when multiple Google News redirects point to the same article.
+ */
+export function deduplicateByResolvedUrl<T extends { url: string }>(articles: T[]): T[] {
+  const seen = new Map<string, T>();
+  for (const a of articles) {
+    const norm = normalizeUrl(a.url);
+    if (!seen.has(norm)) {
+      seen.set(norm, a);
+    }
+  }
+  return Array.from(seen.values());
+}
+
+/**
  * Normalize a URL for comparison.
  * Strips protocol, www, trailing slash, common tracking params.
  */
-function normalizeUrl(url: string): string {
+export function normalizeUrl(url: string): string {
   try {
     const u = new URL(url);
     // Remove tracking params

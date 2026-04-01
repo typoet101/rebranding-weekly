@@ -3,7 +3,7 @@ import { getMondayDate } from "../dates";
 import { savePost, postExists } from "../content";
 import { fetchAllRSS } from "./rss";
 import { scrapeArticle, sleep } from "./scraper";
-import { deduplicate } from "./dedup";
+import { deduplicate, deduplicateByResolvedUrl } from "./dedup";
 import { summarizeArticles, generateWeeklyTitle } from "./summarizer";
 import { SCRAPE_DELAY_MS } from "./sources";
 
@@ -89,9 +89,16 @@ export async function collect(): Promise<{
     }
   }
 
+  // 4-b. Second dedup pass: multiple Google News URLs may resolve to the same real URL
+  const beforeResolvedDedup = uniqueArticles.length;
+  const resolvedUnique = deduplicateByResolvedUrl(uniqueArticles);
+  if (resolvedUnique.length < beforeResolvedDedup) {
+    console.log(`  → Removed ${beforeResolvedDedup - resolvedUnique.length} post-scrape URL duplicates`);
+  }
+
   // 5. Summarize with Claude
   console.log("[4/6] Summarizing with Claude AI...");
-  const articles = await summarizeArticles(uniqueArticles);
+  const articles = await summarizeArticles(resolvedUnique);
   console.log(`  → ${articles.length} relevant articles after AI filtering`);
 
   if (articles.length === 0) {
