@@ -9,7 +9,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const { password } = await request.json();
-    const adminPassword = process.env.CRON_SECRET || "admin";
+    const adminPassword = process.env.CRON_SECRET || "5482";
 
     if (password === adminPassword) {
       return NextResponse.json({ ok: true });
