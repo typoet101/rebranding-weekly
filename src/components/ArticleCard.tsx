@@ -51,13 +51,13 @@ export default function ArticleCard({
         </div>
       )}
 
-      {/* Mobile: horizontal card (small thumb + title) */}
-      <div className="flex sm:hidden">
+      {/* Mobile: vertical card (small thumb + title below) */}
+      <div className="sm:hidden">
         <a
           href={article.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-20 h-20 flex-shrink-0 overflow-hidden bg-surface no-underline"
+          className="block w-full aspect-[4/3] overflow-hidden bg-surface no-underline"
         >
           {hasImage ? (
             <img
@@ -70,8 +70,8 @@ export default function ArticleCard({
             <div className="w-full h-full bg-gradient-to-br from-gray-50 to-gray-200" />
           )}
         </a>
-        <div className="flex-1 p-2 min-w-0">
-          <h3 className="text-[0.75rem] font-serif font-bold leading-snug line-clamp-3">
+        <div className="p-2">
+          <h3 className="text-[0.7rem] font-serif font-bold leading-snug line-clamp-3">
             <a
               href={article.url}
               target="_blank"
