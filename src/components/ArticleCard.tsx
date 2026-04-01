@@ -51,67 +51,99 @@ export default function ArticleCard({
         </div>
       )}
 
-      {/* Thumbnail 4:3 — hidden on mobile */}
-      <a
-        href={article.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hidden sm:block w-full aspect-[4/3] overflow-hidden bg-surface no-underline"
-      >
-        {hasImage ? (
-          <img
-            src={article.imageUrl}
-            alt=""
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            loading="lazy"
-          />
-        ) : (
-          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200">
-            <span className="text-xl font-serif font-bold text-gray-300 px-4 text-center leading-tight">
-              {article.title.slice(0, 24)}
+      {/* Mobile: horizontal card (small thumb + title) */}
+      <div className="flex sm:hidden">
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-20 h-20 flex-shrink-0 overflow-hidden bg-surface no-underline"
+        >
+          {hasImage ? (
+            <img
+              src={article.imageUrl}
+              alt=""
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-gray-50 to-gray-200" />
+          )}
+        </a>
+        <div className="flex-1 p-2 min-w-0">
+          <h3 className="text-[0.75rem] font-serif font-bold leading-snug line-clamp-3">
+            <a
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="no-underline hover:no-underline text-primary"
+            >
+              {article.title}
+            </a>
+          </h3>
+        </div>
+      </div>
+
+      {/* Desktop: vertical card (full layout) */}
+      <div className="hidden sm:block">
+        {/* Thumbnail 4:3 */}
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full aspect-[4/3] overflow-hidden bg-surface no-underline"
+        >
+          {hasImage ? (
+            <img
+              src={article.imageUrl}
+              alt=""
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200">
+              <span className="text-xl font-serif font-bold text-gray-300 px-4 text-center leading-tight">
+                {article.title.slice(0, 24)}
+              </span>
+            </div>
+          )}
+        </a>
+
+        {/* Content */}
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[11px] text-muted font-mono">{article.publishedAt}</span>
+            <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-primary border border-primary rounded-full px-2 py-px no-underline">
+              {article.category === "domestic" ? "KR" : "EN"}
             </span>
           </div>
-        )}
-      </a>
 
-      {/* Content */}
-      <div className="p-2 sm:p-4">
-        {/* Date + badge — hidden on mobile */}
-        <div className="hidden sm:flex items-center justify-between mb-2">
-          <span className="text-[11px] text-muted font-mono">{article.publishedAt}</span>
-          <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-primary border border-primary rounded-full px-2 py-px no-underline">
-            {article.category === "domestic" ? "KR" : "EN"}
-          </span>
-        </div>
+          <h3 className="text-[0.95rem] font-serif font-bold leading-snug line-clamp-2 mb-1.5">
+            <a
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="no-underline hover:no-underline text-primary"
+            >
+              {article.title}
+            </a>
+          </h3>
 
-        {/* Title — always visible */}
-        <h3 className="text-[0.8rem] sm:text-[0.95rem] font-serif font-bold leading-snug line-clamp-2 sm:mb-1.5">
-          <a
-            href={article.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="no-underline hover:no-underline text-primary"
-          >
-            {article.title}
-          </a>
-        </h3>
+          <p className="text-[0.8rem] text-secondary leading-relaxed line-clamp-2 mb-2">
+            {article.summary}
+          </p>
 
-        {/* Summary — hidden on mobile */}
-        <p className="hidden sm:block text-[0.8rem] text-secondary leading-relaxed line-clamp-2 mb-2">
-          {article.summary}
-        </p>
-
-        {/* Source + Read more — hidden on mobile */}
-        <div className="hidden sm:flex items-center justify-between text-[11px]">
-          <span className="text-muted">{article.source}</span>
-          <a
-            href={article.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold text-primary no-underline hover:no-underline uppercase tracking-wider"
-          >
-            원문 보기
-          </a>
+          <div className="flex items-center justify-between text-[11px]">
+            <span className="text-muted">{article.source}</span>
+            <a
+              href={article.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-primary no-underline hover:no-underline uppercase tracking-wider"
+            >
+              원문 보기
+            </a>
+          </div>
         </div>
       </div>
     </article>
