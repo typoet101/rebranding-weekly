@@ -1,8 +1,7 @@
 import { notFound } from "next/navigation";
 import { getAllPostDates, getPost } from "@/lib/content";
 import WeeklyHeader from "@/components/WeeklyHeader";
-import SectionDivider from "@/components/SectionDivider";
-import ArticleCard from "@/components/ArticleCard";
+import PostView from "@/components/PostView";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -38,9 +37,6 @@ export default async function PostPage({ params }: Props) {
 
   if (!post) notFound();
 
-  const domestic = post.articles.filter((a) => a.category === "domestic");
-  const international = post.articles.filter((a) => a.category === "international");
-
   // Find prev/next posts for navigation
   const allDates = getAllPostDates();
   const currentIndex = allDates.indexOf(date);
@@ -48,7 +44,7 @@ export default async function PostPage({ params }: Props) {
   const olderDate = currentIndex < allDates.length - 1 ? allDates[currentIndex + 1] : null;
 
   return (
-    <div className="max-w-[1200px] mx-auto px-5">
+    <div className="max-w-[1400px] mx-auto px-4">
       <WeeklyHeader
         weekDate={post.weekDate}
         title={post.title}
@@ -56,27 +52,7 @@ export default async function PostPage({ params }: Props) {
         articleCount={post.articleCount}
       />
 
-      {domestic.length > 0 && (
-        <section>
-          <SectionDivider title="국내 Domestic" count={domestic.length} />
-          <div className="grid grid-cols-4 gap-3 mb-12">
-            {domestic.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {international.length > 0 && (
-        <section>
-          <SectionDivider title="해외 International" count={international.length} />
-          <div className="grid grid-cols-4 gap-3 mb-12">
-            {international.map((article) => (
-              <ArticleCard key={article.id} article={article} />
-            ))}
-          </div>
-        </section>
-      )}
+      <PostView weekDate={post.weekDate} initialArticles={post.articles} />
 
       {/* Navigation */}
       <nav className="flex justify-between items-center py-16 border-t border-border mt-10">
