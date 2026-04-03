@@ -1,20 +1,28 @@
 import type { Article } from "@/lib/types";
+import type { Industry } from "@/lib/industries";
+import { INDUSTRIES } from "@/lib/industries";
 
 export default function ArticleCard({
   article,
   isAdmin,
   onDelete,
   onToggleStar,
+  industry,
+  onIndustryChange,
 }: {
   article: Article;
   isAdmin?: boolean;
   onDelete?: (id: string) => void;
   onToggleStar?: (id: string, starred: boolean) => void;
+  industry?: Industry;
+  onIndustryChange?: (id: string, industry: Industry | undefined) => void;
 }) {
   const hasImage =
     article.imageUrl && !article.imageUrl.includes("googleusercontent.com");
   const isIntl = article.category === "international";
   const showThumb = hasImage && !isIntl;
+
+  const categoryLabel = article.category === "domestic" ? "KR" : "EN";
 
   return (
     <article className={`group relative border rounded-sm overflow-hidden bg-white hover:shadow-md transition-shadow duration-300 ${article.starred ? "border-yellow-400 ring-2 ring-yellow-200" : "border-border"}`}>
@@ -81,9 +89,16 @@ export default function ArticleCard({
         <div className="p-4">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[11px] text-muted font-mono">{article.publishedAt}</span>
-            <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-primary border border-primary rounded-full px-2 py-px no-underline">
-              {article.category === "domestic" ? "KR" : "EN"}
-            </span>
+            <div className="flex items-center gap-1.5">
+              {industry && (
+                <span className="text-[10px] font-sans font-medium text-white bg-gray-700 rounded-full px-2 py-px">
+                  {industry}
+                </span>
+              )}
+              <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-primary border border-primary rounded-full px-2 py-px no-underline">
+                {categoryLabel}
+              </span>
+            </div>
           </div>
 
           <h3 className="text-[0.95rem] font-serif font-bold leading-snug line-clamp-2 mb-1.5">
@@ -104,6 +119,29 @@ export default function ArticleCard({
           </div>
         </div>
       </div>
+
+      {/* Admin: Industry selector */}
+      {isAdmin && onIndustryChange && (
+        <div className="px-4 pb-3 hidden sm:block">
+          <select
+            value={industry || ""}
+            onChange={(e) =>
+              onIndustryChange(
+                article.id,
+                e.target.value ? (e.target.value as Industry) : undefined
+              )
+            }
+            className="w-full text-[11px] border border-gray-300 rounded px-2 py-1.5 bg-white text-gray-600 focus:outline-none focus:border-gray-500"
+          >
+            <option value="">산업 카테고리 선택</option>
+            {INDUSTRIES.map((ind) => (
+              <option key={ind} value={ind}>
+                {ind}
+              </option>
+            ))}
+          </select>
+        </div>
+      )}
     </article>
   );
 }
