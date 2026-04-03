@@ -8,10 +8,10 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
-      <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-center relative h-16">
+      <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-center relative h-20">
         {/* Logo — centered */}
         <Link href="/" className="no-underline hover:no-underline">
-          <h1 className="text-2xl md:text-3xl font-serif font-bold tracking-tight text-primary">
+          <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight text-primary">
             Rebranding Weekly
           </h1>
         </Link>
