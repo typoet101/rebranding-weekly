@@ -8,16 +8,21 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
-      <div className="max-w-[1400px] mx-auto px-4 hidden md:flex items-end justify-between h-40 pb-4">
-        <NavLink href="/archive">Archive</NavLink>
-
-        <Link href="/" className="no-underline hover:no-underline">
-          <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight text-primary">
-            Rebranding Weekly
-          </h1>
-        </Link>
-
-        <NavLink href="/about">About</NavLink>
+      {/* Desktop: title centered vertically, nav at bottom */}
+      <div className="max-w-[1400px] mx-auto px-4 hidden md:flex flex-col h-40">
+        {/* Title — vertically centered */}
+        <div className="flex-1 flex items-center justify-center">
+          <Link href="/" className="no-underline hover:no-underline">
+            <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight text-primary">
+              Rebranding Weekly
+            </h1>
+          </Link>
+        </div>
+        {/* Nav — bottom row, left/right edges */}
+        <div className="flex items-center justify-between pb-4">
+          <NavLink href="/archive">Archive</NavLink>
+          <NavLink href="/about">About</NavLink>
+        </div>
       </div>
 
       {/* Mobile: title centered, hamburger right */}
