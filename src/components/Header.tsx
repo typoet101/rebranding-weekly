@@ -8,7 +8,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
-      <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-center relative h-20">
+      <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-center relative h-40">
         {/* Logo — centered */}
         <Link href="/" className="no-underline hover:no-underline">
           <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight text-primary">
@@ -16,8 +16,8 @@ export default function Header() {
           </h1>
         </Link>
 
-        {/* Desktop Nav — right aligned */}
-        <nav className="hidden md:flex items-center gap-8 absolute right-5">
+        {/* Desktop Nav — left aligned */}
+        <nav className="hidden md:flex items-center gap-8 absolute left-5">
           <NavLink href="/">Home</NavLink>
           <NavLink href="/archive">Archive</NavLink>
           <NavLink href="/about">About</NavLink>
