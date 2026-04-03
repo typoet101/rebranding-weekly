@@ -25,7 +25,7 @@ export default function ArticleCard({
   const categoryLabel = article.category === "domestic" ? "KR" : "EN";
 
   return (
-    <article className={`group relative border rounded-sm overflow-hidden bg-white hover:shadow-md transition-shadow duration-300 ${article.starred ? "border-border" : "border-border"}`}>
+    <article className={`group relative border rounded-sm overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-300 border-border`}>
       {/* Admin buttons */}
       {isAdmin && (
         <div className="absolute top-2 right-2 z-10 flex items-center gap-1">

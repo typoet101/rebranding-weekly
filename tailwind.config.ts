@@ -10,7 +10,7 @@ const config: Config = {
         muted: "#999999",
         border: "#E5E5E5",
         surface: "#FAFAFA",
-        background: "#FFFFFF",
+        background: "#F7F5F0",
       },
       fontFamily: {
         serif: ['"Playfair Display"', "serif"],

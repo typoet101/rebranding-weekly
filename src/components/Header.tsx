@@ -7,7 +7,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-border">
+    <header className="sticky top-0 z-50 bg-background border-b border-border">
       {/* Desktop: nav at top, title centered below */}
       <div className="max-w-[1400px] mx-auto px-4 hidden md:flex flex-col h-40">
         {/* Nav — top row, left/right edges */}
