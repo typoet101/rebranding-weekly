@@ -8,7 +8,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
-      <div className="max-w-[1200px] mx-auto px-5 hidden md:flex items-center justify-center h-40 gap-12">
+      <div className="max-w-[1200px] mx-auto px-5 hidden md:flex items-center justify-between h-40">
         <NavLink href="/archive">Archive</NavLink>
 
         <Link href="/" className="no-underline hover:no-underline">
