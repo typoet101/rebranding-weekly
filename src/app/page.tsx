@@ -9,7 +9,7 @@ export default function HomePage() {
   if (!post) {
     return (
       <div className="container-content py-32 text-center">
-        <h1 className="text-[5rem] font-serif font-black uppercase mb-4">
+        <h1 className="text-[6.5rem] font-serif font-black uppercase mb-4 text-center">
           Rebranding Weekly
         </h1>
         <p className="text-body text-secondary mb-8">

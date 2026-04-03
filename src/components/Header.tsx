@@ -8,16 +8,16 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
-      <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-14">
-        {/* Logo */}
+      <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-center relative h-16">
+        {/* Logo — centered */}
         <Link href="/" className="no-underline hover:no-underline">
-          <h1 className="text-xl font-serif font-bold tracking-tight text-primary">
+          <h1 className="text-2xl md:text-3xl font-serif font-bold tracking-tight text-primary">
             Rebranding Weekly
           </h1>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        {/* Desktop Nav — right aligned */}
+        <nav className="hidden md:flex items-center gap-8 absolute right-5">
           <NavLink href="/">Home</NavLink>
           <NavLink href="/archive">Archive</NavLink>
           <NavLink href="/about">About</NavLink>
@@ -25,7 +25,7 @@ export default function Header() {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="md:hidden p-2 no-underline"
+          className="md:hidden p-2 no-underline absolute right-5"
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
