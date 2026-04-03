@@ -11,7 +11,7 @@ export default function Header() {
       {/* Desktop: title centered vertically, nav at bottom */}
       <div className="max-w-[1400px] mx-auto px-4 hidden md:flex flex-col h-40">
         {/* Title — vertically centered */}
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 flex items-center justify-center pt-[5px]">
           <Link href="/" className="no-underline hover:no-underline">
             <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight text-primary">
               Rebranding Weekly
