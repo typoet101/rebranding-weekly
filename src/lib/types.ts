@@ -19,6 +19,8 @@ export interface Article {
   imageUrl?: string;
   /** ISO timestamp when collected */
   scrapedAt: string;
+  /** Industry category (auto-classified by AI) */
+  industry?: string;
   /** Admin-pinned to top */
   starred?: boolean;
 }

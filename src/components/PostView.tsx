@@ -195,7 +195,7 @@ export default function PostView({
                       isAdmin={isAdmin}
                       onDelete={handleDelete}
                       onToggleStar={handleToggleStar}
-                      industry={industryMap[article.id]}
+                      industry={industryMap[article.id] || (article.industry as Industry | undefined)}
                       onIndustryChange={handleIndustryChange}
                     />
                   ))}
@@ -208,7 +208,7 @@ export default function PostView({
                 <ArticleCard
                   key={article.id}
                   article={article}
-                  industry={industryMap[article.id]}
+                  industry={industryMap[article.id] || (article.industry as Industry | undefined)}
                 />
               ))}
             </div>
@@ -240,7 +240,7 @@ export default function PostView({
                       isAdmin={isAdmin}
                       onDelete={handleDelete}
                       onToggleStar={handleToggleStar}
-                      industry={industryMap[article.id]}
+                      industry={industryMap[article.id] || (article.industry as Industry | undefined)}
                       onIndustryChange={handleIndustryChange}
                     />
                   ))}
@@ -253,7 +253,7 @@ export default function PostView({
                 <ArticleCard
                   key={article.id}
                   article={article}
-                  industry={industryMap[article.id]}
+                  industry={industryMap[article.id] || (article.industry as Industry | undefined)}
                 />
               ))}
             </div>

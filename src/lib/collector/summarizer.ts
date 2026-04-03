@@ -41,22 +41,29 @@ export async function summarizeArticles(
         messages: [
           {
             role: "user",
-            content: `You are a branding news editor. For each article below, provide a concise summary in 2-3 sentences.
+            content: `You are a branding news editor. For each article below, provide:
+1. A concise summary in 2-3 sentences
+2. An industry category
 
 Focus on:
 - What brand is rebranding
 - What changed (logo, visual identity, name, packaging, etc.)
 - Why they rebranded (if mentioned)
 
-IMPORTANT: Write ALL summaries in Korean (한국어), regardless of the article's original language. English articles must also be summarized in Korean.
+IMPORTANT: Write ALL summaries in Korean (한국어), regardless of the article's original language.
 
 IMPORTANT: If the article text is unavailable, write a brief summary based on the title alone. Only respond with "NOT_RELEVANT" if the title clearly has nothing to do with rebranding, brand identity changes, logo redesign, or corporate name changes.
 
+Industry categories (pick exactly one):
+식음료, 뷰티·패션, IT·테크, 금융·보험, 유통·리테일, 자동차, 엔터·미디어, 공공·기관, 스포츠, 건설·부동산, 제약·헬스, 교육, 기타
+
 Format your response as:
 [Article 1]
+INDUSTRY: (category)
 (summary or NOT_RELEVANT)
 
 [Article 2]
+INDUSTRY: (category)
 (summary or NOT_RELEVANT)
 
 ...
@@ -73,14 +80,22 @@ ${articlesText}`,
       const sections = text.split(/\[Article \d+\]/g).filter((s) => s.trim());
 
       for (let j = 0; j < batch.length; j++) {
-        const summary = sections[j]?.trim() || "";
+        const section = sections[j]?.trim() || "";
         if (
-          summary === "NOT_RELEVANT" ||
-          summary.includes("NOT_RELEVANT") ||
-          !summary
+          section === "NOT_RELEVANT" ||
+          section.includes("NOT_RELEVANT") ||
+          !section
         ) {
           continue;
         }
+
+        // Extract industry tag
+        const industryMatch = section.match(/INDUSTRY:\s*(.+)/);
+        const industry = industryMatch?.[1]?.trim() || undefined;
+        // Remove INDUSTRY line from summary
+        const summary = section.replace(/INDUSTRY:\s*.+\n?/, "").trim();
+
+        if (!summary) continue;
 
         const raw = batch[j];
         results.push({
@@ -93,6 +108,7 @@ ${articlesText}`,
           keyword: raw.keyword,
           publishedAt: raw.publishedAt,
           imageUrl: raw.imageUrl,
+          industry,
           scrapedAt: new Date().toISOString(),
         });
       }

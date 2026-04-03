@@ -14,7 +14,8 @@
       "category": "domestic",
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-31",
-      "scrapedAt": "2026-03-31T08:07:59.564Z"
+      "scrapedAt": "2026-03-31T08:07:59.564Z",
+      "industry": "식음료"
     },
     {
       "id": "128af78b083f",
@@ -25,7 +26,8 @@
       "category": "domestic",
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-30",
-      "scrapedAt": "2026-03-31T08:07:59.564Z"
+      "scrapedAt": "2026-03-31T08:07:59.564Z",
+      "industry": "엔터·미디어"
     },
     {
       "id": "b442c52bec51",
@@ -36,7 +38,8 @@
       "category": "domestic",
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-31",
-      "scrapedAt": "2026-03-31T08:07:59.564Z"
+      "scrapedAt": "2026-03-31T08:07:59.564Z",
+      "industry": "건설·부동산"
     },
     {
       "id": "54c073b22e1d",
@@ -48,7 +51,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://www.apparelnews.co.kr/upfiles/manage/202603/839c93c6314f4355347d7c900d011c5b.jpg",
-      "scrapedAt": "2026-03-31T08:07:59.564Z"
+      "scrapedAt": "2026-03-31T08:07:59.564Z",
+      "industry": "뷰티·패션"
     },
     {
       "id": "2b88f073ebdf",
@@ -60,7 +64,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-29",
       "imageUrl": "https://img.seoul.co.kr//img/upload/2026/03/29/SSC_20260329130546_O2.jpg.webp",
-      "scrapedAt": "2026-03-31T08:07:59.564Z"
+      "scrapedAt": "2026-03-31T08:07:59.564Z",
+      "industry": "건설·부동산"
     },
     {
       "id": "7684c0501ee1",
@@ -72,7 +77,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://wimg.heraldcorp.com/news/cms/2026/03/31/news-p.v1.20260331.099bf61e167c4669b4f92a8034180d11_T1.jpg",
-      "scrapedAt": "2026-03-31T08:08:15.661Z"
+      "scrapedAt": "2026-03-31T08:08:15.661Z",
+      "industry": "뷰티·패션"
     },
     {
       "id": "57d63ac1d814",
@@ -84,7 +90,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://cdn.globale.co.kr/news/thumbnail/202603/37316_60745_911_v150.jpg",
-      "scrapedAt": "2026-03-31T08:08:15.661Z"
+      "scrapedAt": "2026-03-31T08:08:15.661Z",
+      "industry": "IT·테크"
     },
     {
       "id": "0cab827e42a2",
@@ -96,7 +103,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://www.fashionbiz.co.kr/images/articleImg/mainImg/1774830659448-%E1%84%89%E1%85%A1%E1%84%8C%E1%85%B5%E1%86%AB%E1%84%8C%E1%85%A1%E1%84%85%E1%85%AD1_%E1%84%8A%E1%85%A2%E1%86%B7%E1%84%89%E1%85%A9%E1%84%82%E1%85%A1%E1%84%8B%E1%85%B5%E1%84%90%E1%85%B3%20%E1%84%85%E1%85%A6%E1%84%83%E1%85%B3,%20%E1%84%80%E1%85%A1%E1%84%87%E1%85%A7%E1%84%8B%E1%85%AE%E1%86%AB%20%E1%84%89%E1%85%A9%E1%84%8C%E1%85%A2%E1%84%8B%E1%85%AA%20%E1%84%90%E1%85%B3%E1%84%85%E1%85%A6%E1%86%AB%E1%84%83%E1%85%B5%E1%84%92%E1%85%A1%E1%86%AB%20%E1%84%89%E1%85%B5%E1%86%AF%E1%84%85%E1%85%AE%E1%84%8B%E1%85%A6%E1%86%BA%E1%84%8B%E1%85%B4%202026%20SS%20%E1%84%8F%E1%85%A5%E1%86%AF%E1%84%85%E1%85%A6%E1%86%A8%E1%84%89%E1%85%A7%E1%86%AB%20%E1%84%8C%E1%85%A6%E1%84%8B%E1%85%A1%E1%86%AB.jpg",
-      "scrapedAt": "2026-03-31T08:08:15.661Z"
+      "scrapedAt": "2026-03-31T08:08:15.661Z",
+      "industry": "뷰티·패션"
     },
     {
       "id": "d15470d38ffd",
@@ -108,7 +116,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://cdn.newspost.kr/news/thumbnail/202603/222050_223675_2924_v150.jpg",
-      "scrapedAt": "2026-03-31T08:08:15.661Z"
+      "scrapedAt": "2026-03-31T08:08:15.661Z",
+      "industry": "엔터·미디어"
     },
     {
       "id": "f766b541b5cf",
@@ -120,7 +129,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-26",
       "imageUrl": "https://image.zdnet.co.kr/2026/03/26/abc64924830ca3a27c8a653a324eb5c9.jpg",
-      "scrapedAt": "2026-03-31T08:08:15.661Z"
+      "scrapedAt": "2026-03-31T08:08:15.661Z",
+      "industry": "금융·보험"
     },
     {
       "id": "fbc2838faa2c",
@@ -132,7 +142,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-29",
       "imageUrl": "https://cdn.namdonews.com/news/photo/202603/905623_606948_826.jpg",
-      "scrapedAt": "2026-03-31T08:08:34.933Z"
+      "scrapedAt": "2026-03-31T08:08:34.933Z",
+      "industry": "유통·리테일"
     },
     {
       "id": "3fcf55964fef",
@@ -144,7 +155,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-25",
       "imageUrl": "https://cdn.banronbodo.com/news/photo/202603/31929_45838_4530.jpg",
-      "scrapedAt": "2026-03-31T08:08:34.933Z"
+      "scrapedAt": "2026-03-31T08:08:34.933Z",
+      "industry": "건설·부동산"
     },
     {
       "id": "a3dc3e7022fb",
@@ -156,7 +168,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-25",
       "imageUrl": "https://image.inews24.com/v1/1d19b00944fa76.jpg",
-      "scrapedAt": "2026-03-31T08:08:34.933Z"
+      "scrapedAt": "2026-03-31T08:08:34.933Z",
+      "industry": "금융·보험"
     },
     {
       "id": "88315f584208",
@@ -168,7 +181,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-26",
       "imageUrl": "https://www.todayeconomic.com/data/photos/20260313/art_17745096287448_42156c.jpg",
-      "scrapedAt": "2026-03-31T08:08:34.933Z"
+      "scrapedAt": "2026-03-31T08:08:34.933Z",
+      "industry": "식음료"
     },
     {
       "id": "441731797e5e",
@@ -180,7 +194,8 @@
       "keyword": "CI 변경",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://biz.chosun.com/resizer/v2/Z4YH64IXC5C3JIEQ5LJ33OCI2U.jpg?auth=c5600ee8ae5cffbede7f7d9d3ae680386d7ef8078c95c80f52a1cd8d0bcd793c&width=1200&height=630&smart=true",
-      "scrapedAt": "2026-03-31T08:08:34.933Z"
+      "scrapedAt": "2026-03-31T08:08:34.933Z",
+      "industry": "제약·헬스"
     },
     {
       "id": "f9fb24d83573",
@@ -191,7 +206,8 @@
       "category": "domestic",
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-28",
-      "scrapedAt": "2026-03-31T08:08:50.737Z"
+      "scrapedAt": "2026-03-31T08:08:50.737Z",
+      "industry": "스포츠"
     },
     {
       "id": "cbcae88bd16a",
@@ -203,7 +219,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-26",
       "imageUrl": "https://img1.newsis.com/2026/03/09/NISI20260309_0002078808_web.jpg",
-      "scrapedAt": "2026-03-31T08:08:50.737Z"
+      "scrapedAt": "2026-03-31T08:08:50.737Z",
+      "industry": "뷰티·패션"
     },
     {
       "id": "909273ed5d2a",
@@ -215,7 +232,8 @@
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://img3.yna.co.kr/etc/inner/KR/2026/03/31/AKR20260331045500008_02_i_P4.jpg",
-      "scrapedAt": "2026-03-31T08:08:50.737Z"
+      "scrapedAt": "2026-03-31T08:08:50.737Z",
+      "industry": "금융·보험"
     },
     {
       "id": "b799adec4b4e",
@@ -227,7 +245,8 @@
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://static.hankyung.com/photo/202603/AD.43792797.1.png",
-      "scrapedAt": "2026-03-31T08:08:50.737Z"
+      "scrapedAt": "2026-03-31T08:08:50.737Z",
+      "industry": "IT·테크"
     },
     {
       "id": "5aedd9c5fa70",
@@ -239,7 +258,8 @@
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://cdn.nbntv.co.kr/news/photo/202603/4020326_293070_1823.png",
-      "scrapedAt": "2026-03-31T08:08:50.737Z"
+      "scrapedAt": "2026-03-31T08:08:50.737Z",
+      "industry": "자동차"
     },
     {
       "id": "b171cc0ba6fc",
@@ -251,7 +271,8 @@
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://cdn.bizwnews.com/news/thumbnail/202603/131632_144465_2526_v150.jpg",
-      "scrapedAt": "2026-03-31T08:09:02.849Z"
+      "scrapedAt": "2026-03-31T08:09:02.849Z",
+      "industry": "식음료"
     },
     {
       "id": "b159d3aa06a4",
@@ -262,7 +283,8 @@
       "category": "domestic",
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-26",
-      "scrapedAt": "2026-03-31T08:09:02.849Z"
+      "scrapedAt": "2026-03-31T08:09:02.849Z",
+      "industry": "IT·테크"
     },
     {
       "id": "f01ae506b7ae",
@@ -274,7 +296,8 @@
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://image.fnnews.com/resource/media/image/2026/03/30/202603301502142793_l.jpg",
-      "scrapedAt": "2026-03-31T08:09:02.849Z"
+      "scrapedAt": "2026-03-31T08:09:02.849Z",
+      "industry": "건설·부동산"
     },
     {
       "id": "4dfc325c84a0",
@@ -286,7 +309,8 @@
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-26",
       "imageUrl": "https://i3n.news1.kr/system/photos/2026/3/26/7819106/high.jpg",
-      "scrapedAt": "2026-03-31T08:09:02.849Z"
+      "scrapedAt": "2026-03-31T08:09:02.849Z",
+      "industry": "IT·테크"
     },
     {
       "id": "ae2d221fc6d7",
@@ -298,7 +322,8 @@
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-29",
       "imageUrl": "https://img.etoday.co.kr/pto_db/2026/03/20260309174046_2305070_651_434.jpg",
-      "scrapedAt": "2026-03-31T08:09:19.645Z"
+      "scrapedAt": "2026-03-31T08:09:19.645Z",
+      "industry": "뷰티·패션"
     },
     {
       "id": "1572cef67816",
@@ -310,7 +335,8 @@
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://cdn.joongangenews.com/news/photo/202603/507095_310574_4844.jpg",
-      "scrapedAt": "2026-03-31T08:09:19.645Z"
+      "scrapedAt": "2026-03-31T08:09:19.645Z",
+      "industry": "식음료"
     },
     {
       "id": "d958613e58a5",
@@ -322,7 +348,8 @@
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-26",
       "imageUrl": "https://cdn.gokorea.kr/news/thumbnail/202603/861633_138851_5710_v150.jpg",
-      "scrapedAt": "2026-03-31T08:09:19.645Z"
+      "scrapedAt": "2026-03-31T08:09:19.645Z",
+      "industry": "제약·헬스"
     },
     {
       "id": "b04230305743",
@@ -334,7 +361,8 @@
       "keyword": "CI 변경",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://i3n.news1.kr/system/photos/2026/3/31/7827009/high.jpg",
-      "scrapedAt": "2026-03-31T08:09:19.645Z"
+      "scrapedAt": "2026-03-31T08:09:19.645Z",
+      "industry": "금융·보험"
     },
     {
       "id": "2b54913a908e",
@@ -346,7 +374,8 @@
       "keyword": "CI 변경",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://cwstatic.asiae.co.kr/asiae_v2/asiae_news.png",
-      "scrapedAt": "2026-03-31T08:09:19.645Z"
+      "scrapedAt": "2026-03-31T08:09:19.645Z",
+      "industry": "기타"
     },
     {
       "id": "50695683eb63",
@@ -358,7 +387,8 @@
       "keyword": "CI 변경",
       "publishedAt": "2026-03-30",
       "imageUrl": "http://img.mbn.co.kr/filewww/news/2026/03/30/177487948069ca82f8da4a7.jpg",
-      "scrapedAt": "2026-03-31T08:09:31.933Z"
+      "scrapedAt": "2026-03-31T08:09:31.933Z",
+      "industry": "엔터·미디어"
     },
     {
       "id": "b1eb21a94582",
@@ -370,7 +400,8 @@
       "keyword": "CI 변경",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://cdn.itdaily.kr/news/thumbnail/202603/238647_243686_3539_v150.jpg",
-      "scrapedAt": "2026-03-31T08:09:31.933Z"
+      "scrapedAt": "2026-03-31T08:09:31.933Z",
+      "industry": "IT·테크"
     },
     {
       "id": "5909c88e01bc",
@@ -382,7 +413,8 @@
       "keyword": "CI 변경",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://img1.newsis.com/2026/03/31/NISI20260331_0002098334_web.jpg",
-      "scrapedAt": "2026-03-31T08:09:31.933Z"
+      "scrapedAt": "2026-03-31T08:09:31.933Z",
+      "industry": "기타"
     },
     {
       "id": "8d3f6dc03101",
@@ -394,7 +426,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-27",
       "imageUrl": "https://www.sportschosun.com/article/html/2026/03/27/2026032701001857800128121_w.jpg",
-      "scrapedAt": "2026-03-31T08:09:31.933Z"
+      "scrapedAt": "2026-03-31T08:09:31.933Z",
+      "industry": "스포츠"
     },
     {
       "id": "0ad23efba438",
@@ -405,7 +438,8 @@
       "category": "domestic",
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-26",
-      "scrapedAt": "2026-03-31T08:09:31.933Z"
+      "scrapedAt": "2026-03-31T08:09:31.933Z",
+      "industry": "제약·헬스"
     },
     {
       "id": "133b17c2929f",
@@ -417,7 +451,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://www.fetv.co.kr/data/photos/20260314/art_17748345503052_f33023.jpg",
-      "scrapedAt": "2026-03-31T08:09:45.732Z"
+      "scrapedAt": "2026-03-31T08:09:45.732Z",
+      "industry": "식음료"
     },
     {
       "id": "21f68c067b2a",
@@ -429,7 +464,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://menu.sidae.com/moneyweek/thumb/2026/03/30/06/2026033011125615154_1.jpg",
-      "scrapedAt": "2026-03-31T08:09:45.732Z"
+      "scrapedAt": "2026-03-31T08:09:45.732Z",
+      "industry": "식음료"
     },
     {
       "id": "ef9d911fdcf2",
@@ -441,7 +477,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://www.fashionbiz.co.kr/images/articleImg/mainImg/1774832672957-RKRF.jpg",
-      "scrapedAt": "2026-03-31T08:09:45.732Z"
+      "scrapedAt": "2026-03-31T08:09:45.732Z",
+      "industry": "뷰티·패션"
     },
     {
       "id": "553d09c9a9b2",
@@ -453,7 +490,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://img.wowtv.co.kr/nrcs/production/images/20260209/20260209_2518c5256bc24baeab2c55179f5aa9fb.jpg",
-      "scrapedAt": "2026-03-31T08:09:45.732Z"
+      "scrapedAt": "2026-03-31T08:09:45.732Z",
+      "industry": "스포츠"
     },
     {
       "id": "932944b0c352",
@@ -465,7 +503,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-25",
       "imageUrl": "https://economist.co.kr/data/ecn/image/2026/03/19/ecn20260319000015.800x.0.jpg",
-      "scrapedAt": "2026-03-31T08:10:00.454Z"
+      "scrapedAt": "2026-03-31T08:10:00.454Z",
+      "industry": "뷰티·패션"
     },
     {
       "id": "d20364572c4f",
@@ -477,7 +516,8 @@
       "keyword": "로고 리뉴얼",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://img.etnews.com/news/article/2026/03/31/news-p.v1.20260331.f95772702c0c436b91a09c0a02c4a74b_P1.png",
-      "scrapedAt": "2026-03-31T08:10:00.454Z"
+      "scrapedAt": "2026-03-31T08:10:00.454Z",
+      "industry": "기타"
     },
     {
       "id": "478e840fa03d",
@@ -489,7 +529,8 @@
       "keyword": "로고 리뉴얼",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://img.tf.co.kr/article/home/2026/03/30/202690871774833786.jpg",
-      "scrapedAt": "2026-03-31T08:10:00.454Z"
+      "scrapedAt": "2026-03-31T08:10:00.454Z",
+      "industry": "엔터·미디어"
     },
     {
       "id": "d77bb8c4234f",
@@ -501,7 +542,8 @@
       "keyword": "로고 리뉴얼",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://img2.yna.co.kr/etc/inner/KR/2026/03/30/AKR20260330035100005_01_i_P4.jpg",
-      "scrapedAt": "2026-03-31T08:10:00.454Z"
+      "scrapedAt": "2026-03-31T08:10:00.454Z",
+      "industry": "엔터·미디어"
     },
     {
       "id": "92be0e7e9bd6",
@@ -513,7 +555,8 @@
       "keyword": "로고 리뉴얼",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://image.starnewskorea.com/cdn-cgi/image/f=auto,w=1200,h=2029,fit=cover,q=high,sharpen=2/21/2026/03/2026033013462690495_1.jpg",
-      "scrapedAt": "2026-03-31T08:10:06.851Z"
+      "scrapedAt": "2026-03-31T08:10:06.851Z",
+      "industry": "엔터·미디어"
     },
     {
       "id": "c30e0993c98a",
@@ -524,7 +567,8 @@
       "category": "international",
       "keyword": "rebranding",
       "publishedAt": "2026-03-31",
-      "scrapedAt": "2026-03-31T08:10:06.851Z"
+      "scrapedAt": "2026-03-31T08:10:06.851Z",
+      "industry": "식음료"
     },
     {
       "id": "1260be4af730",
@@ -535,7 +579,8 @@
       "category": "international",
       "keyword": "rebranding",
       "publishedAt": "2026-03-30",
-      "scrapedAt": "2026-03-31T08:10:06.851Z"
+      "scrapedAt": "2026-03-31T08:10:06.851Z",
+      "industry": "유통·리테일"
     },
     {
       "id": "7f36b3c792fa",
@@ -546,7 +591,8 @@
       "category": "international",
       "keyword": "brand overhaul",
       "publishedAt": "2026-03-30",
-      "scrapedAt": "2026-03-31T08:10:06.851Z"
+      "scrapedAt": "2026-03-31T08:10:06.851Z",
+      "industry": "식음료"
     },
     {
       "id": "84dd8a23b037",
@@ -557,7 +603,8 @@
       "category": "international",
       "keyword": "rebranding",
       "publishedAt": "2026-03-31",
-      "scrapedAt": "2026-03-31T08:10:06.851Z"
+      "scrapedAt": "2026-03-31T08:10:06.851Z",
+      "industry": "식음료"
     },
     {
       "id": "f0526c7fa5b8",
@@ -568,7 +615,8 @@
       "category": "international",
       "keyword": "rebranding",
       "publishedAt": "2026-03-29",
-      "scrapedAt": "2026-03-31T08:10:12.994Z"
+      "scrapedAt": "2026-03-31T08:10:12.994Z",
+      "industry": "IT·테크"
     },
     {
       "id": "11a2e6652147",
@@ -579,7 +627,8 @@
       "category": "international",
       "keyword": "rebranding",
       "publishedAt": "2026-03-30",
-      "scrapedAt": "2026-03-31T08:10:12.994Z"
+      "scrapedAt": "2026-03-31T08:10:12.994Z",
+      "industry": "공공·기관"
     },
     {
       "id": "78b4f49846e0",
@@ -590,7 +639,8 @@
       "category": "international",
       "keyword": "rebranding",
       "publishedAt": "2026-03-30",
-      "scrapedAt": "2026-03-31T08:10:12.994Z"
+      "scrapedAt": "2026-03-31T08:10:12.994Z",
+      "industry": "기타"
     },
     {
       "id": "d31ca35f3238",
@@ -601,7 +651,8 @@
       "category": "international",
       "keyword": "rebranding",
       "publishedAt": "2026-03-30",
-      "scrapedAt": "2026-03-31T08:10:12.994Z"
+      "scrapedAt": "2026-03-31T08:10:12.994Z",
+      "industry": "유통·리테일"
     },
     {
       "id": "a991ac15b4ae",
@@ -612,7 +663,8 @@
       "category": "international",
       "keyword": "rebranding",
       "publishedAt": "2026-03-31",
-      "scrapedAt": "2026-03-31T08:10:12.994Z"
+      "scrapedAt": "2026-03-31T08:10:12.994Z",
+      "industry": "건설·부동산"
     },
     {
       "id": "63673bc14b82",
@@ -623,7 +675,8 @@
       "category": "international",
       "keyword": "brand refresh",
       "publishedAt": "2026-03-30",
-      "scrapedAt": "2026-03-31T08:10:19.564Z"
+      "scrapedAt": "2026-03-31T08:10:19.564Z",
+      "industry": "식음료"
     },
     {
       "id": "d5f81a16c3bb",
@@ -634,7 +687,8 @@
       "category": "international",
       "keyword": "rebranding",
       "publishedAt": "2026-03-29",
-      "scrapedAt": "2026-03-31T08:10:19.564Z"
+      "scrapedAt": "2026-03-31T08:10:19.564Z",
+      "industry": "공공·기관"
     },
     {
       "id": "6738a3a87825",
@@ -645,7 +699,8 @@
       "category": "international",
       "keyword": "rebranding",
       "publishedAt": "2026-03-30",
-      "scrapedAt": "2026-03-31T08:10:19.564Z"
+      "scrapedAt": "2026-03-31T08:10:19.564Z",
+      "industry": "기타"
     },
     {
       "id": "e67bf67a0652",
@@ -656,7 +711,8 @@
       "category": "international",
       "keyword": "rebranding",
       "publishedAt": "2026-03-29",
-      "scrapedAt": "2026-03-31T08:10:19.564Z"
+      "scrapedAt": "2026-03-31T08:10:19.564Z",
+      "industry": "금융·보험"
     },
     {
       "id": "1d22ec3cc548",
@@ -667,7 +723,8 @@
       "category": "international",
       "keyword": "brand refresh",
       "publishedAt": "2026-03-30",
-      "scrapedAt": "2026-03-31T08:10:26.204Z"
+      "scrapedAt": "2026-03-31T08:10:26.204Z",
+      "industry": "IT·테크"
     },
     {
       "id": "68d491c86a36",
@@ -678,7 +735,8 @@
       "category": "international",
       "keyword": "brand refresh",
       "publishedAt": "2026-03-31",
-      "scrapedAt": "2026-03-31T08:10:26.204Z"
+      "scrapedAt": "2026-03-31T08:10:26.204Z",
+      "industry": "뷰티·패션"
     },
     {
       "id": "b08f62ec8d85",
@@ -690,7 +748,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://cdn.ebn.co.kr/news/thumbnail/202603/1704035_726703_2538_v150.jpg",
-      "scrapedAt": "2026-03-31T08:10:26.204Z"
+      "scrapedAt": "2026-03-31T08:10:26.204Z",
+      "industry": "기타"
     },
     {
       "id": "a170e0475ebd",
@@ -702,7 +761,8 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://cdn.hg-times.com/news/photo/202603/300683_300691_561.jpg",
-      "scrapedAt": "2026-03-31T08:10:34.908Z"
+      "scrapedAt": "2026-03-31T08:10:34.908Z",
+      "industry": "엔터·미디어"
     },
     {
       "id": "408354dba900",
@@ -714,7 +774,8 @@
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://cdn.seoulfn.com/news/photo/202603/625121_424514_013.jpg",
-      "scrapedAt": "2026-03-31T08:10:34.908Z"
+      "scrapedAt": "2026-03-31T08:10:34.908Z",
+      "industry": "식음료"
     },
     {
       "id": "3f90f9c0dc6d",
@@ -726,7 +787,8 @@
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://cdn.ftoday.co.kr/news/thumbnail/202603/357071_364446_1143_v150.jpg",
-      "scrapedAt": "2026-03-31T08:10:48.735Z"
+      "scrapedAt": "2026-03-31T08:10:48.735Z",
+      "industry": "식음료"
     },
     {
       "id": "a2f2ebe91e87",
@@ -738,7 +800,8 @@
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://image.mediapen.com/news/202603/news_1090352_1774941182_m.png",
-      "scrapedAt": "2026-03-31T08:10:48.735Z"
+      "scrapedAt": "2026-03-31T08:10:48.735Z",
+      "industry": "식음료"
     },
     {
       "id": "b28ef4de14eb",
@@ -750,7 +813,8 @@
       "keyword": "BI 변경",
       "publishedAt": "2026-03-30",
       "imageUrl": "https://cdn.ggilbo.com/news/photo/202603/1149749_1001668_3233.jpg",
-      "scrapedAt": "2026-03-31T08:10:57.232Z"
+      "scrapedAt": "2026-03-31T08:10:57.232Z",
+      "industry": "금융·보험"
     },
     {
       "id": "79e5761518a5",
@@ -762,7 +826,8 @@
       "keyword": "BI 변경",
       "publishedAt": "2026-03-27",
       "imageUrl": "https://i3n.news1.kr/system/photos/2026/3/27/7822210/high.jpg",
-      "scrapedAt": "2026-03-31T08:10:57.232Z"
+      "scrapedAt": "2026-03-31T08:10:57.232Z",
+      "industry": "엔터·미디어"
     },
     {
       "id": "67662aeedaed",
@@ -774,7 +839,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://img.newspim.com/news/2026/03/31/2603311520250190_467_tc.jpg",
-      "scrapedAt": "2026-03-31T08:10:57.232Z"
+      "scrapedAt": "2026-03-31T08:10:57.232Z",
+      "industry": "IT·테크"
     },
     {
       "id": "b8fc9b846f26",
@@ -786,7 +852,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://image.edaily.co.kr/images/Photo/files/NP/S/2026/03/PS26033101303.jpg",
-      "scrapedAt": "2026-03-31T08:11:41.833Z"
+      "scrapedAt": "2026-03-31T08:11:41.833Z",
+      "industry": "스포츠"
     },
     {
       "id": "552bf22c493e",
@@ -798,7 +865,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://www.fntoday.co.kr/news/thumbnail/202603/381155_302150_4013_v150.jpg",
-      "scrapedAt": "2026-03-31T08:11:41.834Z"
+      "scrapedAt": "2026-03-31T08:11:41.834Z",
+      "industry": "엔터·미디어"
     },
     {
       "id": "6c5c836f6618",
@@ -810,7 +878,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://menu.sidae.com/moneyweek/thumb/2026/03/31/06/2026033115002614744_1.jpg",
-      "scrapedAt": "2026-03-31T08:11:41.834Z"
+      "scrapedAt": "2026-03-31T08:11:41.834Z",
+      "industry": "뷰티·패션"
     },
     {
       "id": "3c55992ea503",
@@ -822,7 +891,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?pp=002&idx=999&simg=2026033115410103603046a9e4dd7f220867377.jpg&nmt=30",
-      "scrapedAt": "2026-03-31T08:11:41.834Z"
+      "scrapedAt": "2026-03-31T08:11:41.834Z",
+      "industry": "뷰티·패션"
     },
     {
       "id": "d5f4b66ab37c",
@@ -834,7 +904,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://www.fashionbiz.co.kr/images/articleImg/mainImg/1774937057524-temp_1774931818365.-2105491868.jpeg",
-      "scrapedAt": "2026-03-31T08:11:41.834Z"
+      "scrapedAt": "2026-03-31T08:11:41.834Z",
+      "industry": "뷰티·패션"
     },
     {
       "id": "df7c57e93e4a",
@@ -846,7 +917,8 @@
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://cdn.gpkorea.com/news/photo/202603/141390_299560_1755.jpg",
-      "scrapedAt": "2026-03-31T08:11:54.124Z"
+      "scrapedAt": "2026-03-31T08:11:54.124Z",
+      "industry": "스포츠"
     },
     {
       "id": "486029743e03",
@@ -858,7 +930,8 @@
       "keyword": "로고 리뉴얼",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://www.shinailbo.co.kr/image/logo/snslogotrans_20260213013714.png",
-      "scrapedAt": "2026-03-31T08:11:54.124Z"
+      "scrapedAt": "2026-03-31T08:11:54.124Z",
+      "industry": "공공·기관"
     },
     {
       "id": "b6755d72f125",
@@ -870,7 +943,8 @@
       "keyword": "로고 리뉴얼",
       "publishedAt": "2026-03-31",
       "imageUrl": "http://www.bokuennews.com/data/photos/cdn/20260314/art_1774940911.jpg",
-      "scrapedAt": "2026-03-31T08:11:54.124Z"
+      "scrapedAt": "2026-03-31T08:11:54.124Z",
+      "industry": "뷰티·패션"
     },
     {
       "id": "8e3c317a1e20",
@@ -882,7 +956,8 @@
       "keyword": "로고 리뉴얼",
       "publishedAt": "2026-03-31",
       "imageUrl": "https://image.zdnet.co.kr/2026/03/31/eb13c098ac34803b16901479085df476.jpg",
-      "scrapedAt": "2026-03-31T08:11:54.124Z"
+      "scrapedAt": "2026-03-31T08:11:54.124Z",
+      "industry": "유통·리테일"
     }
   ]
 }
