@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getPost, savePost } from "@/lib/content";
 
 function checkAuth(password: string): boolean {
-  const adminPassword = process.env.CRON_SECRET || "admin";
+  const adminPassword = process.env.CRON_SECRET;
+  if (!adminPassword) return false;
   return password === adminPassword;
 }
 

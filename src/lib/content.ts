@@ -18,9 +18,17 @@ export function getAllPostDates(): string[] {
 }
 
 /**
+ * Validate date format to prevent path traversal.
+ */
+function isValidDate(date: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/.test(date);
+}
+
+/**
  * Read a single weekly post by date.
  */
 export function getPost(date: string): WeeklyPost | null {
+  if (!isValidDate(date)) return null;
   const filePath = path.join(CONTENT_DIR, `${date}.json`);
   if (!fs.existsSync(filePath)) return null;
 
@@ -60,6 +68,7 @@ export function getAllPostMetas(): PostMeta[] {
  * Save a weekly post to a JSON file.
  */
 export function savePost(post: WeeklyPost): void {
+  if (!isValidDate(post.weekDate)) throw new Error("Invalid date format");
   if (!fs.existsSync(CONTENT_DIR)) {
     fs.mkdirSync(CONTENT_DIR, { recursive: true });
   }
@@ -72,6 +81,7 @@ export function savePost(post: WeeklyPost): void {
  * Check if a post already exists for the given date.
  */
 export function postExists(date: string): boolean {
+  if (!isValidDate(date)) return false;
   const filePath = path.join(CONTENT_DIR, `${date}.json`);
   return fs.existsSync(filePath);
 }
