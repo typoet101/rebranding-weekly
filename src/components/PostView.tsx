@@ -5,6 +5,7 @@ import type { Article } from "@/lib/types";
 import ArticleCard from "./ArticleCard";
 import SectionDivider from "./SectionDivider";
 import AdminBar from "./AdminBar";
+import BrikCTA from "./BrikCTA";
 
 /** Sort: starred first, then by publishedAt desc */
 function sortArticles(articles: Article[]): Article[] {
@@ -114,6 +115,9 @@ export default function PostView({
           </div>
         </section>
       )}
+
+      {/* BRIK CTA — between domestic and international */}
+      <BrikCTA />
 
       {international.length > 0 && (
         <section>

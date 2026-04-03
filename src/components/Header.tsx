@@ -15,23 +15,39 @@ export default function Header() {
           <NavLink href="/archive">Archive</NavLink>
           <NavLink href="/about">About</NavLink>
         </div>
-        {/* Title — vertically centered in remaining space */}
-        <div className="flex-1 flex items-center justify-center">
+        {/* Title + Curated by BRIK — vertically centered */}
+        <div className="flex-1 flex flex-col items-center justify-center">
           <Link href="/" className="no-underline hover:no-underline">
             <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight text-primary">
               Rebranding Weekly
             </h1>
           </Link>
+          <a
+            href="https://brik.co.kr"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-1.5 text-xs text-gray-400 no-underline hover:text-gray-600 transition-colors tracking-widest uppercase"
+          >
+            Curated by BRIK
+          </a>
         </div>
       </div>
 
       {/* Mobile: title centered, hamburger right */}
-      <div className="md:hidden flex items-center justify-center relative h-24 px-5">
+      <div className="md:hidden flex flex-col items-center justify-center relative h-24 px-5">
         <Link href="/" className="no-underline hover:no-underline">
           <h1 className="text-3xl font-serif font-bold tracking-tight text-primary">
             Rebranding Weekly
           </h1>
         </Link>
+        <a
+          href="https://brik.co.kr"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-1 text-[10px] text-gray-400 no-underline hover:text-gray-600 transition-colors tracking-widest uppercase"
+        >
+          Curated by BRIK
+        </a>
 
         {/* Mobile Menu Toggle */}
         <button
