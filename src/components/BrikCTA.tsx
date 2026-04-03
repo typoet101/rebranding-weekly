@@ -27,7 +27,7 @@ export default function BrikCTA() {
       {/* Mobile */}
       <div
         className="md:hidden relative rounded-lg overflow-hidden h-[140px] flex flex-col items-center justify-center bg-cover bg-center"
-        style={{ backgroundImage: "url('/brik-cta-mobile.jpg')" }}
+        style={{ backgroundImage: "url('/brik-cta-mobile-1.jpg')" }}
       >
         <p className="relative z-10 text-xs text-gray-400 mb-1.5">
           리브랜딩을 고민 중이신가요?
