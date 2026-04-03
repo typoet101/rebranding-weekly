@@ -26,7 +26,7 @@ export default function Header() {
             href="https://brik.co.kr"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-1.5 text-xs text-gray-400 no-underline hover:text-gray-600 transition-colors tracking-widest uppercase"
+            className="mt-4 text-xs text-gray-400 no-underline hover:text-gray-600 transition-colors tracking-widest uppercase"
           >
             Curated by BRIK
           </a>
