@@ -54,10 +54,10 @@ export default function ArticleCard({
         </div>
       )}
 
-      {/* Starred badge */}
+      {/* BRIK's Pick badge */}
       {article.starred && !isAdmin && (
-        <div className="absolute top-2 left-2 z-10 bg-yellow-400 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs shadow-sm">
-          ★
+        <div className="absolute top-2 left-2 z-10 bg-black text-white rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide shadow-sm">
+          BRIK&apos;s Pick
         </div>
       )}
 
