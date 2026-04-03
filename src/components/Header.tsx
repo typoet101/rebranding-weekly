@@ -8,20 +8,25 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-border">
-      <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-center relative h-40">
-        {/* Logo — centered */}
+      <div className="max-w-[1200px] mx-auto px-5 hidden md:flex items-center justify-center h-40 gap-12">
+        <NavLink href="/archive">Archive</NavLink>
+
         <Link href="/" className="no-underline hover:no-underline">
           <h1 className="text-4xl md:text-5xl font-serif font-bold tracking-tight text-primary">
             Rebranding Weekly
           </h1>
         </Link>
 
-        {/* Desktop Nav — left aligned */}
-        <nav className="hidden md:flex items-center gap-8 absolute left-5">
-          <NavLink href="/">Home</NavLink>
-          <NavLink href="/archive">Archive</NavLink>
-          <NavLink href="/about">About</NavLink>
-        </nav>
+        <NavLink href="/about">About</NavLink>
+      </div>
+
+      {/* Mobile: title centered, hamburger right */}
+      <div className="md:hidden flex items-center justify-center relative h-24 px-5">
+        <Link href="/" className="no-underline hover:no-underline">
+          <h1 className="text-3xl font-serif font-bold tracking-tight text-primary">
+            Rebranding Weekly
+          </h1>
+        </Link>
 
         {/* Mobile Menu Toggle */}
         <button
@@ -38,7 +43,6 @@ export default function Header() {
       {/* Mobile Menu */}
       {menuOpen && (
         <nav className="md:hidden border-t border-border bg-background px-5 py-4 space-y-3">
-          <MobileNavLink href="/" onClick={() => setMenuOpen(false)}>Home</MobileNavLink>
           <MobileNavLink href="/archive" onClick={() => setMenuOpen(false)}>Archive</MobileNavLink>
           <MobileNavLink href="/about" onClick={() => setMenuOpen(false)}>About</MobileNavLink>
         </nav>
