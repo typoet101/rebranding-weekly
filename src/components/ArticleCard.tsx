@@ -25,7 +25,7 @@ export default function ArticleCard({
   const categoryLabel = article.category === "domestic" ? "KR" : "EN";
 
   return (
-    <article className={`group relative border rounded-sm overflow-hidden bg-white hover:shadow-md transition-shadow duration-300 ${article.starred ? "border-yellow-400 ring-2 ring-yellow-200" : "border-border"}`}>
+    <article className={`group relative border rounded-sm overflow-hidden bg-white hover:shadow-md transition-shadow duration-300 ${article.starred ? "border-border" : "border-border"}`}>
       {/* Admin buttons */}
       {isAdmin && (
         <div className="absolute top-2 right-2 z-10 flex items-center gap-1">
@@ -56,7 +56,7 @@ export default function ArticleCard({
 
       {/* BRIK's Pick badge */}
       {article.starred && !isAdmin && (
-        <div className="absolute top-2 left-2 z-10 bg-black text-white rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide shadow-sm">
+        <div className="absolute top-2 left-2 z-10 bg-yellow-400 text-black rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide shadow-sm">
           BRIK&apos;s Pick
         </div>
       )}
