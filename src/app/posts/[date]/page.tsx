@@ -3,7 +3,6 @@ import { getAllPostDates, getPost } from "@/lib/content";
 import WeeklyHeader from "@/components/WeeklyHeader";
 import PostView from "@/components/PostView";
 import ShareButtons from "@/components/ShareButtons";
-import SubscribeBanner from "@/components/SubscribeBanner";
 import Link from "next/link";
 import type { Metadata } from "next";
 
@@ -66,8 +65,6 @@ export default async function PostPage({ params }: Props) {
       </div>
 
       <PostView weekDate={post.weekDate} initialArticles={post.articles} />
-
-      <SubscribeBanner />
 
       {/* Navigation */}
       <nav className="flex justify-between items-center py-16 border-t border-border mt-10">

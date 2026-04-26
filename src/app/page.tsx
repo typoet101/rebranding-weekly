@@ -1,7 +1,6 @@
 import { getLatestPost } from "@/lib/content";
 import FeaturedHero from "@/components/FeaturedHero";
 import PostView from "@/components/PostView";
-import SubscribeBanner from "@/components/SubscribeBanner";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -42,8 +41,6 @@ export default function HomePage() {
         articleCount={post.articleCount}
         featuredImage={heroImage}
       />
-
-      <SubscribeBanner />
 
       {/* Latest articles section header with "View all" upper-right */}
       <div className="flex items-baseline justify-between mt-4 mb-6">
