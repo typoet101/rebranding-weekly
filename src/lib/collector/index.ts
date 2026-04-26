@@ -6,6 +6,7 @@ import { scrapeArticle, sleep } from "./scraper";
 import { deduplicate, deduplicateByResolvedUrl } from "./dedup";
 import { summarizeArticles, generateWeeklyTitle } from "./summarizer";
 import { SCRAPE_DELAY_MS } from "./sources";
+import { generateFeaturedImage } from "./featured-image";
 
 /**
  * Main collection orchestrator.
@@ -118,6 +119,9 @@ export async function collect(): Promise<{
   );
   console.log(`  → Title: ${title}`);
 
+  // 6-b. Generate featured hero image (best-effort; safe to fail)
+  const featuredImage = await generateFeaturedImage(weekDate, title);
+
   // 7. Save post
   console.log("[6/6] Saving post...");
   const post: WeeklyPost = {
@@ -126,6 +130,7 @@ export async function collect(): Promise<{
     description,
     createdAt: new Date().toISOString(),
     articleCount: articles.length,
+    ...(featuredImage ? { featuredImage } : {}),
     articles,
   };
 

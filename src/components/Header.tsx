@@ -13,7 +13,16 @@ export default function Header() {
         {/* Nav — top row, left/right edges */}
         <div className="flex items-center justify-between pt-3">
           <NavLink href="/archive">Archive</NavLink>
-          <NavLink href="/about">About</NavLink>
+          <div className="flex items-center gap-5">
+            <NavLink href="/about">About</NavLink>
+            <Link
+              href="/search"
+              aria-label="Search"
+              className="text-secondary hover:text-primary transition-colors no-underline hover:no-underline"
+            >
+              <SearchIcon />
+            </Link>
+          </div>
         </div>
         {/* Title + Curated by BRIK — vertically centered */}
         <div className="flex-1 flex flex-col items-center justify-center">
@@ -49,6 +58,15 @@ export default function Header() {
           Curated by BRIK
         </a>
 
+        {/* Mobile search icon */}
+        <Link
+          href="/search"
+          aria-label="Search"
+          className="md:hidden absolute left-5 p-2 text-secondary no-underline hover:no-underline"
+        >
+          <SearchIcon />
+        </Link>
+
         {/* Mobile Menu Toggle */}
         <button
           className="md:hidden p-2 no-underline absolute right-5"
@@ -66,9 +84,29 @@ export default function Header() {
         <nav className="md:hidden border-t border-border bg-background px-5 py-4 space-y-3">
           <MobileNavLink href="/archive" onClick={() => setMenuOpen(false)}>Archive</MobileNavLink>
           <MobileNavLink href="/about" onClick={() => setMenuOpen(false)}>About</MobileNavLink>
+          <MobileNavLink href="/search" onClick={() => setMenuOpen(false)}>Search</MobileNavLink>
         </nav>
       )}
     </header>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="7" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
   );
 }
 

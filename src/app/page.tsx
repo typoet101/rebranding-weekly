@@ -1,5 +1,5 @@
 import { getLatestPost } from "@/lib/content";
-import WeeklyHeader from "@/components/WeeklyHeader";
+import FeaturedHero from "@/components/FeaturedHero";
 import PostView from "@/components/PostView";
 import Link from "next/link";
 
@@ -22,26 +22,36 @@ export default function HomePage() {
     );
   }
 
+  // Pick best fallback image when AI image is missing: first article with a real OG image
+  const fallbackImage = post.articles.find(
+    (a) => a.imageUrl && !a.imageUrl.includes("googleusercontent.com")
+  )?.imageUrl;
+
   return (
     <div className="max-w-[1400px] mx-auto px-4">
-      <WeeklyHeader
+      <FeaturedHero
         weekDate={post.weekDate}
         title={post.title}
         description={post.description}
         articleCount={post.articleCount}
+        featuredImage={post.featuredImage}
+        fallbackImage={fallbackImage}
       />
 
-      <PostView weekDate={post.weekDate} initialArticles={post.articles} />
-
-      {/* Archive Link */}
-      <div className="text-center py-16 border-t border-border">
+      {/* Latest articles section header with "View all" upper-right */}
+      <div className="flex items-baseline justify-between mt-4 mb-6">
+        <h2 className="text-[11px] font-sans font-semibold uppercase tracking-[0.2em] text-muted">
+          Latest Articles
+        </h2>
         <Link
           href="/archive"
-          className="text-small text-muted hover:text-primary uppercase tracking-widest no-underline hover:no-underline transition-colors"
+          className="text-[12px] text-secondary hover:text-primary no-underline hover:no-underline transition-colors"
         >
-          View all issues &rarr;
+          View all articles →
         </Link>
       </div>
+
+      <PostView weekDate={post.weekDate} initialArticles={post.articles} />
     </div>
   );
 }
