@@ -51,15 +51,17 @@ jobs:
           COUNT=$(jq -r '.articleCount' "$LATEST")
           DOMESTIC=$(jq -r '[.articles[] | select(.category=="domestic")] | length' "$LATEST")
           INTL=$(jq -r '[.articles[] | select(.category=="international")] | length' "$LATEST")
-          gh issue create \
-            --title "📰 [$WEEK] $TITLE" \
-            --body "**${TITLE}**
+          BODY=$(cat <<EOF
+          **${TITLE}**
 
-> ${DESC}
+          > ${DESC}
 
-- 주차: \`${WEEK}\`
-- 총 기사: **${COUNT}개** (국내 ${DOMESTIC}, 해외 ${INTL})
-- 포스트 보기: https://rebranding-brik.vercel.app/posts/${WEEK}
-- 아카이브: https://rebranding-brik.vercel.app/archive
+          - 주차: \`${WEEK}\`
+          - 총 기사: **${COUNT}개** (국내 ${DOMESTIC}, 해외 ${INTL})
+          - 포스트 보기: https://rebranding-brik.vercel.app/posts/${WEEK}
+          - 아카이브: https://rebranding-brik.vercel.app/archive
 
-이 이슈는 GitHub Actions가 자동 생성했습니다. 확인 후 닫아주세요."
+          이 이슈는 GitHub Actions가 자동 생성했습니다. 확인 후 닫아주세요.
+          EOF
+          )
+          gh issue create --title "📰 [$WEEK] $TITLE" --body "$BODY"
