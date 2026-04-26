@@ -192,8 +192,14 @@ export default function PostView({
     });
   }
 
-  const domestic = articles.filter((a) => a.category === "domestic");
-  const international = articles.filter((a) => a.category === "international");
+  // BRIK's Pick (starred) articles bubble to the top of their section
+  function starsFirst<T extends { starred?: boolean }>(arr: T[]): T[] {
+    const stars = arr.filter((a) => a.starred);
+    const rest = arr.filter((a) => !a.starred);
+    return [...stars, ...rest];
+  }
+  const domestic = starsFirst(articles.filter((a) => a.category === "domestic"));
+  const international = starsFirst(articles.filter((a) => a.category === "international"));
 
   return (
     <>
