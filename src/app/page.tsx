@@ -23,8 +23,9 @@ export default function HomePage() {
     );
   }
 
-  // Pick best fallback image when AI image is missing: first article with a real OG image
-  const fallbackImage = post.articles.find(
+  // Hero image: the main (first) article's OG image — i.e. the lead news photo.
+  // We intentionally skip AI-generated images and use the actual lead story art.
+  const heroImage = post.articles.find(
     (a) => a.imageUrl && !a.imageUrl.includes("googleusercontent.com")
   )?.imageUrl;
 
@@ -35,8 +36,7 @@ export default function HomePage() {
         title={post.title}
         description={post.description}
         articleCount={post.articleCount}
-        featuredImage={post.featuredImage}
-        fallbackImage={fallbackImage}
+        featuredImage={heroImage}
       />
 
       <SubscribeBanner />
