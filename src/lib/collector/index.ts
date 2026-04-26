@@ -4,7 +4,9 @@ import { savePost, postExists } from "../content";
 import { fetchAllRSS } from "./rss";
 import { scrapeArticle, sleep } from "./scraper";
 import { deduplicate, deduplicateByResolvedUrl } from "./dedup";
-import { summarizeArticles, generateWeeklyTitle } from "./summarizer";
+import { summarizeArticles, generateWeeklyTitle, curateInternational } from "./summarizer";
+
+const INTERNATIONAL_LIMIT = 16;
 import { SCRAPE_DELAY_MS } from "./sources";
 import { generateFeaturedImage } from "./featured-image";
 
@@ -99,8 +101,21 @@ export async function collect(): Promise<{
 
   // 5. Summarize with Claude
   console.log("[4/6] Summarizing with Claude AI...");
-  const articles = await summarizeArticles(resolvedUnique);
-  console.log(`  → ${articles.length} relevant articles after AI filtering`);
+  const summarized = await summarizeArticles(resolvedUnique);
+  console.log(`  → ${summarized.length} relevant articles after AI filtering`);
+
+  // 5-b. Curate international down to top N most significant cases
+  const intlBefore = summarized.filter((a) => a.category === "international");
+  const domestic = summarized.filter((a) => a.category === "domestic");
+  let intlAfter = intlBefore;
+  if (intlBefore.length > INTERNATIONAL_LIMIT) {
+    console.log(
+      `  [Curate] International: ${intlBefore.length} → ranking top ${INTERNATIONAL_LIMIT} by significance...`
+    );
+    intlAfter = await curateInternational(intlBefore, INTERNATIONAL_LIMIT);
+    console.log(`  → International curated to ${intlAfter.length} articles`);
+  }
+  const articles = [...domestic, ...intlAfter];
 
   if (articles.length === 0) {
     console.log("[Done] No relevant articles after filtering. Skipping.");

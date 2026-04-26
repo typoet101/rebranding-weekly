@@ -136,6 +136,89 @@ ${articlesText}`,
 }
 
 /**
+ * Curate international articles down to the most significant ones.
+ * Uses Claude to rank by impact (brand prominence, scope of change,
+ * global relevance) and keeps the top N. Returns the input unchanged
+ * if it already fits under the limit.
+ */
+export async function curateInternational(
+  articles: Article[],
+  limit: number
+): Promise<Article[]> {
+  if (articles.length <= limit) return articles;
+
+  const anthropic = getClient();
+
+  const list = articles
+    .map(
+      (a, idx) =>
+        `[${idx + 1}] ${a.title}\n    source: ${a.source}\n    summary: ${a.summary.replace(/\s+/g, " ").slice(0, 220)}`
+    )
+    .join("\n\n");
+
+  try {
+    const response = await anthropic.messages.create({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 500,
+      messages: [
+        {
+          role: "user",
+          content: `You are the senior editor of a weekly rebranding digest. From the international rebranding articles below, pick the ${limit} most SIGNIFICANT cases.
+
+"Significant" means:
+- Major or globally recognizable brands (Fortune 500, household names, category leaders)
+- Substantive identity changes (new logo system, full visual identity overhaul, name change, repositioning) — NOT minor tweaks, single product packaging, or generic news
+- Strategic / industry-shaping moves with broad impact
+- Distinct cases (avoid near-duplicates of the same brand event)
+
+DROP:
+- Local / regional stories with no global resonance
+- Speculative pieces, op-eds, listicles
+- Generic "branding tips" without a specific company case
+- Articles that are barely about rebranding
+
+Return ONLY a JSON array of the chosen article numbers (the [N] indices), ordered by importance (most significant first). No prose, no markdown fences. Example: [3, 12, 7, 1, ...]
+
+Articles:
+
+${list}`,
+        },
+      ],
+    });
+
+    const text = response.content[0].type === "text" ? response.content[0].text : "";
+    const match = text.match(/\[[\s\S]*?\]/);
+    if (!match) {
+      console.warn("[Curate] No JSON array in response — keeping first N as fallback");
+      return articles.slice(0, limit);
+    }
+
+    const indices: number[] = JSON.parse(match[0]);
+    const selected: Article[] = [];
+    const seen = new Set<number>();
+    for (const idx of indices) {
+      if (typeof idx !== "number" || seen.has(idx)) continue;
+      const a = articles[idx - 1];
+      if (a) {
+        selected.push(a);
+        seen.add(idx);
+      }
+      if (selected.length >= limit) break;
+    }
+
+    if (selected.length === 0) {
+      console.warn("[Curate] No valid indices — keeping first N as fallback");
+      return articles.slice(0, limit);
+    }
+
+    return selected;
+  } catch (err) {
+    console.warn("[Curate] Ranking failed, keeping first N:", (err as Error).message);
+    return articles.slice(0, limit);
+  }
+}
+
+/**
  * Generate a weekly title and description from article titles.
  */
 export async function generateWeeklyTitle(
