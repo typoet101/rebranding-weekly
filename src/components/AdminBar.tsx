@@ -25,6 +25,10 @@ export default function AdminBar({
         body: JSON.stringify({ password }),
       });
       if (res.ok) {
+        // Cache password for follow-up admin API calls (star/delete persistence)
+        try {
+          sessionStorage.setItem("rw_admin_pw", password);
+        } catch {}
         onToggle(true);
         setShowInput(false);
         setPassword("");

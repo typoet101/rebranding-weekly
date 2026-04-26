@@ -23,11 +23,15 @@ export default function HomePage() {
     );
   }
 
-  // Hero image: the main (first) article's OG image — i.e. the lead news photo.
-  // We intentionally skip AI-generated images and use the actual lead story art.
-  const heroImage = post.articles.find(
-    (a) => a.imageUrl && !a.imageUrl.includes("googleusercontent.com")
-  )?.imageUrl;
+  // Hero image priority:
+  //   1. First BRIK's Pick (starred) article that has a real OG image
+  //   2. Otherwise the first article with a real OG image (lead news photo)
+  function hasRealImage(a: { imageUrl?: string }) {
+    return !!a.imageUrl && !a.imageUrl.includes("googleusercontent.com");
+  }
+  const heroImage =
+    post.articles.find((a) => a.starred && hasRealImage(a))?.imageUrl ||
+    post.articles.find(hasRealImage)?.imageUrl;
 
   return (
     <div className="max-w-[1400px] mx-auto px-4">

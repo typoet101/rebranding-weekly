@@ -110,7 +110,13 @@ export default function PostView({
     setArticles((prev) => prev.filter((a) => a.id !== articleId));
   }
 
-  function handleToggleStar(articleId: string, starred: boolean) {
+  async function handleToggleStar(articleId: string, starred: boolean) {
+    // Optimistic UI update
+    setArticles((prev) =>
+      prev.map((a) => (a.id === articleId ? { ...a, starred } : a))
+    );
+
+    // Local cache (for non-admin viewers who toggle in their own browser)
     try {
       const key = lsKey("starred", weekDate);
       const existing: Record<string, boolean> = JSON.parse(
@@ -120,9 +126,26 @@ export default function PostView({
       localStorage.setItem(key, JSON.stringify(existing));
     } catch {}
 
-    setArticles((prev) =>
-      prev.map((a) => (a.id === articleId ? { ...a, starred } : a))
-    );
+    // Persist to JSON via admin API (only meaningful in admin mode)
+    let password = "";
+    try {
+      password = sessionStorage.getItem("rw_admin_pw") || "";
+    } catch {}
+    if (!isAdmin || !password) return;
+
+    try {
+      const res = await fetch("/api/articles", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ date: weekDate, articleId, password, starred }),
+      });
+      if (!res.ok) {
+        const { error } = await res.json().catch(() => ({ error: "" }));
+        console.warn("[Star] Server save failed:", error || res.status);
+      }
+    } catch (err) {
+      console.warn("[Star] Network error:", (err as Error).message);
+    }
   }
 
   function handleIndustryChange(articleId: string, industry: Industry | undefined) {

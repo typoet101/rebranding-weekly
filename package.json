@@ -6,7 +6,8 @@
     "dev": "next dev --port 3002",
     "build": "next build",
     "start": "next start",
-    "collect": "tsx scripts/collect-manual.ts"
+    "collect": "tsx scripts/collect-manual.ts",
+    "star": "tsx scripts/star.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
