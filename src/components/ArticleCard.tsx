@@ -19,14 +19,16 @@ export default function ArticleCard({
 }) {
   const hasImage =
     article.imageUrl && !article.imageUrl.includes("googleusercontent.com");
-  const isIntl = article.category === "international";
-  const showThumb = hasImage && !isIntl;
-
-  const categoryLabel = article.category === "domestic" ? "KR" : "EN";
+  const isDomestic = article.category === "domestic";
+  const categoryLabel = isDomestic ? "Domestic" : "Global";
+  const industryLabel = industry || article.industry || "기타";
 
   return (
-    <article className={`group relative border rounded-sm overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-300 border-border`}>
-      {/* Admin buttons */}
+    <article className="group relative bg-white border border-border rounded-sm overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">
+      {/* Thin top accent bar */}
+      <div className="h-[3px] bg-primary" />
+
+      {/* Admin overlays */}
       {isAdmin && (
         <div className="absolute top-2 right-2 z-10 flex items-center gap-1">
           {onToggleStar && (
@@ -54,75 +56,74 @@ export default function ArticleCard({
         </div>
       )}
 
-      {/* BRIK's Pick badge */}
+      {/* BRIK's Pick (public) */}
       {article.starred && !isAdmin && (
-        <div className="absolute top-2 left-2 z-10 bg-yellow-400 text-black rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide shadow-sm">
+        <div className="absolute top-3 left-3 z-10 bg-yellow-400 text-black rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide shadow-sm">
           BRIK&apos;s Pick
         </div>
       )}
 
-      {/* === Mobile === */}
-      <div className="sm:hidden">
-        {showThumb && (
-          <a href={article.url} target="_blank" rel="noopener noreferrer" className="block w-full aspect-[4/3] overflow-hidden bg-surface no-underline">
-            <img src={article.imageUrl} alt="" className="w-full h-full object-cover" loading="lazy" />
-          </a>
-        )}
-        <div className="p-2">
-          <h3 className="text-[0.7rem] font-sans font-bold leading-snug line-clamp-3">
-            <a href={article.url} target="_blank" rel="noopener noreferrer" className="no-underline hover:no-underline text-primary">
-              {article.title}
-            </a>
-          </h3>
-        </div>
+      {/* Header: industry (left) + category badge (right) */}
+      <div className="px-3 sm:px-4 pt-3 sm:pt-4 pb-2 flex items-start justify-between gap-3">
+        <span className="text-[11px] sm:text-[12px] text-secondary font-medium leading-tight truncate">
+          {industryLabel}
+        </span>
+        <span
+          className={`text-[11px] sm:text-[12px] font-bold leading-tight uppercase tracking-wide shrink-0 ${
+            isDomestic ? "text-[#E04B2A]" : "text-[#1B5DBE]"
+          }`}
+        >
+          {categoryLabel}
+        </span>
       </div>
 
-      {/* === Desktop === */}
-      <div className="hidden sm:block">
-        {/* Thumbnail — only for domestic with image */}
-        {showThumb && (
-          <a href={article.url} target="_blank" rel="noopener noreferrer" className="block w-full aspect-[4/3] overflow-hidden bg-surface no-underline">
-            <img src={article.imageUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-          </a>
-        )}
+      {/* Title */}
+      <h3 className="px-3 sm:px-4 pb-3 sm:pb-4 text-[0.85rem] sm:text-[1.05rem] font-sans font-bold leading-snug text-primary line-clamp-3">
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="no-underline hover:no-underline text-primary"
+        >
+          {article.title}
+        </a>
+      </h3>
 
-        <div className="p-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] text-muted font-mono">{article.publishedAt}</span>
-            <div className="flex items-center gap-1.5">
-              {industry && (
-                <span className="text-[10px] font-sans font-medium text-white bg-gray-700 rounded-full px-2 py-px">
-                  {industry}
-                </span>
-              )}
-              <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-primary border border-primary rounded-full px-2 py-px no-underline">
-                {categoryLabel}
-              </span>
-            </div>
-          </div>
-
-          <h3 className="text-[0.95rem] font-serif font-bold leading-snug line-clamp-2 mb-1.5">
-            <a href={article.url} target="_blank" rel="noopener noreferrer" className="no-underline hover:no-underline text-primary">
+      {/* Image */}
+      <a
+        href={article.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block aspect-[16/10] bg-surface overflow-hidden no-underline"
+      >
+        {hasImage ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={article.imageUrl}
+            alt=""
+            loading="lazy"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#f5f3ed] to-[#e8e3d4]">
+            <span className="text-primary/70 font-serif font-bold text-base sm:text-lg text-center px-4 line-clamp-3">
               {article.title}
-            </a>
-          </h3>
-
-          <p className="text-[0.8rem] text-secondary leading-relaxed line-clamp-2 mb-2">
-            {article.summary}
-          </p>
-
-          <div className="flex items-center justify-between text-[11px]">
-            <span className="text-muted">{article.source}</span>
-            <a href={article.url} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary no-underline hover:no-underline uppercase tracking-wider">
-              원문 보기
-            </a>
+            </span>
           </div>
-        </div>
+        )}
+      </a>
+
+      {/* Footer: date (left) + source uppercase (right) */}
+      <div className="px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between gap-2 text-[10px] sm:text-[11px] mt-auto">
+        <span className="text-muted font-mono truncate">{article.publishedAt}</span>
+        <span className="text-muted uppercase tracking-wider font-medium truncate">
+          {article.source}
+        </span>
       </div>
 
-      {/* Admin: Industry selector */}
+      {/* Admin: industry selector */}
       {isAdmin && onIndustryChange && (
-        <div className="px-4 pb-3 hidden sm:block">
+        <div className="px-3 sm:px-4 pb-3 hidden sm:block">
           <select
             value={industry || ""}
             onChange={(e) =>
