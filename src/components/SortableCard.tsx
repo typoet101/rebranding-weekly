@@ -11,6 +11,8 @@ export default function SortableCard({
   isAdmin,
   onDelete,
   onToggleStar,
+  onToggleHero,
+  isHero,
   industry,
   onIndustryChange,
 }: {
@@ -18,6 +20,8 @@ export default function SortableCard({
   isAdmin?: boolean;
   onDelete?: (id: string) => void;
   onToggleStar?: (id: string, starred: boolean) => void;
+  onToggleHero?: (id: string, hero: boolean) => void;
+  isHero?: boolean;
   industry?: Industry;
   onIndustryChange?: (id: string, industry: Industry | undefined) => void;
 }) {
@@ -53,6 +57,8 @@ export default function SortableCard({
         isAdmin={isAdmin}
         onDelete={onDelete}
         onToggleStar={onToggleStar}
+        onToggleHero={onToggleHero}
+        isHero={isHero}
         industry={industry}
         onIndustryChange={onIndustryChange}
       />

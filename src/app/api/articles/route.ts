@@ -42,11 +42,13 @@ export async function DELETE(request: NextRequest) {
 
 /**
  * PATCH /api/articles
- * Body: { date, articleId, password, starred: boolean }
+ * Body: { date, articleId, password, starred?: boolean, hero?: boolean }
+ *   - starred: toggle BRIK's Pick on the article
+ *   - hero:    set this article as the post hero (true) or clear it (false)
  */
 export async function PATCH(request: NextRequest) {
   try {
-    const { date, articleId, password, starred } = await request.json();
+    const { date, articleId, password, starred, hero } = await request.json();
 
     if (!checkAuth(password)) {
       return NextResponse.json({ error: "Wrong password" }, { status: 401 });
@@ -61,10 +63,20 @@ export async function PATCH(request: NextRequest) {
     const article = post.articles.find((a) => a.id === articleId);
     if (!article) return NextResponse.json({ error: "Article not found" }, { status: 404 });
 
-    article.starred = !!starred;
+    if (typeof starred === "boolean") {
+      article.starred = starred;
+    }
+    if (typeof hero === "boolean") {
+      post.heroArticleId = hero ? articleId : undefined;
+    }
+
     savePost(post);
 
-    return NextResponse.json({ success: true, starred: article.starred });
+    return NextResponse.json({
+      success: true,
+      starred: article.starred,
+      heroArticleId: post.heroArticleId,
+    });
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }

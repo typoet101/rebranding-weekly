@@ -38,6 +38,8 @@ export interface WeeklyPost {
   articleCount: number;
   /** Public path to the AI-generated featured hero image (e.g. /featured/2026-04-27.png) */
   featuredImage?: string;
+  /** Article ID whose thumbnail should be used as the homepage hero image */
+  heroArticleId?: string;
   /** Collected articles */
   articles: Article[];
 }

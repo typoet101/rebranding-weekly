@@ -7,6 +7,8 @@ export default function ArticleCard({
   isAdmin,
   onDelete,
   onToggleStar,
+  onToggleHero,
+  isHero,
   industry,
   onIndustryChange,
 }: {
@@ -14,6 +16,8 @@ export default function ArticleCard({
   isAdmin?: boolean;
   onDelete?: (id: string) => void;
   onToggleStar?: (id: string, starred: boolean) => void;
+  onToggleHero?: (id: string, hero: boolean) => void;
+  isHero?: boolean;
   industry?: Industry;
   onIndustryChange?: (id: string, industry: Industry | undefined) => void;
 }) {
@@ -32,6 +36,19 @@ export default function ArticleCard({
       {/* Admin buttons */}
       {isAdmin && (
         <div className="absolute top-2 right-2 z-10 flex items-center gap-1">
+          {onToggleHero && hasImage && (
+            <button
+              onClick={() => onToggleHero(article.id, !isHero)}
+              className={`rounded-full w-7 h-7 flex items-center justify-center text-sm shadow-md transition-colors no-underline hover:no-underline ${
+                isHero
+                  ? "bg-blue-500 text-white"
+                  : "bg-white text-gray-400 hover:text-blue-500"
+              }`}
+              title={isHero ? "메인 이미지 해제" : "메인 이미지로 지정"}
+            >
+              🖼
+            </button>
+          )}
           {onToggleStar && (
             <button
               onClick={() => onToggleStar(article.id, !article.starred)}
@@ -61,6 +78,13 @@ export default function ArticleCard({
       {article.starred && !isAdmin && (
         <div className="absolute top-2 left-2 z-10 bg-yellow-400 text-black rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide shadow-sm">
           BRIK&apos;s Pick
+        </div>
+      )}
+
+      {/* Hero indicator (admin only) */}
+      {isHero && isAdmin && (
+        <div className="absolute top-2 left-2 z-10 bg-blue-500 text-white rounded-full px-2.5 py-0.5 text-[10px] font-semibold tracking-wide shadow-sm">
+          🖼 메인 이미지
         </div>
       )}
 

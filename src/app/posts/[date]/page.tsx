@@ -64,7 +64,11 @@ export default async function PostPage({ params }: Props) {
         />
       </div>
 
-      <PostView weekDate={post.weekDate} initialArticles={post.articles} />
+      <PostView
+        weekDate={post.weekDate}
+        initialArticles={post.articles}
+        initialHeroId={post.heroArticleId}
+      />
 
       {/* Navigation */}
       <nav className="flex justify-between items-center py-16 border-t border-border mt-10">

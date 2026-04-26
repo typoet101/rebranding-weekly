@@ -29,12 +29,15 @@ function lsKey(type: "deleted" | "starred" | "order" | "industry", weekDate: str
 export default function PostView({
   weekDate,
   initialArticles,
+  initialHeroId,
 }: {
   weekDate: string;
   initialArticles: Article[];
+  initialHeroId?: string;
 }) {
   const [articles, setArticles] = useState(initialArticles);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [heroId, setHeroId] = useState<string | undefined>(initialHeroId);
   const [industryMap, setIndustryMap] = useState<Record<string, Industry>>({});
 
   const sensors = useSensors(
@@ -148,6 +151,31 @@ export default function PostView({
     }
   }
 
+  async function handleToggleHero(articleId: string, hero: boolean) {
+    // Exclusive selection: setting hero=true clears any other hero state in the UI
+    setHeroId(hero ? articleId : undefined);
+
+    let password = "";
+    try {
+      password = sessionStorage.getItem("rw_admin_pw") || "";
+    } catch {}
+    if (!isAdmin || !password) return;
+
+    try {
+      const res = await fetch("/api/articles", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ date: weekDate, articleId, password, hero }),
+      });
+      if (!res.ok) {
+        const { error } = await res.json().catch(() => ({ error: "" }));
+        console.warn("[Hero] Server save failed:", error || res.status);
+      }
+    } catch (err) {
+      console.warn("[Hero] Network error:", (err as Error).message);
+    }
+  }
+
   function handleIndustryChange(articleId: string, industry: Industry | undefined) {
     setIndustryMap((prev) => {
       const next = { ...prev };
@@ -224,6 +252,8 @@ export default function PostView({
                       isAdmin={isAdmin}
                       onDelete={handleDelete}
                       onToggleStar={handleToggleStar}
+                      onToggleHero={handleToggleHero}
+                      isHero={article.id === heroId}
                       industry={industryMap[article.id] || (article.industry as Industry | undefined)}
                       onIndustryChange={handleIndustryChange}
                     />
@@ -269,6 +299,8 @@ export default function PostView({
                       isAdmin={isAdmin}
                       onDelete={handleDelete}
                       onToggleStar={handleToggleStar}
+                      onToggleHero={handleToggleHero}
+                      isHero={article.id === heroId}
                       industry={industryMap[article.id] || (article.industry as Industry | undefined)}
                       onIndustryChange={handleIndustryChange}
                     />

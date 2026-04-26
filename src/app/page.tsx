@@ -23,12 +23,17 @@ export default function HomePage() {
   }
 
   // Hero image priority:
-  //   1. First BRIK's Pick (starred) article that has a real OG image
-  //   2. Otherwise the first article with a real OG image (lead news photo)
+  //   1. Article explicitly chosen as hero (post.heroArticleId)
+  //   2. First BRIK's Pick (starred) article that has a real OG image
+  //   3. First article with a real OG image (lead news photo)
   function hasRealImage(a: { imageUrl?: string }) {
     return !!a.imageUrl && !a.imageUrl.includes("googleusercontent.com");
   }
+  const explicit = post.heroArticleId
+    ? post.articles.find((a) => a.id === post.heroArticleId && hasRealImage(a))
+    : undefined;
   const heroImage =
+    explicit?.imageUrl ||
     post.articles.find((a) => a.starred && hasRealImage(a))?.imageUrl ||
     post.articles.find(hasRealImage)?.imageUrl;
 
@@ -55,7 +60,11 @@ export default function HomePage() {
         </Link>
       </div>
 
-      <PostView weekDate={post.weekDate} initialArticles={post.articles} />
+      <PostView
+        weekDate={post.weekDate}
+        initialArticles={post.articles}
+        initialHeroId={post.heroArticleId}
+      />
     </div>
   );
 }

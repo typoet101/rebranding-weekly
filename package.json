@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "collect": "tsx scripts/collect-manual.ts",
-    "star": "tsx scripts/star.ts"
+    "star": "tsx scripts/star.ts",
+    "hero": "tsx scripts/hero.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
