@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import KakaoChannelButton from "./KakaoChannelButton";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,6 +23,7 @@ export default function Header() {
             >
               <SearchIcon />
             </Link>
+            <KakaoChannelButton variant="compact" />
           </div>
         </div>
         {/* Title + Curated by BRIK — vertically centered */}
@@ -85,6 +87,9 @@ export default function Header() {
           <MobileNavLink href="/archive" onClick={() => setMenuOpen(false)}>Archive</MobileNavLink>
           <MobileNavLink href="/about" onClick={() => setMenuOpen(false)}>About</MobileNavLink>
           <MobileNavLink href="/search" onClick={() => setMenuOpen(false)}>Search</MobileNavLink>
+          <div className="pt-2">
+            <KakaoChannelButton variant="pill" />
+          </div>
         </nav>
       )}
     </header>

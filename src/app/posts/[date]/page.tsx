@@ -2,8 +2,12 @@ import { notFound } from "next/navigation";
 import { getAllPostDates, getPost } from "@/lib/content";
 import WeeklyHeader from "@/components/WeeklyHeader";
 import PostView from "@/components/PostView";
+import ShareButtons from "@/components/ShareButtons";
+import SubscribeBanner from "@/components/SubscribeBanner";
 import Link from "next/link";
 import type { Metadata } from "next";
+
+const SITE_URL = "https://rebranding-brik.vercel.app";
 
 interface Props {
   params: Promise<{ date: string }>;
@@ -52,7 +56,18 @@ export default async function PostPage({ params }: Props) {
         articleCount={post.articleCount}
       />
 
+      <div className="flex justify-center mb-6">
+        <ShareButtons
+          title={`${post.title} | Rebranding Weekly`}
+          description={post.description}
+          url={`${SITE_URL}/posts/${post.weekDate}`}
+          imageUrl={post.featuredImage ? `${SITE_URL}${post.featuredImage}` : undefined}
+        />
+      </div>
+
       <PostView weekDate={post.weekDate} initialArticles={post.articles} />
+
+      <SubscribeBanner />
 
       {/* Navigation */}
       <nav className="flex justify-between items-center py-16 border-t border-border mt-10">
