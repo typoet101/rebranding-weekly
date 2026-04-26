@@ -77,6 +77,11 @@ export default function ArticleCard({
               {article.title}
             </a>
           </h3>
+          {!showThumb && article.summary && (
+            <p className="mt-1.5 text-[0.65rem] text-secondary leading-relaxed line-clamp-4">
+              {article.summary}
+            </p>
+          )}
         </div>
       </div>
 
