@@ -21,6 +21,7 @@ import ArticleCard from "./ArticleCard";
 import SectionDivider from "./SectionDivider";
 import AdminBar from "./AdminBar";
 import BrikCTA from "./BrikCTA";
+import Toast, { type ToastTone } from "./Toast";
 
 function lsKey(type: "deleted" | "starred" | "order" | "industry", weekDate: string, category?: string) {
   return category ? `rw_${type}_${weekDate}_${category}` : `rw_${type}_${weekDate}`;
@@ -39,6 +40,31 @@ export default function PostView({
   const [isAdmin, setIsAdmin] = useState(false);
   const [heroId, setHeroId] = useState<string | undefined>(initialHeroId);
   const [industryMap, setIndustryMap] = useState<Record<string, Industry>>({});
+  const [toast, setToast] = useState<{ msg: string; tone: ToastTone; key: number } | null>(null);
+  const [editStats, setEditStats] = useState({ stars: 0, hero: 0, deletes: 0 });
+
+  function showToast(msg: string, tone: ToastTone = "success") {
+    setToast({ msg, tone, key: Date.now() });
+  }
+  function bumpStat(k: keyof typeof editStats) {
+    setEditStats((s) => ({ ...s, [k]: s[k] + 1 }));
+  }
+  function handleAdminToggle(next: boolean) {
+    if (!next) {
+      // Closing admin: show summary if anything happened this session
+      const { stars, hero, deletes } = editStats;
+      const total = stars + hero + deletes;
+      if (total > 0) {
+        const parts: string[] = [];
+        if (hero > 0) parts.push(`메인 이미지 ${hero}회`);
+        if (stars > 0) parts.push(`BRIK's Pick ${stars}회`);
+        if (deletes > 0) parts.push(`삭제 ${deletes}건`);
+        showToast(`✓ 적용 완료 — ${parts.join(", ")}`);
+      }
+      setEditStats({ stars: 0, hero: 0, deletes: 0 });
+    }
+    setIsAdmin(next);
+  }
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
@@ -111,6 +137,8 @@ export default function PostView({
     } catch {}
 
     setArticles((prev) => prev.filter((a) => a.id !== articleId));
+    bumpStat("deletes");
+    showToast("✓ 기사 삭제됨");
   }
 
   async function handleToggleStar(articleId: string, starred: boolean) {
@@ -142,12 +170,17 @@ export default function PostView({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ date: weekDate, articleId, password, starred }),
       });
-      if (!res.ok) {
+      if (res.ok) {
+        showToast(starred ? "✓ BRIK's Pick 저장됨" : "✓ BRIK's Pick 해제됨");
+        bumpStat("stars");
+      } else {
         const { error } = await res.json().catch(() => ({ error: "" }));
         console.warn("[Star] Server save failed:", error || res.status);
+        showToast("저장 실패 — CLI를 사용해주세요", "error");
       }
     } catch (err) {
       console.warn("[Star] Network error:", (err as Error).message);
+      showToast("저장 실패 — 네트워크 오류", "error");
     }
   }
 
@@ -167,12 +200,17 @@ export default function PostView({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ date: weekDate, articleId, password, hero }),
       });
-      if (!res.ok) {
+      if (res.ok) {
+        showToast(hero ? "✓ 메인 이미지로 지정됨" : "✓ 메인 이미지 해제됨");
+        bumpStat("hero");
+      } else {
         const { error } = await res.json().catch(() => ({ error: "" }));
         console.warn("[Hero] Server save failed:", error || res.status);
+        showToast("저장 실패 — CLI를 사용해주세요", "error");
       }
     } catch (err) {
       console.warn("[Hero] Network error:", (err as Error).message);
+      showToast("저장 실패 — 네트워크 오류", "error");
     }
   }
 
@@ -322,7 +360,20 @@ export default function PostView({
         </section>
       )}
 
-      <AdminBar isAdmin={isAdmin} onToggle={setIsAdmin} />
+      <AdminBar
+        isAdmin={isAdmin}
+        onToggle={handleAdminToggle}
+        pendingCount={editStats.stars + editStats.hero + editStats.deletes}
+      />
+
+      {toast && (
+        <Toast
+          key={toast.key}
+          message={toast.msg}
+          tone={toast.tone}
+          onDone={() => setToast(null)}
+        />
+      )}
     </>
   );
 }

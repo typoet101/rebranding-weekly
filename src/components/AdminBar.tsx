@@ -5,9 +5,11 @@ import { useState } from "react";
 export default function AdminBar({
   onToggle,
   isAdmin,
+  pendingCount = 0,
 }: {
   onToggle: (isAdmin: boolean) => void;
   isAdmin: boolean;
+  pendingCount?: number;
 }) {
   const [showInput, setShowInput] = useState(false);
   const [password, setPassword] = useState("");
@@ -43,14 +45,27 @@ export default function AdminBar({
   }
 
   if (isAdmin) {
+    const hasChanges = pendingCount > 0;
     return (
       <div className="fixed bottom-4 right-4 z-50 flex items-center gap-2 bg-red-600 text-white px-4 py-2 rounded-full shadow-lg text-sm">
         <span>🔧 관리자 모드</span>
+        {hasChanges && (
+          <span
+            aria-label="변경 건수"
+            className="bg-white/25 text-white rounded-full px-2 py-0.5 text-[11px] font-medium tabular-nums"
+          >
+            {pendingCount}건 변경
+          </span>
+        )}
         <button
           onClick={() => onToggle(false)}
-          className="ml-2 bg-white text-red-600 rounded-full px-3 py-0.5 text-xs font-bold no-underline hover:no-underline"
+          className={`ml-1 rounded-full px-3 py-0.5 text-xs font-bold no-underline hover:no-underline transition-colors ${
+            hasChanges
+              ? "bg-green-500 text-white hover:bg-green-600"
+              : "bg-white text-red-600"
+          }`}
         >
-          종료
+          {hasChanges ? "✓ 완료" : "완료"}
         </button>
       </div>
     );
