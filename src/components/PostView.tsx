@@ -46,10 +46,25 @@ export default function PostView({
   function showToast(msg: string, tone: ToastTone = "success") {
     setToast({ msg, tone, key: Date.now() });
   }
+  /**
+   * Vercel deployments use a read-only filesystem so PATCH /api/articles
+   * cannot persist changes. We treat those as "preview mode" — the click
+   * updates the UI for visual preview only, and the user is told to use
+   * the CLI for permanent edits.
+   */
+  function isReadOnlyHost(): boolean {
+    if (typeof window === "undefined") return false;
+    const h = window.location.hostname;
+    return h.endsWith(".vercel.app") || h === "rebranding-brik.vercel.app";
+  }
   function bumpStat(k: keyof typeof editStats) {
     setEditStats((s) => ({ ...s, [k]: s[k] + 1 }));
   }
   function handleAdminToggle(next: boolean) {
+    if (next && isReadOnlyHost()) {
+      // Entering admin on a read-only host: warn the user up front
+      showToast("👁 프리뷰 모드 — 영구 저장은 CLI 사용 (npm run hero/star)", "info");
+    }
     if (!next) {
       // Closing admin: show summary if anything happened this session
       const { stars, hero, deletes } = editStats;
@@ -59,7 +74,8 @@ export default function PostView({
         if (hero > 0) parts.push(`메인 이미지 ${hero}회`);
         if (stars > 0) parts.push(`BRIK's Pick ${stars}회`);
         if (deletes > 0) parts.push(`삭제 ${deletes}건`);
-        showToast(`✓ 적용 완료 — ${parts.join(", ")}`);
+        const verb = isReadOnlyHost() ? "프리뷰 적용" : "적용 완료";
+        showToast(`✓ ${verb} — ${parts.join(", ")}`);
       }
       setEditStats({ stars: 0, hero: 0, deletes: 0 });
     }
@@ -164,6 +180,13 @@ export default function PostView({
     } catch {}
     if (!isAdmin || !password) return;
 
+    // Read-only deployments: skip API call, treat as preview
+    if (isReadOnlyHost()) {
+      showToast(starred ? "👁 프리뷰: BRIK's Pick" : "👁 프리뷰: 해제", "info");
+      bumpStat("stars");
+      return;
+    }
+
     try {
       const res = await fetch("/api/articles", {
         method: "PATCH",
@@ -193,6 +216,13 @@ export default function PostView({
       password = sessionStorage.getItem("rw_admin_pw") || "";
     } catch {}
     if (!isAdmin || !password) return;
+
+    // Read-only deployments: skip API call, treat as preview
+    if (isReadOnlyHost()) {
+      showToast(hero ? "👁 프리뷰: 메인 이미지" : "👁 프리뷰: 해제", "info");
+      bumpStat("hero");
+      return;
+    }
 
     try {
       const res = await fetch("/api/articles", {
