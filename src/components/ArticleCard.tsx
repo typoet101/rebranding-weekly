@@ -69,7 +69,7 @@ export default function ArticleCard({
           </a>
         )}
         <div className="p-2">
-          <h3 className="text-[0.7rem] font-serif font-bold leading-snug line-clamp-3">
+          <h3 className="text-[0.7rem] font-sans font-bold leading-snug line-clamp-3">
             <a href={article.url} target="_blank" rel="noopener noreferrer" className="no-underline hover:no-underline text-primary">
               {article.title}
             </a>
