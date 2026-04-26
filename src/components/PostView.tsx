@@ -42,31 +42,38 @@ export default function PostView({
   const [industryMap, setIndustryMap] = useState<Record<string, Industry>>({});
   const [toast, setToast] = useState<{ msg: string; tone: ToastTone; key: number } | null>(null);
   const [editStats, setEditStats] = useState({ stars: 0, hero: 0, deletes: 0 });
+  const [readOnly, setReadOnly] = useState(false);
 
   function showToast(msg: string, tone: ToastTone = "success") {
     setToast({ msg, tone, key: Date.now() });
   }
   /**
    * Vercel deployments use a read-only filesystem so PATCH /api/articles
-   * cannot persist changes. We treat those as "preview mode" — the click
-   * updates the UI for visual preview only, and the user is told to use
-   * the CLI for permanent edits.
+   * cannot persist changes. We detect this two ways:
+   *   1. Hostname hint (skip the API call entirely)
+   *   2. Auto-fallback: any 5xx response flips the readOnly flag for the
+   *      rest of the session, and subsequent clicks behave like preview.
    */
   function isReadOnlyHost(): boolean {
     if (typeof window === "undefined") return false;
     const h = window.location.hostname;
-    return h.endsWith(".vercel.app") || h === "rebranding-brik.vercel.app";
+    return (
+      h.endsWith(".vercel.app") ||
+      h === "rebranding-brik.vercel.app" ||
+      h.endsWith(".brik.co.kr")
+    );
+  }
+  function isReadOnly(): boolean {
+    return readOnly || isReadOnlyHost();
   }
   function bumpStat(k: keyof typeof editStats) {
     setEditStats((s) => ({ ...s, [k]: s[k] + 1 }));
   }
   function handleAdminToggle(next: boolean) {
-    if (next && isReadOnlyHost()) {
-      // Entering admin on a read-only host: warn the user up front
+    if (next && isReadOnly()) {
       showToast("👁 프리뷰 모드 — 영구 저장은 CLI 사용 (npm run hero/star)", "info");
     }
     if (!next) {
-      // Closing admin: show summary if anything happened this session
       const { stars, hero, deletes } = editStats;
       const total = stars + hero + deletes;
       if (total > 0) {
@@ -74,7 +81,7 @@ export default function PostView({
         if (hero > 0) parts.push(`메인 이미지 ${hero}회`);
         if (stars > 0) parts.push(`BRIK's Pick ${stars}회`);
         if (deletes > 0) parts.push(`삭제 ${deletes}건`);
-        const verb = isReadOnlyHost() ? "프리뷰 적용" : "적용 완료";
+        const verb = isReadOnly() ? "프리뷰 적용" : "적용 완료";
         showToast(`✓ ${verb} — ${parts.join(", ")}`);
       }
       setEditStats({ stars: 0, hero: 0, deletes: 0 });
@@ -181,7 +188,7 @@ export default function PostView({
     if (!isAdmin || !password) return;
 
     // Read-only deployments: skip API call, treat as preview
-    if (isReadOnlyHost()) {
+    if (isReadOnly()) {
       showToast(starred ? "👁 프리뷰: BRIK's Pick" : "👁 프리뷰: 해제", "info");
       bumpStat("stars");
       return;
@@ -196,14 +203,21 @@ export default function PostView({
       if (res.ok) {
         showToast(starred ? "✓ BRIK's Pick 저장됨" : "✓ BRIK's Pick 해제됨");
         bumpStat("stars");
+      } else if (res.status >= 500) {
+        // Server error → assume read-only filesystem from now on
+        setReadOnly(true);
+        showToast("👁 프리뷰 모드 — 영구 저장은 CLI 사용", "info");
+        bumpStat("stars");
       } else {
         const { error } = await res.json().catch(() => ({ error: "" }));
-        console.warn("[Star] Server save failed:", error || res.status);
-        showToast("저장 실패 — CLI를 사용해주세요", "error");
+        console.warn("[Star] Server rejected:", error || res.status);
+        showToast(`저장 실패 (${res.status}) — 인증 확인`, "error");
       }
     } catch (err) {
       console.warn("[Star] Network error:", (err as Error).message);
-      showToast("저장 실패 — 네트워크 오류", "error");
+      setReadOnly(true);
+      showToast("👁 프리뷰 모드 — 네트워크 오류", "info");
+      bumpStat("stars");
     }
   }
 
@@ -218,7 +232,7 @@ export default function PostView({
     if (!isAdmin || !password) return;
 
     // Read-only deployments: skip API call, treat as preview
-    if (isReadOnlyHost()) {
+    if (isReadOnly()) {
       showToast(hero ? "👁 프리뷰: 메인 이미지" : "👁 프리뷰: 해제", "info");
       bumpStat("hero");
       return;
@@ -233,14 +247,20 @@ export default function PostView({
       if (res.ok) {
         showToast(hero ? "✓ 메인 이미지로 지정됨" : "✓ 메인 이미지 해제됨");
         bumpStat("hero");
+      } else if (res.status >= 500) {
+        setReadOnly(true);
+        showToast("👁 프리뷰 모드 — 영구 저장은 CLI 사용", "info");
+        bumpStat("hero");
       } else {
         const { error } = await res.json().catch(() => ({ error: "" }));
-        console.warn("[Hero] Server save failed:", error || res.status);
-        showToast("저장 실패 — CLI를 사용해주세요", "error");
+        console.warn("[Hero] Server rejected:", error || res.status);
+        showToast(`저장 실패 (${res.status}) — 인증 확인`, "error");
       }
     } catch (err) {
       console.warn("[Hero] Network error:", (err as Error).message);
-      showToast("저장 실패 — 네트워크 오류", "error");
+      setReadOnly(true);
+      showToast("👁 프리뷰 모드 — 네트워크 오류", "info");
+      bumpStat("hero");
     }
   }
 
