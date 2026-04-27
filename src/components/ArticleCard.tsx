@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import type { Article } from "@/lib/types";
 import type { Industry } from "@/lib/industries";
 import { INDUSTRIES } from "@/lib/industries";
@@ -21,8 +24,14 @@ export default function ArticleCard({
   industry?: Industry;
   onIndustryChange?: (id: string, industry: Industry | undefined) => void;
 }) {
+  // Track runtime image-load failures (broken URLs, hotlink-protected, expired)
+  // and gracefully degrade to the no-image layout (summary below title).
+  const [imageFailed, setImageFailed] = useState(false);
+
   const hasImage =
-    article.imageUrl && !article.imageUrl.includes("googleusercontent.com");
+    !!article.imageUrl &&
+    !article.imageUrl.includes("googleusercontent.com") &&
+    !imageFailed;
   const isIntl = article.category === "international";
   const showThumb = hasImage && !isIntl;
 
@@ -92,7 +101,13 @@ export default function ArticleCard({
       <div className="sm:hidden">
         {showThumb && (
           <a href={article.url} target="_blank" rel="noopener noreferrer" className="block w-full aspect-[4/3] overflow-hidden bg-surface no-underline">
-            <img src={article.imageUrl} alt="" className="w-full h-full object-cover" loading="lazy" />
+            <img
+              src={article.imageUrl}
+              alt=""
+              className="w-full h-full object-cover"
+              loading="lazy"
+              onError={() => setImageFailed(true)}
+            />
           </a>
         )}
         <div className="p-2">
@@ -114,7 +129,13 @@ export default function ArticleCard({
         {/* Thumbnail — only for domestic with image */}
         {showThumb && (
           <a href={article.url} target="_blank" rel="noopener noreferrer" className="block w-full aspect-[4/3] overflow-hidden bg-surface no-underline">
-            <img src={article.imageUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+            <img
+              src={article.imageUrl}
+              alt=""
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+              onError={() => setImageFailed(true)}
+            />
           </a>
         )}
 
