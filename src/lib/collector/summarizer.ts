@@ -136,6 +136,89 @@ ${articlesText}`,
 }
 
 /**
+ * Detect groups of articles covering the same news event (different outlets
+ * reporting the same brand launch / announcement) and keep only ONE article
+ * per group, preferring major mainstream media.
+ *
+ * This is a single Claude call regardless of input size (titles only — cheap).
+ * Returns the input unchanged if no duplicates are detected.
+ */
+export async function deduplicateBySimilarTopic(
+  articles: Article[]
+): Promise<Article[]> {
+  if (articles.length <= 1) return articles;
+
+  const anthropic = getClient();
+
+  const list = articles
+    .map(
+      (a, i) =>
+        `[${i + 1}] [${a.category === "domestic" ? "KR" : "EN"}] ${a.title.replace(/\s+/g, " ")} — ${a.source}`
+    )
+    .join("\n");
+
+  const prompt = `You are a senior news editor. Many articles below cover the SAME NEWS EVENT from different outlets (e.g., one brand launch reported by 5 different newspapers — same image, same facts, slightly different titles).
+
+Identify duplicate/near-duplicate groups (articles about the same brand event, announcement, launch, or rebrand). For each group, KEEP ONE and discard the rest.
+
+KEEP priority within a duplicate group:
+1. Major mainstream outlet
+   - KR: 연합뉴스, 뉴시스, 뉴스1, 조선일보, 중앙일보, 동아일보, 한겨레, 경향신문, 매일경제, 한국경제, 머니투데이, 비즈니스포스트, 딜사이트, 한국일보, KBS, MBC, SBS, JTBC, YTN, Naver News
+   - EN/Global: Reuters, Bloomberg, Financial Times, Wall Street Journal, New York Times, Guardian, BBC, Forbes, Fast Company, Adweek, Brand New, Campaign, Marketing Week, AdAge, Dezeen
+2. Most original/primary source (exclusive report, brand's own announcement)
+3. Richest, most informative title
+
+Standalone articles (no duplicates) MUST also be kept.
+
+Return ONLY a JSON array of the [N] indices to KEEP, sorted in ascending order. No prose, no markdown fences.
+Example: [1, 3, 5, 8, 12, 15, ...]
+
+Articles:
+
+${list}`;
+
+  try {
+    const response = await anthropic.messages.create({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 2000,
+      messages: [{ role: "user", content: prompt }],
+    });
+
+    const text = response.content[0].type === "text" ? response.content[0].text : "";
+    const match = text.match(/\[[\s\S]*?\]/);
+    if (!match) {
+      console.warn("[TopicDedup] No JSON array in response — keeping all");
+      return articles;
+    }
+
+    const indices: number[] = JSON.parse(match[0]);
+    const seen = new Set<number>();
+    const kept: Article[] = [];
+    for (const idx of indices) {
+      if (typeof idx !== "number" || seen.has(idx)) continue;
+      const a = articles[idx - 1];
+      if (a) {
+        kept.push(a);
+        seen.add(idx);
+      }
+    }
+
+    // Safety: if AI returned nothing or way too few, fall back to all
+    if (kept.length === 0 || kept.length < articles.length * 0.3) {
+      console.warn(
+        `[TopicDedup] Suspiciously aggressive (${kept.length}/${articles.length}) — keeping all`
+      );
+      return articles;
+    }
+
+    return kept;
+  } catch (err) {
+    console.warn("[TopicDedup] Failed:", (err as Error).message);
+    return articles;
+  }
+}
+
+/**
  * Curate international articles down to the most significant ones.
  * Uses Claude to rank by impact (brand prominence, scope of change,
  * global relevance) and keeps the top N. Returns the input unchanged

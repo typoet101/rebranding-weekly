@@ -4,7 +4,7 @@ import { savePost, postExists } from "../content";
 import { fetchAllRSS } from "./rss";
 import { scrapeArticle, sleep } from "./scraper";
 import { deduplicate, deduplicateByResolvedUrl } from "./dedup";
-import { summarizeArticles, generateWeeklyTitle, curateInternational } from "./summarizer";
+import { summarizeArticles, generateWeeklyTitle, curateInternational, deduplicateBySimilarTopic } from "./summarizer";
 import { SCRAPE_DELAY_MS } from "./sources";
 
 const INTERNATIONAL_LIMIT = 16;
@@ -103,9 +103,19 @@ export async function collect(): Promise<{
   const summarized = await summarizeArticles(resolvedUnique);
   console.log(`  → ${summarized.length} relevant articles after AI filtering`);
 
-  // 5-b. Curate international down to top N most significant cases
-  const intlBefore = summarized.filter((a) => a.category === "international");
-  const domestic = summarized.filter((a) => a.category === "domestic");
+  // 5-b. Topic-level dedup: drop near-duplicate stories (same event, different outlets)
+  console.log("[4-b] Deduplicating by topic (same-event coverage)...");
+  const beforeTopic = summarized.length;
+  const deduped = await deduplicateBySimilarTopic(summarized);
+  if (deduped.length < beforeTopic) {
+    console.log(`  → Removed ${beforeTopic - deduped.length} duplicate-topic articles`);
+  } else {
+    console.log(`  → No topic duplicates detected`);
+  }
+
+  // 5-c. Curate international down to top N most significant cases
+  const intlBefore = deduped.filter((a) => a.category === "international");
+  const domestic = deduped.filter((a) => a.category === "domestic");
   let intlAfter = intlBefore;
   if (intlBefore.length > INTERNATIONAL_LIMIT) {
     console.log(

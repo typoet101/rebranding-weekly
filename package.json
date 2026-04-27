@@ -8,7 +8,8 @@
     "start": "next start",
     "collect": "tsx scripts/collect-manual.ts",
     "star": "tsx scripts/star.ts",
-    "hero": "tsx scripts/hero.ts"
+    "hero": "tsx scripts/hero.ts",
+    "dedupe": "tsx scripts/dedupe-existing.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
