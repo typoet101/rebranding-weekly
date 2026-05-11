@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import type { WeeklyPost, PostMeta } from "./types";
+import { getOverrides } from "./kv";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "posts");
 
@@ -25,7 +26,8 @@ function isValidDate(date: string): boolean {
 }
 
 /**
- * Read a single weekly post by date.
+ * Read a single weekly post by date (raw JSON only — no KV merge).
+ * Use getPostWithOverrides() for the rendered view.
  */
 export function getPost(date: string): WeeklyPost | null {
   if (!isValidDate(date)) return null;
@@ -37,12 +39,47 @@ export function getPost(date: string): WeeklyPost | null {
 }
 
 /**
- * Get the latest (most recent) post.
+ * Read a post and merge in KV-stored admin overrides (hero, starred, deleted).
+ * This is what pages should render from.
+ */
+export async function getPostWithOverrides(
+  date: string
+): Promise<WeeklyPost | null> {
+  const post = getPost(date);
+  if (!post) return null;
+
+  const overrides = await getOverrides(date);
+  const deletedSet = new Set(overrides.deletedIds);
+  const starredSet = new Set(overrides.starredIds);
+
+  const articles = post.articles
+    .filter((a) => !deletedSet.has(a.id))
+    .map((a) => ({ ...a, starred: starredSet.has(a.id) || a.starred }));
+
+  return {
+    ...post,
+    articles,
+    articleCount: articles.length,
+    heroArticleId: overrides.heroArticleId ?? post.heroArticleId,
+  };
+}
+
+/**
+ * Get the latest (most recent) post (raw, no overrides).
  */
 export function getLatestPost(): WeeklyPost | null {
   const dates = getAllPostDates();
   if (dates.length === 0) return null;
   return getPost(dates[0]);
+}
+
+/**
+ * Get the latest post with KV overrides applied. Use this on rendered pages.
+ */
+export async function getLatestPostWithOverrides(): Promise<WeeklyPost | null> {
+  const dates = getAllPostDates();
+  if (dates.length === 0) return null;
+  return getPostWithOverrides(dates[0]);
 }
 
 /**

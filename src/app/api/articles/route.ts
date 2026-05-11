@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getPost, savePost } from "@/lib/content";
+import { getPost } from "@/lib/content";
+import { addDeleted, isKvAvailable, setHero, setStarred } from "@/lib/kv";
 
 function checkAuth(password: string): boolean {
   const adminPassword = process.env.CRON_SECRET;
@@ -7,9 +8,14 @@ function checkAuth(password: string): boolean {
   return password === adminPassword;
 }
 
+function isValidArticleId(id: string): boolean {
+  return /^[a-f0-9]{6,64}$/i.test(id);
+}
+
 /**
  * DELETE /api/articles
  * Body: { date, articleId, password }
+ * Hides an article from public view by recording its ID in KV.
  */
 export async function DELETE(request: NextRequest) {
   try {
@@ -18,23 +24,24 @@ export async function DELETE(request: NextRequest) {
     if (!checkAuth(password)) {
       return NextResponse.json({ error: "Wrong password" }, { status: 401 });
     }
-    if (!date || !articleId) {
-      return NextResponse.json({ error: "Missing date or articleId" }, { status: 400 });
+    if (!date || !articleId || !isValidArticleId(articleId)) {
+      return NextResponse.json({ error: "Missing or invalid date/articleId" }, { status: 400 });
+    }
+    if (!isKvAvailable()) {
+      return NextResponse.json(
+        { error: "KV not configured on this deployment" },
+        { status: 503 }
+      );
     }
 
     const post = getPost(date);
     if (!post) return NextResponse.json({ error: "Post not found" }, { status: 404 });
-
-    const before = post.articles.length;
-    post.articles = post.articles.filter((a) => a.id !== articleId);
-    post.articleCount = post.articles.length;
-
-    if (post.articles.length === before) {
+    if (!post.articles.find((a) => a.id === articleId)) {
       return NextResponse.json({ error: "Article not found" }, { status: 404 });
     }
 
-    savePost(post);
-    return NextResponse.json({ success: true, remaining: post.articles.length });
+    const overrides = await addDeleted(date, articleId);
+    return NextResponse.json({ success: true, deletedIds: overrides.deletedIds });
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }
@@ -45,6 +52,8 @@ export async function DELETE(request: NextRequest) {
  * Body: { date, articleId, password, starred?: boolean, hero?: boolean }
  *   - starred: toggle BRIK's Pick on the article
  *   - hero:    set this article as the post hero (true) or clear it (false)
+ *
+ * Writes to Vercel KV — no filesystem mutation, works on any deployment.
  */
 export async function PATCH(request: NextRequest) {
   try {
@@ -53,30 +62,33 @@ export async function PATCH(request: NextRequest) {
     if (!checkAuth(password)) {
       return NextResponse.json({ error: "Wrong password" }, { status: 401 });
     }
-    if (!date || !articleId) {
-      return NextResponse.json({ error: "Missing date or articleId" }, { status: 400 });
+    if (!date || !articleId || !isValidArticleId(articleId)) {
+      return NextResponse.json({ error: "Missing or invalid date/articleId" }, { status: 400 });
+    }
+    if (!isKvAvailable()) {
+      return NextResponse.json(
+        { error: "KV not configured on this deployment" },
+        { status: 503 }
+      );
     }
 
     const post = getPost(date);
     if (!post) return NextResponse.json({ error: "Post not found" }, { status: 404 });
+    if (!post.articles.find((a) => a.id === articleId)) {
+      return NextResponse.json({ error: "Article not found" }, { status: 404 });
+    }
 
-    const article = post.articles.find((a) => a.id === articleId);
-    if (!article) return NextResponse.json({ error: "Article not found" }, { status: 404 });
-
+    let result = { starredIds: [] as string[], heroArticleId: undefined as string | undefined };
     if (typeof starred === "boolean") {
-      article.starred = starred;
+      const o = await setStarred(date, articleId, starred);
+      result.starredIds = o.starredIds;
     }
     if (typeof hero === "boolean") {
-      post.heroArticleId = hero ? articleId : undefined;
+      const o = await setHero(date, articleId, hero);
+      result.heroArticleId = o.heroArticleId;
     }
 
-    savePost(post);
-
-    return NextResponse.json({
-      success: true,
-      starred: article.starred,
-      heroArticleId: post.heroArticleId,
-    });
+    return NextResponse.json({ success: true, ...result });
   } catch (err) {
     return NextResponse.json({ error: (err as Error).message }, { status: 500 });
   }

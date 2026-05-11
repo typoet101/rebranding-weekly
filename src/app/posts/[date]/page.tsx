@@ -1,5 +1,8 @@
 import { notFound } from "next/navigation";
-import { getAllPostDates, getPost } from "@/lib/content";
+import { getAllPostDates, getPost, getPostWithOverrides } from "@/lib/content";
+
+// KV overrides should reflect immediately for any post page.
+export const revalidate = 0;
 import WeeklyHeader from "@/components/WeeklyHeader";
 import PostView from "@/components/PostView";
 import ShareButtons from "@/components/ShareButtons";
@@ -36,7 +39,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PostPage({ params }: Props) {
   const { date } = await params;
-  const post = getPost(date);
+  const post = await getPostWithOverrides(date);
 
   if (!post) notFound();
 

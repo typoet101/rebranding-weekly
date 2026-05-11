@@ -48,23 +48,12 @@ export default function PostView({
     setToast({ msg, tone, key: Date.now() });
   }
   /**
-   * Vercel deployments use a read-only filesystem so PATCH /api/articles
-   * cannot persist changes. We detect this two ways:
-   *   1. Hostname hint (skip the API call entirely)
-   *   2. Auto-fallback: any 5xx response flips the readOnly flag for the
-   *      rest of the session, and subsequent clicks behave like preview.
+   * Real saves go through Vercel KV now, so all environments can persist.
+   * The readOnly flag only flips if the API itself errors out (e.g. KV not
+   * configured), which we expose so the user knows to run setup.
    */
-  function isReadOnlyHost(): boolean {
-    if (typeof window === "undefined") return false;
-    const h = window.location.hostname;
-    return (
-      h.endsWith(".vercel.app") ||
-      h === "rebranding-brik.vercel.app" ||
-      h.endsWith(".brik.co.kr")
-    );
-  }
   function isReadOnly(): boolean {
-    return readOnly || isReadOnlyHost();
+    return readOnly;
   }
   function bumpStat(k: keyof typeof editStats) {
     setEditStats((s) => ({ ...s, [k]: s[k] + 1 }));
@@ -203,10 +192,10 @@ export default function PostView({
       if (res.ok) {
         showToast(starred ? "✓ BRIK's Pick 저장됨" : "✓ BRIK's Pick 해제됨");
         bumpStat("stars");
-      } else if (res.status >= 500) {
-        // Server error → assume read-only filesystem from now on
+      } else if (res.status === 503) {
+        // KV not configured on this deployment
         setReadOnly(true);
-        showToast("👁 프리뷰 모드 — 영구 저장은 CLI 사용", "info");
+        showToast("KV 미설정 — 관리자에게 문의", "error");
         bumpStat("stars");
       } else {
         const { error } = await res.json().catch(() => ({ error: "" }));

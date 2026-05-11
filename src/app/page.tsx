@@ -1,10 +1,14 @@
-import { getLatestPost } from "@/lib/content";
+import { getLatestPostWithOverrides } from "@/lib/content";
 import FeaturedHero from "@/components/FeaturedHero";
 import PostView from "@/components/PostView";
 import Link from "next/link";
 
-export default function HomePage() {
-  const post = getLatestPost();
+// Always render fresh so KV overrides (hero/starred/deleted) take effect
+// without waiting for a redeploy.
+export const revalidate = 0;
+
+export default async function HomePage() {
+  const post = await getLatestPostWithOverrides();
 
   if (!post) {
     return (
