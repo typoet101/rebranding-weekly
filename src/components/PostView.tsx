@@ -332,7 +332,7 @@ export default function PostView({
                 items={domestic.map((a) => a.id)}
                 strategy={rectSortingStrategy}
               >
-                <div className="grid grid-cols-4 gap-3 mb-12">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-12">
                   {domestic.map((article) => (
                     <SortableCard
                       key={article.id}
@@ -350,7 +350,7 @@ export default function PostView({
               </SortableContext>
             </DndContext>
           ) : (
-            <div className="grid grid-cols-4 gap-3 mb-12">
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-12">
               {domestic.map((article) => (
                 <ArticleCard
                   key={article.id}
@@ -379,7 +379,7 @@ export default function PostView({
                 items={international.map((a) => a.id)}
                 strategy={rectSortingStrategy}
               >
-                <div className="grid grid-cols-4 gap-3 mb-12">
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-12">
                   {international.map((article) => (
                     <SortableCard
                       key={article.id}
@@ -397,7 +397,7 @@ export default function PostView({
               </SortableContext>
             </DndContext>
           ) : (
-            <div className="grid grid-cols-4 gap-3 mb-12">
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3 mb-12">
               {international.map((article) => (
                 <ArticleCard
                   key={article.id}
