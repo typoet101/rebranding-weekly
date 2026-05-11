@@ -12,3 +12,8 @@ export const KAKAO_CHANNEL_ADD = `https://pf.kakao.com/${KAKAO_CHANNEL_ID}/frien
 
 /** Optional Kakao JS SDK app key (from https://developers.kakao.com/) */
 export const KAKAO_JS_KEY = process.env.NEXT_PUBLIC_KAKAO_JS_KEY ?? "";
+
+/**
+ * Email newsletter (Maily). Long-form, biweekly branding analysis essays.
+ */
+export const MAILY_NEWSLETTER_URL = "https://maily.so/brik";

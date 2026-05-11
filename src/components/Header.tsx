@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import KakaoChannelButton from "./KakaoChannelButton";
+import NewsletterButton from "./NewsletterButton";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -87,8 +88,9 @@ export default function Header() {
           <MobileNavLink href="/archive" onClick={() => setMenuOpen(false)}>Archive</MobileNavLink>
           <MobileNavLink href="/about" onClick={() => setMenuOpen(false)}>About</MobileNavLink>
           <MobileNavLink href="/search" onClick={() => setMenuOpen(false)}>Search</MobileNavLink>
-          <div className="pt-2">
+          <div className="pt-2 flex flex-col gap-2">
             <KakaoChannelButton variant="pill" />
+            <NewsletterButton variant="pill" />
           </div>
         </nav>
       )}
