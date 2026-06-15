@@ -9,7 +9,8 @@
     "collect": "tsx scripts/collect-manual.ts",
     "star": "tsx scripts/star.ts",
     "hero": "tsx scripts/hero.ts",
-    "dedupe": "tsx scripts/dedupe-existing.ts"
+    "dedupe": "tsx scripts/dedupe-existing.ts",
+    "image": "tsx scripts/image.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
