@@ -35,6 +35,16 @@ export default function ArticleCard({
   const isIntl = article.category === "international";
   const showThumb = hasImage && !isIntl;
 
+  // Image fit: "contain" shows the whole image (~80% scale with padding) for
+  // articles whose thumbnail is a wide banner / logo that cover would crop.
+  const fitContain = article.imageFit === "contain";
+  const imgClass = fitContain
+    ? "w-full h-full object-contain p-4 bg-white"
+    : "w-full h-full object-cover";
+  const imgHoverClass = fitContain
+    ? imgClass
+    : `${imgClass} group-hover:scale-105 transition-transform duration-500`;
+
   const categoryLabel = article.category === "domestic" ? "KR" : "EN";
 
   return (
@@ -104,7 +114,7 @@ export default function ArticleCard({
             <img
               src={article.imageUrl}
               alt=""
-              className="w-full h-full object-cover"
+              className={imgClass}
               loading="lazy"
               onError={() => setImageFailed(true)}
             />
@@ -132,7 +142,7 @@ export default function ArticleCard({
             <img
               src={article.imageUrl}
               alt=""
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className={imgHoverClass}
               loading="lazy"
               onError={() => setImageFailed(true)}
             />

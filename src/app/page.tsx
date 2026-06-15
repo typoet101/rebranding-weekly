@@ -36,10 +36,12 @@ export default async function HomePage() {
   const explicit = post.heroArticleId
     ? post.articles.find((a) => a.id === post.heroArticleId && hasRealImage(a))
     : undefined;
-  const heroImage =
-    explicit?.imageUrl ||
-    post.articles.find((a) => a.starred && hasRealImage(a))?.imageUrl ||
-    post.articles.find(hasRealImage)?.imageUrl;
+  const heroArticle =
+    explicit ||
+    post.articles.find((a) => a.starred && hasRealImage(a)) ||
+    post.articles.find(hasRealImage);
+  const heroImage = heroArticle?.imageUrl;
+  const heroImageFit = heroArticle?.imageFit;
 
   return (
     <div className="max-w-[1400px] mx-auto px-4">
@@ -49,6 +51,7 @@ export default async function HomePage() {
         description={post.description}
         articleCount={post.articleCount}
         featuredImage={heroImage}
+        imageFit={heroImageFit}
       />
 
       {/* Latest articles section header with "View all" upper-right */}

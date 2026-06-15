@@ -23,6 +23,10 @@ export interface Article {
   industry?: string;
   /** Admin-pinned to top */
   starred?: boolean;
+  /** How the thumbnail should fit its frame. Default = "cover" (crop to fill).
+   *  "contain" shows the whole image with padding (useful for wide banners,
+   *  logos, or graphics that get badly cropped by cover). */
+  imageFit?: "cover" | "contain";
 }
 
 export interface WeeklyPost {

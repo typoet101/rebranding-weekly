@@ -77,7 +77,8 @@
       "publishedAt": "2026-06-11",
       "imageUrl": "https://image.edaily.co.kr/images/Photo/files/NP/S/2021/08/PS21081000878.jpg",
       "industry": "뷰티·패션",
-      "scrapedAt": "2026-06-15T02:53:18.642Z"
+      "scrapedAt": "2026-06-15T02:53:18.642Z",
+      "imageFit": "contain"
     },
     {
       "id": "04c7fba6288e",

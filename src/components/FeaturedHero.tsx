@@ -7,6 +7,7 @@ export default function FeaturedHero({
   articleCount,
   featuredImage,
   fallbackImage,
+  imageFit,
 }: {
   weekDate: string;
   title: string;
@@ -14,8 +15,12 @@ export default function FeaturedHero({
   articleCount: number;
   featuredImage?: string;
   fallbackImage?: string;
+  /** "contain" → show the whole image at ~80% scale with white padding.
+   *  Default "cover" fills and crops as needed. */
+  imageFit?: "cover" | "contain";
 }) {
   const heroImage = featuredImage || fallbackImage;
+  const fitContain = imageFit === "contain";
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 items-center pt-6 pb-8 md:pt-10 md:pb-12">
@@ -38,13 +43,21 @@ export default function FeaturedHero({
       </div>
 
       {/* Right — image */}
-      <div className="order-1 md:order-2 w-full aspect-[16/9] overflow-hidden rounded-sm bg-surface">
+      <div
+        className={`order-1 md:order-2 w-full aspect-[16/9] overflow-hidden rounded-sm ${
+          fitContain ? "bg-white" : "bg-surface"
+        }`}
+      >
         {heroImage ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={heroImage}
             alt=""
-            className="w-full h-full object-cover"
+            className={
+              fitContain
+                ? "w-full h-full object-contain p-[10%]"
+                : "w-full h-full object-cover"
+            }
             loading="eager"
           />
         ) : (
