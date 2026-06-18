@@ -84,7 +84,7 @@ export default function AboutPage() {
 
         {/* Contact */}
         <section className="border-t border-border pt-12">
-          <h2 className="text-h2 font-serif font-bold mb-4">협업 및 광고 문의</h2>
+          <h2 className="text-body font-sans font-medium mb-2">협업 및 광고 문의</h2>
           <p className="text-body text-secondary">
             <a
               href="mailto:branding@brik.co.kr"
