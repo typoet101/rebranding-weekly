@@ -7,9 +7,12 @@ export default function Footer() {
   return (
     <footer className="border-t border-border mt-20">
       <div className="container-content py-14">
-        {/* Subscribe — dual channel (buttons only) */}
+        {/* Subscribe — dual channel (buttons in one row) */}
         <div className="max-w-2xl mx-auto text-center mb-10">
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <p className="text-[11px] font-sans font-semibold uppercase tracking-[0.2em] text-muted mb-4">
+            Subscribe
+          </p>
+          <div className="flex flex-row items-start justify-center gap-3 sm:gap-5 flex-wrap">
             <div className="flex flex-col items-center gap-1.5">
               <KakaoChannelButton variant="pill" />
               <span className="text-[11px] text-muted">매주 · 큐레이션</span>
