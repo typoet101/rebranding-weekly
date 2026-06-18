@@ -23,7 +23,7 @@ export default function ArchivePage() {
 
   return (
     <div className="container-wide py-16">
-      <h1 className="text-display font-sans font-bold text-center mb-4">
+      <h1 className="text-display font-serif font-bold text-center mb-4">
         Archive
       </h1>
       <p className="text-body text-secondary text-center mb-16">

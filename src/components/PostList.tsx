@@ -24,7 +24,7 @@ export default function PostList({ posts }: { posts: PostMeta[] }) {
               <p className="text-caption text-muted font-mono mb-1">
                 {getWeekLabel(post.weekDate)}
               </p>
-              <h3 className="text-h3 font-serif font-semibold text-primary group-hover:underline group-hover:decoration-primary truncate">
+              <h3 className="text-h3 font-sans font-semibold text-primary group-hover:underline group-hover:decoration-primary truncate">
                 {post.title}
               </h3>
               <p className="text-small text-secondary mt-1 line-clamp-1">
