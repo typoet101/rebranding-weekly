@@ -21,12 +21,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-6 border-t border-border space-y-2 text-center">
-          <p className="text-caption text-muted uppercase tracking-widest">
-            Powered by Claude AI &middot; Curated weekly
-          </p>
+        <div className="pt-6 border-t border-border text-center">
           <p className="text-caption text-muted">
-            &copy; {year} [BRIK] Rebranding Weekly. All article copyrights belong to their respective publishers.
+            &copy; {year} [BRIK] Rebranding Weekly.
           </p>
         </div>
       </div>
