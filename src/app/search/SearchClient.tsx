@@ -105,7 +105,7 @@ export default function SearchClient({
                       {a.weekDate}
                     </span>
                   </div>
-                  <h3 className="text-[1rem] font-serif font-bold text-primary leading-snug mb-1">
+                  <h3 className="text-[1rem] font-sans font-bold text-primary leading-snug mb-1">
                     <Highlight text={a.title} query={query} />
                   </h3>
                   {a.summary && (

@@ -14,7 +14,7 @@ const config: Config = {
       },
       fontFamily: {
         serif: ['"Playfair Display"', "serif"],
-        sans: ['"Pretendard"', '"Inter"', "sans-serif"],
+        sans: ['"Pretendard Variable"', '"Pretendard"', '"Inter"', "sans-serif"],
         mono: ['"JetBrains Mono"', "monospace"],
       },
       fontSize: {
