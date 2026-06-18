@@ -322,9 +322,16 @@ Given these article titles from this week's rebranding news, generate:
 1. A catchy, concise weekly headline (max 60 characters). Can mix Korean and English naturally.
 2. A 3-sentence description summarizing the week's key rebranding highlights in Korean. Cover the most notable brand changes, trends, and their significance. (max 300 characters total)
 
+IMPORTANT — Korean style rules for the DESC:
+- Use the spoken polite form 합쇼체 ending every sentence with "~합니다 / ~입니다 / ~했습니다 / ~됐습니다" etc.
+- DO NOT use the written declarative 해라체 ("~다 / ~했다 / ~된다 / ~이다").
+- Tone is like talking to a reader directly: warm, clear, informative.
+- Example good ending: "변화의 물결이 이어지고 있습니다."
+- Example bad ending: "변화의 물결이 이어지고 있다."
+
 Format:
 TITLE: (headline)
-DESC: (3-sentence description)
+DESC: (3-sentence description, all sentences ending in ~합니다 polite form)
 
 Article titles:
 ${articleTitles.map((t, i) => `${i + 1}. ${t}`).join("\n")}`,
