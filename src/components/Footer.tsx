@@ -12,7 +12,7 @@ export default function Footer() {
           <p className="text-[11px] font-sans font-semibold uppercase tracking-[0.2em] text-muted mb-3">
             Subscribe
           </p>
-          <h3 className="text-[1.1rem] md:text-[1.3rem] font-serif font-bold text-primary mb-2">
+          <h3 className="text-[1.1rem] md:text-[1.3rem] font-sans font-bold text-primary mb-2">
             취향에 맞는 채널로 받아보세요
           </h3>
           <p className="text-[13px] text-secondary leading-relaxed mb-6">
