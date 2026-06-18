@@ -29,7 +29,7 @@ export default function FeaturedHero({
         <span className="inline-block text-[11px] font-sans font-semibold uppercase tracking-[0.2em] text-muted mb-5">
           Featured
         </span>
-        <h1 className="text-[1.6rem] sm:text-[2rem] md:text-[2.4rem] lg:text-[2.6rem] font-serif font-bold leading-[1.08] tracking-tight text-primary mb-6">
+        <h1 className="text-[1.6rem] sm:text-[2rem] md:text-[2.4rem] lg:text-[2.6rem] font-sans font-bold leading-[1.08] tracking-tight text-primary mb-6">
           {title}
         </h1>
         <p className="text-[0.95rem] sm:text-[1rem] text-secondary leading-relaxed mb-8 max-w-prose">
