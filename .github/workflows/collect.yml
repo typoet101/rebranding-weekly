@@ -37,6 +37,13 @@ jobs:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
 
+      - name: Heal broken image URLs (last 6 weeks)
+        # Source sites occasionally replace or delete article images. This
+        # scans recent posts, re-fetches og:image for any 404'd URL, and
+        # clears irrecoverable ones so the card falls back to summary view.
+        run: npx tsx scripts/heal-images.ts
+        continue-on-error: true
+
       - name: Commit new post
         id: commit
         uses: stefanzweifel/git-auto-commit-action@v5

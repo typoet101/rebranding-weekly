@@ -105,7 +105,6 @@
       "category": "domestic",
       "keyword": "브랜드 리뉴얼",
       "publishedAt": "2026-05-22",
-      "imageUrl": "https://file.sportsseoul.com/news/cms/2026/05/21/news-p.v1.20260521.4736be1a7662493f8e5ca5879a4be2a8_P1.jpg",
       "industry": "뷰티·패션",
       "scrapedAt": "2026-05-25T02:39:13.032Z"
     },
@@ -429,7 +428,6 @@
       "category": "domestic",
       "keyword": "CI 변경",
       "publishedAt": "2026-05-22",
-      "imageUrl": "https://cdn.gamemeca.com/gmdata/0001/775/536/gm151515_-3.webp",
       "industry": "IT·테크",
       "scrapedAt": "2026-05-25T02:41:20.676Z"
     },
@@ -752,7 +750,7 @@
       "category": "international",
       "keyword": "rebranding",
       "publishedAt": "2026-05-19",
-      "imageUrl": "https://koreajoongangdaily.joins.com/data/photo/2024/05/26/80e7df7f-8294-44bd-bc67-3926675d387b.jpg",
+      "imageUrl": "https://image.koreajoongangdaily.com/12055716.jpg?imageId=12055716&panox=0&panoy=0&panow=0&panoh=0&width=1200&height=683",
       "industry": "IT·테크",
       "scrapedAt": "2026-05-25T02:39:56.072Z"
     },
@@ -792,8 +790,7 @@
       "keyword": "rebranding",
       "publishedAt": "2026-05-19",
       "industry": "유통·리테일",
-      "scrapedAt": "2026-05-25T02:39:56.072Z",
-      "imageUrl": "https://www.commercialappeal.com/gcdn/authoring/authoring-images/2026/05/20/PMCA/90181625007-dsc-04905-2.jpg?crop=2047,1152,x0,y108&width=2047&height=1152&format=pjpg&auto=webp"
+      "scrapedAt": "2026-05-25T02:39:56.072Z"
     },
     {
       "id": "3e74833d3351",

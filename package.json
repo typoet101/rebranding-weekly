@@ -10,7 +10,8 @@
     "star": "tsx scripts/star.ts",
     "hero": "tsx scripts/hero.ts",
     "dedupe": "tsx scripts/dedupe-existing.ts",
-    "image": "tsx scripts/image.ts"
+    "image": "tsx scripts/image.ts",
+    "heal-images": "tsx scripts/heal-images.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",

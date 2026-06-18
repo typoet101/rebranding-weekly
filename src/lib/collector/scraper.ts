@@ -187,10 +187,14 @@ export async function scrapeArticle(
 
     let imageUrl: string | undefined;
     for (const candidate of candidates) {
-      if (isValidImageUrl(candidate)) {
-        imageUrl = candidate!.startsWith("http")
-          ? candidate!
-          : new URL(candidate!, actualUrl).href;
+      if (!isValidImageUrl(candidate)) continue;
+      const abs = candidate!.startsWith("http")
+        ? candidate!
+        : new URL(candidate!, actualUrl).href;
+      // Verify the image actually loads — prevents saving dead/404 URLs
+      const { verifyImage } = await import("./image-check");
+      if (await verifyImage(abs)) {
+        imageUrl = abs;
         break;
       }
     }

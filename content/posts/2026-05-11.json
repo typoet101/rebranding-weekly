@@ -142,7 +142,6 @@
       "category": "domestic",
       "keyword": "리브랜딩",
       "publishedAt": "2026-05-10",
-      "imageUrl": "https://dtd31o1ybbmk8.cloudfront.net/photos/fac971803230cbcfec03db5c8c927d2e/thumb.png",
       "industry": "식음료",
       "scrapedAt": "2026-05-11T02:18:36.431Z"
     },
@@ -284,7 +283,7 @@
       "category": "domestic",
       "keyword": "CI 변경",
       "publishedAt": "2026-05-11",
-      "imageUrl": "https://mdtoday.co.kr/news/data/20260511/p1065575430411625_712_thum.png",
+      "imageUrl": "https://cdn.mdtoday.co.kr/news/photo/202605/528809_1_231.png",
       "industry": "제약·헬스",
       "scrapedAt": "2026-05-11T02:19:25.570Z"
     },
@@ -466,7 +465,6 @@
       "category": "domestic",
       "keyword": "로고 리뉴얼",
       "publishedAt": "2026-05-08",
-      "imageUrl": "https://cdn.bizwatch.co.kr/news/photo/2026/05/08/58159db4731480e5d9fd29fbb05c9154.jpg",
       "industry": "뷰티·패션",
       "scrapedAt": "2026-05-11T02:21:00.025Z"
     },
