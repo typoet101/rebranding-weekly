@@ -39,7 +39,7 @@ export default function AboutPage() {
               중복 기사를 제거하고, 실제 리브랜딩 관련 기사만 필터링합니다.
             </li>
             <li>
-              Claude AI가 각 기사를 읽고 핵심 내용을 2-3문장으로 요약합니다.
+              AI가 각 기사를 읽고 핵심 내용을 2-3문장으로 요약합니다.
             </li>
             <li>
               국내/해외로 분류하여 매거진 형태의 주간 포스트로 발행합니다.
@@ -75,10 +75,23 @@ export default function AboutPage() {
         <section className="border-t border-border pt-12">
           <h2 className="text-h2 font-serif font-bold mb-4">Disclaimer</h2>
           <p className="text-small text-muted leading-relaxed">
-            이 사이트에 게시된 요약은 AI(Claude)에 의해 자동 생성되며,
+            이 사이트에 게시된 요약은 AI에 의해 자동 생성되며,
             원문의 정확한 의미를 완벽히 반영하지 못할 수 있습니다.
             모든 기사의 저작권은 해당 매체에 있으며,
             원문 링크를 통해 전체 기사를 확인하시길 권장합니다.
+          </p>
+        </section>
+
+        {/* Contact */}
+        <section className="border-t border-border pt-12">
+          <h2 className="text-h2 font-serif font-bold mb-4">협업 및 광고 문의</h2>
+          <p className="text-body text-secondary">
+            <a
+              href="mailto:branding@brik.co.kr"
+              className="text-primary no-underline hover:underline"
+            >
+              branding@brik.co.kr
+            </a>
           </p>
         </section>
       </div>
