@@ -50,7 +50,7 @@ export default function ArticleCard({
   return (
     <article className={`group relative border rounded-sm overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow duration-300 border-border`}>
       {/* Top accent bar above the thumbnail */}
-      <div className="h-[2px] bg-primary" />
+      <div className="h-[4px] bg-primary" />
 
       {/* Admin buttons */}
       {isAdmin && (
