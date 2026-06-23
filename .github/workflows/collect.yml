@@ -37,6 +37,43 @@ jobs:
           NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
           NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
 
+      - name: Sanity-check generated post
+        # Catches the "green CI but broken content" case that happened on
+        # 2026-06-22 when a retired model id caused every LLM call to fall
+        # back to placeholder text. Workflow exits non-zero so the failure
+        # alert step fires and emails the maintainer instead of silently
+        # publishing an empty post.
+        run: |
+          LATEST=$(ls -t content/posts/*.json | head -1)
+          TITLE=$(jq -r '.title' "$LATEST")
+          DESC=$(jq -r '.description' "$LATEST")
+          TOTAL=$(jq '.articleCount' "$LATEST")
+          EMPTY=$(jq '[.articles[] | select(.summary == null or .summary == "" or (.summary | contains("요약을 생성하지 못했습니다")))] | length' "$LATEST")
+
+          echo "File:    $LATEST"
+          echo "Title:   $TITLE"
+          echo "Desc:    $DESC"
+          echo "Articles: $TOTAL  (empty summaries: $EMPTY)"
+
+          fail=0
+          if [ "$TITLE" = "This Week in Rebranding" ]; then
+            echo "::error::Title is the LLM-failure fallback ('This Week in Rebranding') — model call likely 404'd or auth-failed."
+            fail=1
+          fi
+          if [ "$DESC" = "이번 주 주요 리브랜딩 소식을 모았습니다." ]; then
+            echo "::error::Description is the LLM-failure fallback."
+            fail=1
+          fi
+          if [ "$EMPTY" -gt 5 ]; then
+            echo "::error::Too many empty summaries ($EMPTY/$TOTAL) — summarizer LLM likely failed."
+            fail=1
+          fi
+          if [ "$TOTAL" -lt 10 ]; then
+            echo "::error::Suspiciously few articles ($TOTAL) — RSS sources or filter likely broken."
+            fail=1
+          fi
+          exit $fail
+
       - name: Heal broken image URLs (last 6 weeks)
         # Source sites occasionally replace or delete article images. This
         # scans recent posts, re-fetches og:image for any 404'd URL, and
