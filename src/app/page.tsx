@@ -1,4 +1,5 @@
 import { getLatestPostWithOverrides } from "@/lib/content";
+import FeaturedHero from "@/components/FeaturedHero";
 import PostView from "@/components/PostView";
 import Link from "next/link";
 
@@ -25,10 +26,36 @@ export default async function HomePage() {
     );
   }
 
+  // Hero image priority:
+  //   1. Article explicitly chosen as hero (post.heroArticleId)
+  //   2. First BRIK's Pick (starred) article that has a real OG image
+  //   3. First article with a real OG image (lead news photo)
+  function hasRealImage(a: { imageUrl?: string }) {
+    return !!a.imageUrl && !a.imageUrl.includes("googleusercontent.com");
+  }
+  const explicit = post.heroArticleId
+    ? post.articles.find((a) => a.id === post.heroArticleId && hasRealImage(a))
+    : undefined;
+  const heroArticle =
+    explicit ||
+    post.articles.find((a) => a.starred && hasRealImage(a)) ||
+    post.articles.find(hasRealImage);
+  const heroImage = heroArticle?.imageUrl;
+  const heroImageFit = heroArticle?.imageFit;
+
   return (
     <div className="max-w-[1400px] mx-auto px-4">
+      <FeaturedHero
+        weekDate={post.weekDate}
+        title={post.title}
+        description={post.description}
+        articleCount={post.articleCount}
+        featuredImage={heroImage}
+        imageFit={heroImageFit}
+      />
+
       {/* Latest articles section header with "View all" upper-right */}
-      <div className="flex items-baseline justify-between mt-10 mb-6">
+      <div className="flex items-baseline justify-between mt-4 mb-6">
         <h2 className="text-[11px] font-sans font-semibold uppercase tracking-[0.2em] text-muted">
           Latest Articles
         </h2>
