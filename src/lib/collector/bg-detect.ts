@@ -46,6 +46,14 @@ export async function hasBlankBackground(url: string): Promise<boolean> {
     const h = meta.height ?? 0;
     if (w < 30 || h < 30) return false;
 
+    // Aspect-ratio shortcut: very wide (>1.65) or very tall (<0.6) thumbnails
+    // are almost always banners / brand graphics, not editorial photos. The
+    // card crop is 4:3, so a 16:9 banner loses ~30% of its content under
+    // object-cover — better to letterbox it via contain even if the bg isn't
+    // white. News article photos are typically 4:3 or 3:2 (well inside 0.6–1.65).
+    const aspect = w / h;
+    if (aspect > 1.65 || aspect < 0.6) return true;
+
     // Sample 8 patches around the perimeter (4 corners + 4 edge midpoints).
     // Logos often have a brand-colored stripe along ONE edge while the rest of
     // the canvas is white — strict 4-corner detection would reject those.

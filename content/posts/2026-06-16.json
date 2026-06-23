@@ -67,7 +67,8 @@
       "publishedAt": "2026-06-18",
       "imageUrl": "https://img.hankyung.com/photo/202606/01.44695595.1.jpg",
       "scrapedAt": "2026-06-23T06:03:46.867Z",
-      "industry": "뷰티·패션"
+      "industry": "뷰티·패션",
+      "imageFit": "contain"
     },
     {
       "id": "8d24fd1a31e6",
@@ -132,7 +133,8 @@
       "publishedAt": "2026-06-18",
       "imageUrl": "https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?pp=002&idx=999&simg=2026061811092707641043da15d9d2210921584.jpg&nmt=26",
       "scrapedAt": "2026-06-23T06:03:47.015Z",
-      "industry": "IT·테크"
+      "industry": "IT·테크",
+      "imageFit": "contain"
     },
     {
       "id": "bd90f1fe7c06",
@@ -195,7 +197,8 @@
       "publishedAt": "2026-06-22",
       "imageUrl": "http://www.wsobi.com/news/photo/202606/314050_187667_1219.jpg",
       "scrapedAt": "2026-06-23T06:03:47.130Z",
-      "industry": "건설·부동산"
+      "industry": "건설·부동산",
+      "imageFit": "contain"
     },
     {
       "id": "295700f14a7e",
@@ -233,7 +236,8 @@
       "publishedAt": "2026-06-22",
       "imageUrl": "https://www.ibabynews.com/news/photo/202606/152245_115728_111.jpg",
       "scrapedAt": "2026-06-23T06:03:47.439Z",
-      "industry": "식음료"
+      "industry": "식음료",
+      "imageFit": "contain"
     },
     {
       "id": "96e4d78dc663",
@@ -403,7 +407,8 @@
       "publishedAt": "2026-06-23",
       "imageUrl": "https://image.zdnet.co.kr/2026/06/23/9ca5eb1619694835c614d619f40c5393.jpg",
       "scrapedAt": "2026-06-23T06:03:53.790Z",
-      "industry": "유통·리테일"
+      "industry": "유통·리테일",
+      "imageFit": "contain"
     },
     {
       "id": "8ccad6d18eb8",
@@ -481,7 +486,8 @@
       "publishedAt": "2026-06-23",
       "imageUrl": "https://cdn.newsworks.co.kr/news/thumbnail/202606/844776_802103_3323_v150.jpg",
       "scrapedAt": "2026-06-23T06:03:53.885Z",
-      "industry": "금융·보험"
+      "industry": "금융·보험",
+      "imageFit": "contain"
     },
     {
       "id": "34de5251dadc",
@@ -560,7 +566,8 @@
       "publishedAt": "2026-06-23",
       "imageUrl": "https://cdn.apnews.kr/news/thumbnail/202606/3049237_80888_754_v150.jpg",
       "scrapedAt": "2026-06-23T06:03:54.050Z",
-      "industry": "식음료"
+      "industry": "식음료",
+      "imageFit": "contain"
     },
     {
       "id": "184ceb14bc84",
