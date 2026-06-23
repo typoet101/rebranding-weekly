@@ -25,15 +25,37 @@ export default function ArticleCard({
   onIndustryChange?: (id: string, industry: Industry | undefined) => void;
 }) {
   // Track runtime image-load failures (broken URLs, hotlink-protected, expired)
-  // and gracefully degrade to the no-image layout (summary below title).
+  // and gracefully degrade — first to the source's favicon as a logo placeholder,
+  // then to the summary-only layout if even that fails.
   const [imageFailed, setImageFailed] = useState(false);
+  const [logoFailed, setLogoFailed] = useState(false);
 
-  const hasImage =
+  const hasOriginalImage =
     !!article.imageUrl &&
     !article.imageUrl.includes("googleusercontent.com") &&
     !imageFailed;
+
+  // Source publisher favicon as fallback. Google's s2/favicons API serves a
+  // PNG icon for any domain, usually the publisher's logo or favicon. Capped
+  // at sz=128 by Google.
+  let sourceLogoUrl: string | null = null;
+  if (!hasOriginalImage && !logoFailed && article.url) {
+    try {
+      const host = new URL(article.url).hostname.replace(/^www\./, "");
+      // Skip Google News intermediate URLs — their favicon would be Google's,
+      // not the actual publisher's.
+      if (!host.includes("news.google.com")) {
+        sourceLogoUrl = `https://www.google.com/s2/favicons?domain=${host}&sz=128`;
+      }
+    } catch {
+      /* malformed url */
+    }
+  }
+
+  const usingLogoFallback = !hasOriginalImage && !!sourceLogoUrl;
+  const displayImageUrl = hasOriginalImage ? article.imageUrl : sourceLogoUrl;
   const isIntl = article.category === "international";
-  const showThumb = hasImage && !isIntl;
+  const showThumb = !!displayImageUrl && !isIntl;
 
   // Image fit: "contain" shows the whole image with white padding (~16px) for
   // articles whose thumbnail is a wide banner / logo that cover would crop.
@@ -43,7 +65,9 @@ export default function ArticleCard({
   const [autoContain, setAutoContain] = useState(false);
 
   useEffect(() => {
-    if (!showThumb || article.imageFit === "contain") return;
+    // Skip auto-detect for the favicon fallback (it's already a logo, always
+    // contain) and for cards without a real publisher image.
+    if (!hasOriginalImage || article.imageFit === "contain") return;
     const img = new window.Image();
     img.crossOrigin = "anonymous";
     img.onload = () => {
@@ -73,14 +97,19 @@ export default function ArticleCard({
       }
     };
     img.src = article.imageUrl!;
-  }, [article.imageUrl, article.imageFit, showThumb]);
+  }, [article.imageUrl, article.imageFit, hasOriginalImage]);
 
-  const fitContain = article.imageFit === "contain" || autoContain;
+  // Favicon fallback is always rendered in contain mode — it's a tiny logo and
+  // cover would crop it / stretch it weirdly.
+  const fitContain = usingLogoFallback || article.imageFit === "contain" || autoContain;
   // Logos / white-bg thumbnails: fill the card's full height (no vertical
   // padding so the image isn't visually cropped/shrunk), but keep 12px on the
   // sides so it doesn't butt against the card edge. object-contain still
-  // prevents any actual cropping for ultra-wide logos.
-  const imgClass = fitContain
+  // prevents any actual cropping for ultra-wide logos. Favicon fallback needs
+  // extra padding so the 128px icon doesn't look stretched in the 4:3 card.
+  const imgClass = usingLogoFallback
+    ? "w-full h-full object-contain p-[20%] bg-white"
+    : fitContain
     ? "w-full h-full object-contain px-3 bg-white"
     : "w-full h-full object-cover";
   const imgHoverClass = fitContain
@@ -97,7 +126,7 @@ export default function ArticleCard({
       {/* Admin buttons */}
       {isAdmin && (
         <div className="absolute top-2 right-2 z-10 flex items-center gap-1">
-          {onToggleHero && hasImage && (
+          {onToggleHero && hasOriginalImage && (
             <button
               onClick={() => onToggleHero(article.id, !isHero)}
               className={`rounded-full w-7 h-7 flex items-center justify-center text-sm shadow-md transition-colors no-underline hover:no-underline ${
@@ -154,11 +183,11 @@ export default function ArticleCard({
         {showThumb && (
           <a href={article.url} target="_blank" rel="noopener noreferrer" className="block w-full aspect-[4/3] overflow-hidden bg-surface no-underline">
             <img
-              src={article.imageUrl}
+              src={displayImageUrl!}
               alt=""
               className={imgClass}
               loading="lazy"
-              onError={() => setImageFailed(true)}
+              onError={() => (usingLogoFallback ? setLogoFailed(true) : setImageFailed(true))}
             />
           </a>
         )}
@@ -182,11 +211,11 @@ export default function ArticleCard({
         {showThumb && (
           <a href={article.url} target="_blank" rel="noopener noreferrer" className="block w-full aspect-[4/3] overflow-hidden bg-surface no-underline">
             <img
-              src={article.imageUrl}
+              src={displayImageUrl!}
               alt=""
               className={imgHoverClass}
               loading="lazy"
-              onError={() => setImageFailed(true)}
+              onError={() => (usingLogoFallback ? setLogoFailed(true) : setImageFailed(true))}
             />
           </a>
         )}
