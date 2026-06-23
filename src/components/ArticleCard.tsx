@@ -33,6 +33,10 @@ export default function ArticleCard({
   const hasOriginalImage =
     !!article.imageUrl &&
     !article.imageUrl.includes("googleusercontent.com") &&
+    // Plain-http imageUrls get blocked as mixed content on our HTTPS site
+    // (the network request is silently killed, often without firing onError),
+    // so treat them as missing up-front and fall back to the publisher favicon.
+    !article.imageUrl.startsWith("http://") &&
     !imageFailed;
 
   // Source publisher favicon as fallback. Google's s2/favicons API serves a
