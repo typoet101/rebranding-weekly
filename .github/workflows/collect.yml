@@ -81,6 +81,14 @@ jobs:
         run: npx tsx scripts/heal-images.ts
         continue-on-error: true
 
+      - name: Resolve Google News redirect URLs (find missing images)
+        # Google News RSS items use opaque redirect URLs that block server-side
+        # og:image extraction. This step decodes them to the actual article
+        # URL and grabs the og:image from there. Recovers thumbnails for
+        # ~half of the international / English articles.
+        run: npx tsx scripts/resolve-google-news.ts
+        continue-on-error: true
+
       - name: Mark logo / white-bg thumbnails (imageFit=contain)
         # Sample each thumbnail's perimeter; if ≥5 of 8 sample points are
         # white/transparent it's almost certainly a logo or brand banner,
