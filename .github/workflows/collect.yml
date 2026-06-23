@@ -2,8 +2,8 @@ name: Weekly News Collection
 
 on:
   schedule:
-    # Every Monday at 00:00 UTC (09:00 KST)
-    - cron: "0 0 * * 1"
+    # Every Friday at 04:00 UTC (13:00 KST) — covers Mon–Fri news
+    - cron: "0 4 * * 5"
   workflow_dispatch: {}
 
 # Default GITHUB_TOKEN is read-only since 2023; we need write to push the
@@ -24,7 +24,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "24"
           cache: "npm"
 
       - name: Install dependencies
@@ -78,3 +78,23 @@ jobs:
           EOF
           )
           gh issue create --title "📰 [$WEEK] $TITLE" --body "$BODY"
+
+      - name: Alert on failure
+        # Fires when any prior step in this job fails. Creates a GitHub Issue
+        # so the maintainer is notified by GitHub's default issue email/web
+        # notifications. Cron jobs fail silently otherwise.
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RUN_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          DATE=$(date -u '+%Y-%m-%d %H:%M UTC')
+          gh issue create \
+            --title "🚨 Weekly collection failed ($DATE)" \
+            --label "automation,bug" \
+            --body "주간 뉴스 수집 워크플로우가 실패했습니다.
+
+          - 실행 시각: ${DATE}
+          - 로그 보기: ${RUN_URL}
+
+          확인 후 fix → 워크플로우를 'Run workflow'로 수동 재실행하세요."

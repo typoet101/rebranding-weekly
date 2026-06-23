@@ -21,34 +21,34 @@ export function formatDate(date: Date): string {
 }
 
 /**
- * Get the date range label for a week starting on the given Monday.
- * e.g., "2026년 3월 30일 — 4월 5일"
+ * Get the date range label for a work week starting on the given Monday.
+ * e.g., "2026년 3월 30일 — 4월 3일"
  */
 export function getWeekLabel(mondayStr: string): string {
   const monday = new Date(mondayStr + "T00:00:00");
-  const sunday = new Date(monday);
-  sunday.setDate(monday.getDate() + 6);
+  const friday = new Date(monday);
+  friday.setDate(monday.getDate() + 4);
 
   const mMonth = monday.getMonth() + 1;
   const mDay = monday.getDate();
-  const sMonth = sunday.getMonth() + 1;
-  const sDay = sunday.getDate();
+  const fMonth = friday.getMonth() + 1;
+  const fDay = friday.getDate();
   const year = monday.getFullYear();
 
-  if (mMonth === sMonth) {
-    return `${year}년 ${mMonth}월 ${mDay}일 — ${sDay}일`;
+  if (mMonth === fMonth) {
+    return `${year}년 ${mMonth}월 ${mDay}일 — ${fDay}일`;
   }
-  return `${year}년 ${mMonth}월 ${mDay}일 — ${sMonth}월 ${sDay}일`;
+  return `${year}년 ${mMonth}월 ${mDay}일 — ${fMonth}월 ${fDay}일`;
 }
 
 /**
  * Get a human-readable English date range label.
- * e.g., "Mar 30 — Apr 5, 2026"
+ * e.g., "Mar 30 — Apr 3, 2026"
  */
 export function getWeekLabelEn(mondayStr: string): string {
   const monday = new Date(mondayStr + "T00:00:00");
-  const sunday = new Date(monday);
-  sunday.setDate(monday.getDate() + 6);
+  const friday = new Date(monday);
+  friday.setDate(monday.getDate() + 4);
 
   const months = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -57,14 +57,14 @@ export function getWeekLabelEn(mondayStr: string): string {
 
   const mMonth = months[monday.getMonth()];
   const mDay = monday.getDate();
-  const sMonth = months[sunday.getMonth()];
-  const sDay = sunday.getDate();
-  const year = sunday.getFullYear();
+  const fMonth = months[friday.getMonth()];
+  const fDay = friday.getDate();
+  const year = friday.getFullYear();
 
-  if (mMonth === sMonth) {
-    return `${mMonth} ${mDay} — ${sDay}, ${year}`;
+  if (mMonth === fMonth) {
+    return `${mMonth} ${mDay} — ${fDay}, ${year}`;
   }
-  return `${mMonth} ${mDay} — ${sMonth} ${sDay}, ${year}`;
+  return `${mMonth} ${mDay} — ${fMonth} ${fDay}, ${year}`;
 }
 
 /**
