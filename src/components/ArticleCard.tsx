@@ -76,8 +76,12 @@ export default function ArticleCard({
   }, [article.imageUrl, article.imageFit, showThumb]);
 
   const fitContain = article.imageFit === "contain" || autoContain;
+  // Logos / white-bg thumbnails: fill the card's full height (no vertical
+  // padding so the image isn't visually cropped/shrunk), but keep 12px on the
+  // sides so it doesn't butt against the card edge. object-contain still
+  // prevents any actual cropping for ultra-wide logos.
   const imgClass = fitContain
-    ? "w-full h-full object-contain p-3 bg-white"
+    ? "w-full h-full object-contain px-3 bg-white"
     : "w-full h-full object-cover";
   const imgHoverClass = fitContain
     ? imgClass
