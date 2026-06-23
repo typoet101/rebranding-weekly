@@ -11,6 +11,19 @@ export function getMondayDate(date: Date = new Date()): string {
 }
 
 /**
+ * Get the Monday of the PREVIOUS week. Used by the Tuesday-morning
+ * publication: on Tue we summarize the just-completed Mon–Sun week,
+ * and the post is filed under that week's Monday.
+ */
+export function getLastMondayDate(date: Date = new Date()): string {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  d.setDate(diff - 7);
+  return formatDate(d);
+}
+
+/**
  * Format a Date to YYYY-MM-DD string.
  */
 export function formatDate(date: Date): string {
@@ -21,34 +34,34 @@ export function formatDate(date: Date): string {
 }
 
 /**
- * Get the date range label for a work week starting on the given Monday.
- * e.g., "2026년 3월 30일 — 4월 3일"
+ * Get the date range label for a full week (Mon–Sun) starting on the given Monday.
+ * e.g., "2026년 3월 30일 — 4월 5일"
  */
 export function getWeekLabel(mondayStr: string): string {
   const monday = new Date(mondayStr + "T00:00:00");
-  const friday = new Date(monday);
-  friday.setDate(monday.getDate() + 4);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
 
   const mMonth = monday.getMonth() + 1;
   const mDay = monday.getDate();
-  const fMonth = friday.getMonth() + 1;
-  const fDay = friday.getDate();
+  const sMonth = sunday.getMonth() + 1;
+  const sDay = sunday.getDate();
   const year = monday.getFullYear();
 
-  if (mMonth === fMonth) {
-    return `${year}년 ${mMonth}월 ${mDay}일 — ${fDay}일`;
+  if (mMonth === sMonth) {
+    return `${year}년 ${mMonth}월 ${mDay}일 — ${sDay}일`;
   }
-  return `${year}년 ${mMonth}월 ${mDay}일 — ${fMonth}월 ${fDay}일`;
+  return `${year}년 ${mMonth}월 ${mDay}일 — ${sMonth}월 ${sDay}일`;
 }
 
 /**
  * Get a human-readable English date range label.
- * e.g., "Mar 30 — Apr 3, 2026"
+ * e.g., "Mar 30 — Apr 5, 2026"
  */
 export function getWeekLabelEn(mondayStr: string): string {
   const monday = new Date(mondayStr + "T00:00:00");
-  const friday = new Date(monday);
-  friday.setDate(monday.getDate() + 4);
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
 
   const months = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -57,14 +70,14 @@ export function getWeekLabelEn(mondayStr: string): string {
 
   const mMonth = months[monday.getMonth()];
   const mDay = monday.getDate();
-  const fMonth = months[friday.getMonth()];
-  const fDay = friday.getDate();
-  const year = friday.getFullYear();
+  const sMonth = months[sunday.getMonth()];
+  const sDay = sunday.getDate();
+  const year = sunday.getFullYear();
 
-  if (mMonth === fMonth) {
-    return `${mMonth} ${mDay} — ${fDay}, ${year}`;
+  if (mMonth === sMonth) {
+    return `${mMonth} ${mDay} — ${sDay}, ${year}`;
   }
-  return `${mMonth} ${mDay} — ${fMonth} ${fDay}, ${year}`;
+  return `${mMonth} ${mDay} — ${sMonth} ${sDay}, ${year}`;
 }
 
 /**

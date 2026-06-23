@@ -1,5 +1,5 @@
 import type { WeeklyPost } from "../types";
-import { getMondayDate } from "../dates";
+import { getLastMondayDate } from "../dates";
 import { savePost, postExists } from "../content";
 import { fetchAllRSS } from "./rss";
 import { scrapeArticle, sleep } from "./scraper";
@@ -19,7 +19,7 @@ export async function collect(): Promise<{
   articleCount: number;
   message: string;
 }> {
-  const weekDate = getMondayDate();
+  const weekDate = getLastMondayDate();
 
   console.log(`\n========================================`);
   console.log(`  Rebranding Weekly — Collection`);

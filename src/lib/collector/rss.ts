@@ -56,10 +56,11 @@ export async function fetchAllRSS(): Promise<RawArticle[]> {
     }
   }
 
-  // Filter to last 5 days (Mon-Fri publication window)
+  // Filter to last 8 days — covers the just-completed Mon–Sun week,
+  // with 1 extra day of slack for late-arriving feed items / timezone drift.
   return articles.filter((a) => {
     if (!a.publishedAt) return true; // Keep if no date
-    return isWithinDays(a.publishedAt, 5);
+    return isWithinDays(a.publishedAt, 8);
   });
 }
 

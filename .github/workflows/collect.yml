@@ -2,8 +2,8 @@ name: Weekly News Collection
 
 on:
   schedule:
-    # Every Friday at 04:00 UTC (13:00 KST) — covers Mon–Fri news
-    - cron: "0 4 * * 5"
+    # Every Tuesday at 01:00 UTC (10:00 KST) — summarizes last Mon–Sun
+    - cron: "0 1 * * 2"
   workflow_dispatch: {}
 
 # Default GITHUB_TOKEN is read-only since 2023; we need write to push the
