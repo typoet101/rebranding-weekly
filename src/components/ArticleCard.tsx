@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Article } from "@/lib/types";
 import type { Industry } from "@/lib/industries";
 import { INDUSTRIES } from "@/lib/industries";
@@ -35,11 +35,49 @@ export default function ArticleCard({
   const isIntl = article.category === "international";
   const showThumb = hasImage && !isIntl;
 
-  // Image fit: "contain" shows the whole image (~80% scale with padding) for
+  // Image fit: "contain" shows the whole image with white padding (~16px) for
   // articles whose thumbnail is a wide banner / logo that cover would crop.
-  const fitContain = article.imageFit === "contain";
+  // Explicit override comes from admin via article.imageFit; we ALSO auto-detect
+  // white-bg / transparent thumbnails below and switch to contain so logos don't
+  // butt up against the card edge.
+  const [autoContain, setAutoContain] = useState(false);
+
+  useEffect(() => {
+    if (!showThumb || article.imageFit === "contain") return;
+    const img = new window.Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      try {
+        const canvas = document.createElement("canvas");
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.drawImage(img, 0, 0);
+
+        const w = canvas.width, h = canvas.height;
+        const inset = Math.min(8, Math.floor(Math.min(w, h) * 0.02));
+        const corners = [
+          ctx.getImageData(inset, inset, 1, 1).data,
+          ctx.getImageData(w - inset - 1, inset, 1, 1).data,
+          ctx.getImageData(inset, h - inset - 1, 1, 1).data,
+          ctx.getImageData(w - inset - 1, h - inset - 1, 1, 1).data,
+        ];
+
+        const isBlank = corners.every(([r, g, b, a]) =>
+          a < 10 || (r > 240 && g > 240 && b > 240)
+        );
+        if (isBlank) setAutoContain(true);
+      } catch {
+        // CORS-tainted canvas — silently keep the default cover layout.
+      }
+    };
+    img.src = article.imageUrl!;
+  }, [article.imageUrl, article.imageFit, showThumb]);
+
+  const fitContain = article.imageFit === "contain" || autoContain;
   const imgClass = fitContain
-    ? "w-full h-full object-contain p-4 bg-white"
+    ? "w-full h-full object-contain p-3 bg-white"
     : "w-full h-full object-cover";
   const imgHoverClass = fitContain
     ? imgClass
