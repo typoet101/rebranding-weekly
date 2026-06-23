@@ -3,7 +3,7 @@
   "title": "브랜드 대변신의 주간: 힐스테이트부터 Allbirds까지",
   "description": "이번 주는 힐스테이트 20주년 BI 새 단장, 보브의 AI 뮤즈 앞세운 리브랜딩, 자이·아이파크 등 건설 브랜드들의 동시다발 리뉴얼이 주목을 받았습니다. 글로벌에서는 Allbirds가 Smartbird로 AI 피벗 리브랜딩을 단행해 주가가 급등하는 등 브랜드 전환이 시장에 즉각 반응을 일으켰습니다. 패션·건설·IT·스포츠를 아우르는 리브랜딩 물결 속에서 브랜드 정체성 재정립이 핵심 경쟁 전략으로 자리잡고 있습니다.",
   "createdAt": "2026-06-23T06:03:54.832Z",
-  "articleCount": 73,
+  "articleCount": 68,
   "articles": [
     {
       "id": "c106e664c23a",
@@ -26,18 +26,6 @@
       "category": "domestic",
       "keyword": "리브랜딩",
       "publishedAt": "2026-06-22",
-      "scrapedAt": "2026-06-23T06:03:46.770Z"
-    },
-    {
-      "id": "2fad3f24f9c8",
-      "title": "힐스테이트, 20주년 맞아 새 로고 공개 - 디자인 나침반",
-      "source": "디자인 나침반",
-      "url": "https://www.hankyung.com/article/2026062296306",
-      "summary": "(요약을 생성하지 못했습니다.)",
-      "category": "domestic",
-      "keyword": "리브랜딩",
-      "publishedAt": "2026-06-22",
-      "imageUrl": "https://img.hankyung.com/photo/202606/01.44744361.1.jpg",
       "scrapedAt": "2026-06-23T06:03:46.770Z"
     },
     {
@@ -85,18 +73,6 @@
       "keyword": "리브랜딩",
       "publishedAt": "2026-06-19",
       "imageUrl": "https://i3n.news1.kr/system/photos/2026/6/19/7967866/high.jpg",
-      "scrapedAt": "2026-06-23T06:03:46.867Z"
-    },
-    {
-      "id": "b42620de0767",
-      "title": "힐스테이트, 주거 넘어 '라이프스타일 브랜드'로 진화 - 파이낸셜뉴스",
-      "source": "파이낸셜뉴스",
-      "url": "http://www.fnnews.com/news/202606221836595253",
-      "summary": "(요약을 생성하지 못했습니다.)",
-      "category": "domestic",
-      "keyword": "리브랜딩",
-      "publishedAt": "2026-06-22",
-      "imageUrl": "https://image.fnnews.com/resource/media/image/2026/06/22/202606221836598076_l.jpg",
       "scrapedAt": "2026-06-23T06:03:46.867Z"
     },
     {
@@ -203,18 +179,6 @@
       "publishedAt": "2026-06-22",
       "imageUrl": "http://www.wsobi.com/news/photo/202606/314050_187667_1219.jpg",
       "scrapedAt": "2026-06-23T06:03:47.130Z"
-    },
-    {
-      "id": "4246ff9c072a",
-      "title": "힐스테이트, 20주년 맞아 브랜드 리뉴얼···주거 서비스 강화 - 캠페인 인사이트",
-      "source": "캠페인 인사이트",
-      "url": "https://www.hankyung.com/article/202606232557i",
-      "summary": "(요약을 생성하지 못했습니다.)",
-      "category": "domestic",
-      "keyword": "브랜드 리뉴얼",
-      "publishedAt": "2026-06-22",
-      "imageUrl": "https://img.hankyung.com/photo/202606/01.44758652.1.jpg",
-      "scrapedAt": "2026-06-23T06:03:47.439Z"
     },
     {
       "id": "295700f14a7e",
@@ -513,18 +477,6 @@
       "scrapedAt": "2026-06-23T06:03:53.885Z"
     },
     {
-      "id": "43538416914f",
-      "title": "티빙 1953만명 탈탈 털렸다…탈퇴회원까지?",
-      "source": "Naver News",
-      "url": "https://biz.sbs.co.kr/article_hub/20000318224?division=NAVER",
-      "summary": "(요약을 생성하지 못했습니다.)",
-      "category": "domestic",
-      "keyword": "CI 변경",
-      "publishedAt": "2026-06-23",
-      "imageUrl": "https://img.biz.sbs.co.kr/upload/2026/06/23/mME1782182942466.jpg",
-      "scrapedAt": "2026-06-23T06:03:53.962Z"
-    },
-    {
       "id": "9a82a89b431f",
       "title": "1953만명 유출 티빙, 과징금 최대 122억…쿠팡 기준 적용 시에는 48억",
       "source": "Naver News",
@@ -534,18 +486,6 @@
       "keyword": "CI 변경",
       "publishedAt": "2026-06-23",
       "imageUrl": "https://www.greened.kr/news/thumbnail/202606/343091_394048_5027_v150.jpg",
-      "scrapedAt": "2026-06-23T06:03:53.962Z"
-    },
-    {
-      "id": "904a03000e7d",
-      "title": "티빙 개인정보 유출 1,953만명… 국내 역대 4번째 규모",
-      "source": "Naver News",
-      "url": "https://www.bntnews.co.kr/article/view/bnt202606230130",
-      "summary": "(요약을 생성하지 못했습니다.)",
-      "category": "domestic",
-      "keyword": "CI 변경",
-      "publishedAt": "2026-06-23",
-      "imageUrl": "https://www.bntnews.co.kr/data/bnt/image/2026/06/23/bnt202606230257.jpg",
       "scrapedAt": "2026-06-23T06:03:53.962Z"
     },
     {

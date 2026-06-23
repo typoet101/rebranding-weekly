@@ -159,7 +159,14 @@ export async function deduplicateBySimilarTopic(
 
   const prompt = `You are a senior news editor. Many articles below cover the SAME NEWS EVENT from different outlets (e.g., one brand launch reported by 5 different newspapers — same image, same facts, slightly different titles).
 
-Identify duplicate/near-duplicate groups (articles about the same brand event, announcement, launch, or rebrand). For each group, KEEP ONE and discard the rest.
+Identify duplicate/near-duplicate groups and KEEP ONLY ONE per group.
+
+A "group" is broader than identical news. **Group together aggressively** when articles share:
+- Same brand/company AND same underlying event (rebrand, launch, BI change, anniversary campaign, new store, leadership change, M&A) — even if titles emphasize different angles ("logo reveal" vs "lifestyle brand evolution" vs "20th anniversary" vs "service expansion" are usually the SAME event)
+- Same product/announcement reported by multiple outlets (press-release driven coverage)
+- A brand mentioned 3+ times in the same week → almost certainly the same campaign; collapse to 1–2 strongest sources
+
+Err on the side of MORE deduplication. Readers prefer one strong piece per topic over four overlapping ones.
 
 KEEP priority within a duplicate group:
 1. Major mainstream outlet
