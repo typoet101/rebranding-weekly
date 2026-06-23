@@ -81,6 +81,14 @@ jobs:
         run: npx tsx scripts/heal-images.ts
         continue-on-error: true
 
+      - name: Mark logo / white-bg thumbnails (imageFit=contain)
+        # Sample each thumbnail's perimeter; if ≥5 of 8 sample points are
+        # white/transparent it's almost certainly a logo or brand banner,
+        # not a photo. Stamping imageFit="contain" makes the card render
+        # it with side padding so it doesn't get cropped.
+        run: npx tsx scripts/detect-image-bg.ts
+        continue-on-error: true
+
       - name: Commit new post
         id: commit
         uses: stefanzweifel/git-auto-commit-action@v5

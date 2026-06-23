@@ -16,7 +16,8 @@
       "publishedAt": "2026-06-22",
       "imageUrl": "https://pimg.mk.co.kr/news/cms/202606/23/20260623_01160123000002_S00.jpg",
       "scrapedAt": "2026-06-23T06:03:46.770Z",
-      "industry": "건설·부동산"
+      "industry": "건설·부동산",
+      "imageFit": "contain"
     },
     {
       "id": "fe829b4c183a",
@@ -105,7 +106,8 @@
       "publishedAt": "2026-06-18",
       "imageUrl": "https://i3n.news1.kr/system/photos/2018/11/28/3410319/high.jpg",
       "scrapedAt": "2026-06-23T06:03:46.867Z",
-      "industry": "기타"
+      "industry": "기타",
+      "imageFit": "contain"
     },
     {
       "id": "d7054d64d78d",
@@ -270,7 +272,8 @@
       "publishedAt": "2026-06-22",
       "imageUrl": "https://img6.yna.co.kr/etc/inner/KR/2026/06/22/AKR20260622032400003_01_i_P4.jpg",
       "scrapedAt": "2026-06-23T06:03:47.521Z",
-      "industry": "건설·부동산"
+      "industry": "건설·부동산",
+      "imageFit": "contain"
     },
     {
       "id": "b95547107d37",
@@ -359,7 +362,8 @@
       "publishedAt": "2026-06-23",
       "imageUrl": "https://cdn.forbeskorea.co.kr/news/photo/202606/402194_34515_1850.jpg",
       "scrapedAt": "2026-06-23T06:03:53.596Z",
-      "industry": "IT·테크"
+      "industry": "IT·테크",
+      "imageFit": "contain"
     },
     {
       "id": "a304d5b2e4fb",
@@ -372,7 +376,8 @@
       "publishedAt": "2026-06-23",
       "imageUrl": "https://cdn.ngetnews.com/news/thumbnail/202606/550968_118860_2420_v150.jpg",
       "scrapedAt": "2026-06-23T06:03:53.596Z",
-      "industry": "뷰티·패션"
+      "industry": "뷰티·패션",
+      "imageFit": "contain"
     },
     {
       "id": "d7791585d79e",
@@ -424,7 +429,8 @@
       "publishedAt": "2026-06-23",
       "imageUrl": "https://www.segye.com/content/image/2026/06/23/20260623510879.jpg",
       "scrapedAt": "2026-06-23T06:03:53.790Z",
-      "industry": "식음료"
+      "industry": "식음료",
+      "imageFit": "contain"
     },
     {
       "id": "becf3de7eb5c",
@@ -501,7 +507,8 @@
       "publishedAt": "2026-06-22",
       "imageUrl": "https://assets.repress.co.kr/photos/89a92fc0cc8082fdf482089841e5858e/thumb.png",
       "scrapedAt": "2026-06-23T06:03:53.962Z",
-      "industry": "식음료"
+      "industry": "식음료",
+      "imageFit": "contain"
     },
     {
       "id": "077304f2acf8",
@@ -605,7 +612,8 @@
       "publishedAt": "2026-06-23",
       "imageUrl": "https://cdn.newsinside.kr/news/photo/202606/4783092_937320_4411.jpeg",
       "scrapedAt": "2026-06-23T06:03:54.234Z",
-      "industry": "식음료"
+      "industry": "식음료",
+      "imageFit": "contain"
     },
     {
       "id": "1ea92287b82e",
