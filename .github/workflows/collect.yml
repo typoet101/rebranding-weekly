@@ -144,7 +144,6 @@ jobs:
           DATE=$(date -u '+%Y-%m-%d %H:%M UTC')
           gh issue create \
             --title "🚨 Weekly collection failed ($DATE)" \
-            --label "automation,bug" \
             --body "주간 뉴스 수집 워크플로우가 실패했습니다.
 
           - 실행 시각: ${DATE}

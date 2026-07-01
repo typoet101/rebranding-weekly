@@ -6,9 +6,44 @@ let client: Anthropic | null = null;
 
 function getClient(): Anthropic {
   if (!client) {
-    client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+    // 2026-06-30 발행 실패는 Anthropic API의 "Premature close" (스트림
+    // 조기 종료) 오류로 모든 배치가 fallback으로 빠져 sanity check가 잡음.
+    // SDK 기본 retry는 2회지만 이런 flaky 네트워크 케이스에 부족했으므로
+    // 5회로 늘림. 타임아웃도 60초 → 90초로 여유.
+    client = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+      maxRetries: 5,
+      timeout: 90_000,
+    });
   }
   return client;
+}
+
+/**
+ * Outer retry wrapper for individual Anthropic calls. The SDK already retries
+ * on transient errors, but a persistent "Premature close" on a specific
+ * request needs an extra outer loop with backoff to give the API time to
+ * recover before the same batch is retried.
+ */
+export async function withRetry<T>(
+  fn: () => Promise<T>,
+  attempts = 3,
+  label = "call"
+): Promise<T> {
+  let lastErr: Error | undefined;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastErr = err as Error;
+      if (i < attempts - 1) {
+        const delay = 2000 * Math.pow(2, i); // 2s, 4s, 8s
+        console.warn(`[${label}] attempt ${i + 1}/${attempts} failed: ${lastErr.message}. Retrying in ${delay}ms...`);
+        await new Promise((r) => setTimeout(r, delay));
+      }
+    }
+  }
+  throw lastErr;
 }
 
 /**
@@ -35,7 +70,7 @@ export async function summarizeArticles(
       .join("\n\n---\n\n");
 
     try {
-      const response = await anthropic.messages.create({
+      const response = await withRetry(() => anthropic.messages.create({
         model: "claude-sonnet-4-6",
         max_tokens: 2000,
         messages: [
@@ -71,7 +106,7 @@ INDUSTRY: (category)
 ${articlesText}`,
           },
         ],
-      });
+      }), 3, "summarize-batch");
 
       const text =
         response.content[0].type === "text" ? response.content[0].text : "";
@@ -185,11 +220,11 @@ Articles:
 ${list}`;
 
   try {
-    const response = await anthropic.messages.create({
+    const response = await withRetry(() => anthropic.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 2000,
       messages: [{ role: "user", content: prompt }],
-    });
+    }), 3, "topic-dedup");
 
     const text = response.content[0].type === "text" ? response.content[0].text : "";
     const match = text.match(/\[[\s\S]*?\]/);
@@ -247,7 +282,7 @@ export async function curateInternational(
     .join("\n\n");
 
   try {
-    const response = await anthropic.messages.create({
+    const response = await withRetry(() => anthropic.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 500,
       messages: [
@@ -274,7 +309,7 @@ Articles:
 ${list}`,
         },
       ],
-    });
+    }), 3, "curate-intl");
 
     const text = response.content[0].type === "text" ? response.content[0].text : "";
     const match = text.match(/\[[\s\S]*?\]/);
@@ -317,7 +352,7 @@ export async function generateWeeklyTitle(
   const anthropic = getClient();
 
   try {
-    const response = await anthropic.messages.create({
+    const response = await withRetry(() => anthropic.messages.create({
       model: "claude-sonnet-4-6",
       max_tokens: 300,
       messages: [
@@ -344,7 +379,7 @@ Article titles:
 ${articleTitles.map((t, i) => `${i + 1}. ${t}`).join("\n")}`,
         },
       ],
-    });
+    }), 3, "weekly-title");
 
     const text =
       response.content[0].type === "text" ? response.content[0].text : "";
