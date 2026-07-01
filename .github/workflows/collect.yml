@@ -15,7 +15,9 @@ permissions:
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # 30분: 요약 배치가 많고(70~110개 기사 × batch 5) SDK maxRetries=5 +
+    # 외부 withRetry(3회 backoff)로 인해 최악 상황에서 15분을 넘길 수 있음.
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
