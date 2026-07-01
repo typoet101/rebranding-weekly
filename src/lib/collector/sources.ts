@@ -21,14 +21,14 @@ export const KEYWORDS = {
 export const RSS_FEEDS = [
   {
     name: "Brand New",
-    url: "https://www.underconsideration.com/brandnew/archives/rss.xml",
+    // FeedBurner mirror — the underconsideration.com native RSS 404'd sometime
+    // before 2026-07-01. This mirror is still live.
+    url: "https://feeds.feedburner.com/BrandNew",
     category: "international" as const,
   },
-  {
-    name: "It's Nice That",
-    url: "https://www.itsnicethat.com/rss/all",
-    category: "international" as const,
-  },
+  // It's Nice That's RSS was retired sometime in 2026 (all /feed and /rss
+  // paths 404). Removed to avoid a silent 0-articles source. Their content
+  // is still surfaced via the Google News "rebrand" keyword feed.
 ];
 
 /**
