@@ -131,7 +131,7 @@
       "category": "domestic",
       "keyword": "리브랜딩",
       "publishedAt": "2026-07-28",
-      "imageUrl": "https://img.hankyung.com/photo/202512/0D.42627019.1.jpg",
+      "imageUrl": "https://static.hankyung.com/img/common/spinner/spinner.svg",
       "industry": "뷰티·패션",
       "scrapedAt": "2026-08-04T04:13:45.627Z",
       "imageFit": "contain"
@@ -352,7 +352,6 @@
       "category": "domestic",
       "keyword": "브랜드 아이덴티티",
       "publishedAt": "2026-07-30",
-      "imageUrl": "https://www.esquirekorea.co.kr/resources_old/online/org_thumnail_image/eq/d8673fc1-3346-47ff-81c9-c619e60ad833.jpg",
       "industry": "스포츠",
       "scrapedAt": "2026-08-04T04:15:00.922Z"
     },
