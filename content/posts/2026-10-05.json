@@ -14,7 +14,6 @@
       "category": "domestic",
       "keyword": "리브랜딩",
       "publishedAt": "2026-10-12",
-      "imageUrl": "https://www.youthdaily.co.kr/data/photos/20261042/art_17917696342357_470b28.jpg",
       "industry": "제약·헬스",
       "scrapedAt": "2026-10-13T07:20:40.340Z"
     },
@@ -323,7 +322,6 @@
       "publishedAt": "2026-10-12",
       "industry": "유통·리테일",
       "scrapedAt": "2026-10-13T07:21:52.641Z",
-      "imageUrl": "https://www.e-patentnews.com/data/e-patentnews_com/mainimages/202610/2026100850089723.png",
       "imageFit": "contain"
     },
     {
@@ -505,7 +503,6 @@
       "category": "domestic",
       "keyword": "CI 변경",
       "publishedAt": "2026-10-13",
-      "imageUrl": "https://www.kgnews.co.kr/data/design/logo/default_image_share_20200714111358.jpg",
       "industry": "공공·기관",
       "scrapedAt": "2026-10-13T07:23:48.069Z",
       "imageFit": "contain"
